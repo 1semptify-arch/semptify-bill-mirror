@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Watch an idea become a bill and maybe a law — out in the open. Read the live draft, ask a question, or share an opinion. Anonymous, no names, no tracking.">
+    <meta name="theme-color" content="var(--color-gray-900)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="csrf-token" content="">
+    
+    
+
+    <title>Your Voice — the housing bill, in public — Semptify</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/ssot-design-system.css">
+    
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .section-description { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-block); padding: 0.5rem 0.85rem; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+    .service-card:hover { box-shadow: var(--elevation-2); transform: translateY(-2px); }
+    .service-card .icon { font-size: 1.1rem; display: inline-block; vertical-align: middle; margin: 0 0.4rem 0 0; }
+    .service-card h3 { font-size: 1rem; color: var(--color-primary); margin-bottom: 0.35rem; font-weight: 600; display: inline; vertical-align: middle; }
+    .service-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.3; margin: 0.4rem 0; flex-grow: 1; }
+    .service-card .cta-button { display: inline-block; background: var(--color-accent); color: var(--text-inverse); padding: 0.4rem 0.9rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); align-self: flex-start; }
+    .service-card .cta-button:hover { background: var(--color-accent-hover); }
+    .service-card .cta-button.secondary { background: var(--text-muted); }
+    .service-card .cta-button.secondary:hover { background: var(--text-secondary); }
+
+    /* Fixed light-island palette for service cards. These are literals on
+       purpose — they must NOT follow the dark-mode token flip, so the card
+       stays light in both themes. Defined once here; referenced below. */
+    .service-card {
+        --pc-bg: #efeeea; --pc-line: #d5d2ca; --pc-ink: #1f1d1a;
+        --pc-title: #2f4438; --pc-body: #4a4742; --pc-cta: #4c6b4c;
+        --pc-cta-hover: #3d583d; --pc-muted: #6b655d; --pc-muted-hover: #4a4742;
+    }
+    @media (prefers-color-scheme: dark) {
+        .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+        body .service-card h3 { color: var(--pc-title); }
+        .service-card p { color: var(--pc-body); }
+        .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+        .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+        .service-card .cta-button.secondary { background: var(--pc-muted); }
+        .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+    }
+    [data-theme="dark"] .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+    [data-theme="dark"] .service-card h3 { color: var(--pc-title); }
+    [data-theme="dark"] .service-card p { color: var(--pc-body); }
+    [data-theme="dark"] .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+    [data-theme="dark"] .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+    [data-theme="dark"] .service-card .cta-button.secondary { background: var(--pc-muted); }
+    [data-theme="dark"] .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+
+    .category-section { margin-bottom: 2.25rem; }
+    .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .category-header .category-icon { font-size: 1.5rem; }
+    .category-header h2 { font-size: 1.3rem; color: var(--color-primary); font-weight: 600; }
+    .category-description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+
+    .info-banner { background: var(--color-warning-50, color-mix(in srgb, var(--color-warning), transparent 88%)); border-left: 4px solid var(--color-warm); border-radius: var(--radius-block); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .info-banner p { color: var(--text-primary); font-style: italic; margin: 0; }
+
+    .cta-section { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-block); margin-top: 2rem; }
+    .cta-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+    .cta-button-large { display: inline-block; background: var(--color-primary); color: var(--text-inverse); padding: 1rem 2.5rem; font-size: 1.05rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); }
+    .cta-button-large:hover { background: var(--color-primary-light); }
+
+    /* Liquid desktop layout — public pages fit the viewport without page
+       scroll: tighter sections, denser grid, compact CTA band. */
+    @media (min-width: 1024px) {
+        .section { margin-bottom: 1rem; }
+        .section-title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .section-description { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .services-grid { gap: 0.75rem; }
+        .category-section { margin-bottom: 1.25rem; }
+        .category-header { margin-bottom: 0.25rem; }
+        .category-description { margin-bottom: 0.75rem; }
+        .info-banner { margin: 1rem 0; padding: 0.85rem 1.25rem; }
+        .cta-section { padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+        .cta-section h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .cta-button-large { padding: 0.6rem 1.75rem; font-size: 0.95rem; }
+    }
+
+    @media (max-width: 640px) {
+        .services-grid { grid-template-columns: 1fr; }
+        .service-card { padding: 1.25rem; }
+    }
+</style>
+
+<style>
+    .yv-promise {
+        background: var(--bg-surface); border-radius: var(--radius-block);
+        padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+    }
+    .yv-promise p { margin: 0 0 0.6rem 0; }
+    .yv-promise p:last-child { margin-bottom: 0; }
+
+    .yv-journey { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0.25rem; padding: 0; }
+    .yv-journey li {
+        padding: 0.35rem 0.8rem; border-radius: 999px;
+        font-size: 0.85rem; color: var(--text-secondary);
+        background: var(--bg-surface);
+    }
+    .yv-journey li.yv-here {
+        background: var(--color-primary); color: var(--text-inverse); font-weight: 600;
+    }
+    .yv-journey .yv-arrow { background: none; color: var(--text-muted); padding: 0.35rem 0.1rem; }
+
+    .yv-draft {
+        background: var(--bg-surface); border-radius: var(--radius-block);
+        padding: 1.5rem; margin-top: 0.5rem;
+    }
+    .yv-draft h3 { margin-top: 0.25rem; color: var(--color-primary); }
+    .yv-draft p { line-height: 1.6; }
+    .yv-draft ul { margin: 0.25rem 0 1rem 1.25rem; color: var(--text-secondary); }
+    .draft-label {
+        font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--text-muted); margin: 0;
+    }
+    .draft-status { font-size: 0.9rem; color: var(--text-secondary); }
+
+    .yv-form .yv-kinds { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .yv-form .yv-kinds label {
+        padding: 0.45rem 1rem; border-radius: 999px; cursor: pointer;
+        font-size: 0.9rem; color: var(--text-secondary);
+        background: var(--bg-surface); border: 1px solid var(--border-color);
+    }
+    .yv-form .yv-kinds input { position: absolute; opacity: 0; pointer-events: none; }
+    .yv-form .yv-kinds label:has(input:checked) {
+        background: var(--color-primary); color: var(--text-inverse); border-color: var(--color-primary);
+    }
+    .yv-form textarea {
+        width: 100%; min-height: 110px; padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color); border-radius: var(--radius-input);
+        font-size: 0.95rem; font-family: inherit; color: var(--text-primary);
+        background: var(--bg-card); resize: vertical; margin-bottom: 0.75rem;
+    }
+    .yv-form textarea:focus { outline: none; border-color: var(--color-accent); }
+    .yv-form .btn { background: var(--color-primary); color: var(--text-inverse); border: none; padding: 0.75rem 1.75rem; border-radius: var(--radius-input); font-size: 1rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .yv-form .btn:hover { background: var(--color-primary-light); }
+    .yv-success { display: none; background: var(--color-success-50); border: 1px solid var(--color-success); border-radius: var(--radius-block); padding: 1.25rem; color: var(--color-success-800); margin-top: 0.75rem; }
+    .yv-note { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    .yv-list { list-style: none; margin: 0.75rem 0 0 0; padding: 0; }
+    .yv-list li { padding: 0.9rem 0; border-top: 1px solid var(--border-color); }
+    .yv-date { font-size: 0.8rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .yv-kind { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-accent); font-weight: 600; }
+    .yv-post { font-size: 0.95rem; color: var(--text-primary); margin: 0.25rem 0; }
+    .yv-response { font-size: 0.9rem; color: var(--text-secondary); margin: 0.25rem 0 0 1rem; border-left: 3px solid var(--color-primary); padding-left: 0.75rem; }
+    .yv-responder { font-size: 0.8rem; color: var(--text-muted); margin: 0.25rem 0 0 1rem; font-style: italic; }
+    .yv-pending { font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+
+    @media (max-width: 640px) {
+        .yv-journey { flex-direction: column; align-items: flex-start; }
+        .yv-journey .yv-arrow { transform: rotate(90deg); padding: 0 0 0 0.6rem; }
+        .yv-draft { padding: 1.1rem; }
+    }
+</style>
+
+</head>
+<body class="shell" >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    
+    <header class="main-nav">
+        <div class="nav-container">
+            <a class="nav-brand" href="/" aria-label="Semptify home">
+                <span class="nav-logo" aria-hidden="true">S</span>
+                <span class="nav-title">Semptify</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-links">
+                    
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/your-voice">Your Voice</a></li>
+<li class="nav-item"><a class="nav-link" href="/law-library">Library</a></li>
+<li class="nav-item"><a class="nav-link" href="/office">Office</a></li>
+<li class="nav-item"><a class="nav-link" href="/tools">Tools</a></li>
+<li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn--accent btn--sm" href="/help">Get help now</a>
+            </div>
+            <button type="button" class="nav-toggle" aria-label="Open menu" hidden>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+    
+
+    
+<div id="narration-strip" class="narration-strip" role="status" aria-live="polite"></div>
+<script src="/static/js/core/websocket-client.js?v=2" defer></script>
+<script src="/static/js/narration-strip.js" defer></script>
+
+    <main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+        
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>Your Voice</h1>
+
+<p class="shell-lede">Idea → draft → sponsors → committee → floor → law — in public, the whole way.</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">Anonymous. No names. Everything labeled — fact, aim, or opinion — and corrections posted in the open.</p>
+
+
+
+
+<section class="section">
+    <div class="yv-promise">
+        <p><strong>What this place is.</strong> Semptify is writing a housing bill —
+        and we're doing it where you can watch. This page holds the live draft,
+        the plain-language path a bill travels, and a public board where anyone
+        can ask a question or share an opinion.</p>
+        <p><strong>How we keep it honest.</strong> Every statement here is one of
+        three things, and we say which: a <em>fact</em> with a source, an
+        <em>aim</em> — what we're trying to do — or an <em>opinion</em>. If we get
+        something wrong, we say so on this page, in the open.</p>
+        <p><strong>Who it's for.</strong> Everyone. Renters, housing providers who
+        do right, students learning how a bill becomes a law, neighbors who just
+        want to know what's happening to their homes. This benefits people — it
+        isn't for or against anyone.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">The journey a bill takes</h2>
+    <p class="section-description">In plain language: someone has an idea. It gets
+    written as a draft. Lawmakers sponsor it. A committee studies it and hears the
+    public. If it survives, the whole body votes. If it passes and is signed, it
+    becomes law. Ours is here:</p>
+    <ul class="yv-journey">
+        <li>Idea</li>
+        <li class="yv-arrow">→</li>
+        <li class="yv-here">Draft — we are here</li>
+        <li class="yv-arrow">→</li>
+        <li>Sponsors</li>
+        <li class="yv-arrow">→</li>
+        <li>Committee</li>
+        <li class="yv-arrow">→</li>
+        <li>Floor</li>
+        <li class="yv-arrow">→</li>
+        <li>Law</li>
+    </ul>
+</section>
+
+<section class="section">
+    <h2 class="section-title">The live file</h2>
+    <p class="section-description">This is the real working draft — not a summary.
+    When it changes, this page changes, and every change is on the public record.</p>
+    <div class="yv-draft">
+        
+
+<div class="draft-head">
+    <p class="draft-label">Working draft — live publication</p>
+</div>
+
+<h3>BILL LIVE DRAFT — working text</h3>
+<p>*Skeleton lives in MHSIP_OUTREACH_KIT_2026-10-16.md §&quot;SKELETON BILL&quot;.</p>
+<p>This file becomes the working statute text once a private party&#x27;s read lands —</p>
+<p>his fixes land here a private party, then it goes to the Revisor&#x27;s office via</p>
+<p>whichever member carries it.*</p>
+<h3>Locked clauses (non-negotiable per DECISIONS.md)</h3>
+<p>1. No subrogation — paid claim ends the matter</p>
+<p>2. ~~Landlord-paid~~ → see RESOLVED 10/18+10/23 below: deposit-float + M1PR</p>
+<p>advance + landlord matched share a private party the premium; landlord cost survives</p>
+<p>as the float they no longer hold. Mandatory stands. Rating = a private party</p>
+<p>base + experience surcharge (resolved 10/23).</p>
+<p>3. Independent claims adjudication + tenant counter-claim lane</p>
+<p>4. Tenant/consumer board seats</p>
+<p>5. Manufactured-claim penalties</p>
+<p>6. Public claims registry</p>
+<p>7. Sunset + year-3 a private party</p>
+<p>8. a private partyer&#x27;s belongings coverage — contents insurance as a third pool</p>
+<p>leg (added 10/18; cap/deductible/opt-in-vs-mandatory = open drafting Qs)</p>
+<h3>Open drafting questions (for a private party / staff)</h3>
+<ul>
+    <li>a private party agency: a private party or a private party? (pilot runs at a private party regardless)</li>
+    <li>Hardship trigger list + coverage term (2–6 month range, needs actuarial)</li>
+    <li>Interaction with FHPAP emergency assistance — a private party, don&#x27;t duplicate</li>
+    <li>Premium rate cap vs. a private partyet-set with oversight?</li>
+    <li>Split ratio between credit advance and landlord match — rechecked</li>
+</ul>
+<p>10/23: base ≈ net float ~$3.25/mo + ~$6 a private partyer-credit + ~$6 landlord</p>
+<p>match ≈ $15.33/mo at $1,300 a private party. Net float = 3% of esa private partyd deposits</p>
+<p>(4% yield less the 1% statutory interest paid to the tenant — the</p>
+<p>earlier $4.33 figure counted the tenant&#x27;s own 1%). Float is now an</p>
+<p>ONGOING leg (custodial duration), not year-1-only — year-1 ramps at</p>
+<p>~half steady-state over the 12-month migration (seed option: a private partyayable</p>
+<p>premium advance, UI trust-a private party precedent). Three-leg ≈ ~$30–35/mo</p>
+<p>pushes credit headroom. Belongings opt-in-vs-mandatory is the swing</p>
+<p>variable.</p>
+<ul>
+    <li>Remedy path: administrative appeal → a private party a private party on what standard?</li>
+    <li>a private party-abuse controls (Brad 10/19 — &quot;can they bribe the insurer into</li>
+</ul>
+<p>criminal charges?&quot;): private parties can&#x27;t FILE charges, but they can</p>
+<p>refer fraud to a private partysecutors — needs (a) penalty for knowingly-false fraud</p>
+<p>a private party, symmetric to manufactured-claim penalties (a private partybably lives</p>
+<p>inside clause 5), (b) tenant notice + defense window before a a private party</p>
+<p>transmits, (c) a private party evidence threshold. Corruption can&#x27;t be designed</p>
+<p>to zero — design for visible (registry), expensive (penalties),</p>
+<p>appealable (independent review).</p>
+<h3>RESOLVED 10/18, AMENDED 10/19 + 10/23 — a private partying source (three-source braid)</h3>
+<ul>
+    <li>**Deposit** → bonded escrow at signing, held **for the tenancy** (UK</li>
+</ul>
+<p>custodial model — landlord never holds it). Pooled float = permanent</p>
+<p>a private partying leg; deposit principal returns at move-out through adjudication;</p>
+<p>clean years earn the a private partyer a **claims-free dividend** on top of the</p>
+<p>statutory 1% — declared from pool surplus when the books run ahead</p>
+<p>(mutual model, not a guaranteed payment). (AMENDED 10/23 — supersedes</p>
+<p>&quot;rea private party after clean year&quot;.)</p>
+<ul>
+    <li>**MN a private partyer&#x27;s Credit (M1PR)** = the ongoing a private partyer-side share, structured</li>
+</ul>
+<p>as an **advance payment** — paid monthly to the pool, reconciled on the</p>
+<p>tax return (federal APTC mechanism, not a a private partyt intercept). Enrollment</p>
+<p>rides the mandatory CRP e-file *data* rail; over-cap a private partyers pay the</p>
+<p>share directly (~$6/mo) — disclosed, not hidden.</p>
+<ul>
+    <li>**Landlord matched share** = explicit third leg (per Brad 10/19 merge —</li>
+</ul>
+<p>&quot;the other half&quot;), PLUS the deposit float they no longer hold. Priced</p>
+<p>a private party base + experience surcharge; clean-book years earn a</p>
+<p>**no-claim dividend**, declared from surplus (added 10/23 — answers</p>
+<p>the median-landlord &quot;it&#x27;s a tax&quot; attack).</p>
+<ul>
+    <li>Split ratio = open drafting Q pending actuarial. CONCEPT_SHEET &quot;Who pays&quot;</li>
+</ul>
+<p>reconciled 10/19. Frozen MODEL_a private partyGRAM tenant-premium a private party still needs</p>
+<p>reconcile in the next live version (SOURCES stay frozen).</p>
+<p class="draft-status"><strong>Status.</strong> Some figures in this draft are still being triple-checked (4 flagged).  Working draft — not filed, not before any legislature. What you see is the real working text; every change is on the public record in the <a href="https://github.com/1semptify-arch/Semptify">open repository</a>.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Ask, or weigh in</h2>
+    <form id="yvForm" class="yv-form" onsubmit="submitVoicePost(event)">
+        <div class="yv-kinds" role="radiogroup" aria-label="What are you posting?">
+            <label><input type="radio" name="kind" value="question" checked> A question</label>
+            <label><input type="radio" name="kind" value="opinion"> An opinion</label>
+        </div>
+        <textarea id="yvMessage" maxlength="2000" required
+            placeholder="Ask about the bill or the issues affecting renters — or say what you think. Please don't include your name, address, or other personal details — posts are public."></textarea>
+        <button type="submit" class="btn">Post it</button>
+    </form>
+    <div class="yv-success" id="yvSuccess">
+        <strong>Received.</strong> Your post will appear on this page after a quick
+        review to remove any personal details. Questions wait here, honestly marked,
+        until someone qualified answers them.
+    </div>
+    <p class="yv-note" style="margin-top:0.75rem;">
+        No name. No email. Posts appear publicly after a review pass — that's how
+        we stay transparent without tracking anyone.
+    </p>
+</section>
+
+<section class="section">
+    <h2 class="section-title">The public board</h2>
+    <p class="section-description" style="margin-bottom:0.25rem;">
+        Every posted question and opinion lives here, with its answer. The people
+        writing the bill — and invited contributors like housing attorneys,
+        legislative staff, and professors — answer what they can, labeled by role.
+    </p>
+    <p class="yv-pending" id="yvPendingCount"></p>
+    <ul class="yv-list" id="yvList">
+        <li id="yvEmpty">Nothing posted yet. Yours could be the first.</li>
+    </ul>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Passing it on</h2>
+    <p class="section-description">
+        This lane is also a classroom — from grade schoolers learning how laws are
+        made to interns who may write them someday. Students and volunteers help
+        with research and answers; what they contribute is credited by role, and
+        checked before it posts. If you'd like to help — research, reading,
+        fact-checking — say so on the board above.
+    </p>
+    <p class="yv-note">
+        Semptify runs on donations and grants, not ads or data. If this kind of
+        open work matters to you:
+        <a href="https://github.com/sponsors/1semptify-arch">GitHub Sponsors</a> ·
+        <a href="/donate">Support the work</a>
+    </p>
+</section>
+
+
+
+    </main>
+    
+<aside class="shell-side" id="shell-side" aria-label="Supporting">
+    
+<h2>Semptify</h2>
+<ul class="shell-list">
+    <li><a href="/help">Get help now</a></li>
+    <li><a href="/your-voice">Your Voice — the bill</a></li>
+    <li><a href="/law-library">Know your rights</a></li>
+    <li><a href="/portal">The portal</a></li>
+    <li><a href="/about">About the organization</a></li>
+    <li><a href="/donate">Support the work</a></li>
+</ul>
+
+</aside>
+
+
+
+    
+    <footer class="unified-footer">
+    <div class="footer-container">
+        <div class="footer-disclaimer">
+            <div class="footer-disclaimer-icon" aria-hidden="true">!</div>
+            <p class="footer-disclaimer-title">Semptify is not legal advice</p>
+            <p class="footer-disclaimer-text">
+                Semptify helps tenants organize documents and find verified facts. It is not a law firm.
+                For legal advice, contact a licensed attorney or your local legal aid office.
+                If you need help right now, <a href="/help">get help now</a>.
+            </p>
+        </div>
+        <nav class="footer-legal" aria-label="Legal and site information">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/accessibility">Accessibility</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/feedback">Feedback</a>
+            <a href="/credits">Credits</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 Semptify.org</p>
+            <p class="footer-mandates">No ads &middot; Your data stays yours &middot; Not legal advice &mdash; get qualified help</p>
+            <p class="footer-help">AI-Assisted Content Notice: Semptify uses AI tools to help generate
+                Minnesota housing-law educational material. This site does not provide legal advice.
+                For case-specific guidance, contact a licensed Minnesota attorney.</p>
+            <div class="footer-help"><form method="post" action="/api/i18n/set-locale" class="locale-selector" aria-label="Choose your preferred language">
+    <label for="locale-select" class="locale-selector__label">Language</label>
+    <select id="locale-select" name="locale" class="locale-selector__select" aria-label="Choose your preferred language">
+        
+        <option value="en" selected>
+            English
+        </option>
+        
+        <option value="es" >
+            Spanish *
+        </option>
+        
+        <option value="so" >
+            Somali *
+        </option>
+        
+        <option value="hmn" >
+            Hmong *
+        </option>
+        
+        <option value="ar" >
+            Arabic *
+        </option>
+        
+        <option value="am" >
+            Amharic *
+        </option>
+        
+        <option value="ti" >
+            Tigrinya *
+        </option>
+        
+        <option value="zh" >
+            Mandarin *
+        </option>
+        
+        <option value="fr" >
+            French *
+        </option>
+        
+        <option value="de" >
+            German *
+        </option>
+        
+        <option value="ko" >
+            Korean *
+        </option>
+        
+        <option value="ja" >
+            Japanese *
+        </option>
+        
+        <option value="pt" >
+            Portuguese *
+        </option>
+        
+        <option value="it" >
+            Italian *
+        </option>
+        
+    </select>
+    <button type="submit" class="locale-selector__button">Save</button>
+    <p class="locale-selector__note text-muted">* Machine translation; may contain errors.</p>
+</form></div>
+        </div>
+    </div>
+</footer>
+    
+
+    <script src="/static/js/fetch-helpers.js"></script>
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/law-linker.js"></script>
+    
+
+
+
+
+<script>
+    function submitVoicePost(e) {
+        e.preventDefault();
+        const kind = document.querySelector('input[name="kind"]:checked').value;
+        const message = document.getElementById('yvMessage').value;
+        fetch('/api/voice-post', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ kind, message })
+        })
+        .catch(() => {})
+        .finally(() => {
+            document.getElementById('yvForm').style.display = 'none';
+            document.getElementById('yvSuccess').style.display = 'block';
+        });
+    }
+
+    function esc(s) {
+        const d = document.createElement('div');
+        d.textContent = s || '';
+        return d.innerHTML;
+    }
+
+    fetch('/api/voice-posts')
+        .then(r => r.json())
+        .then(data => {
+            const list = document.getElementById('yvList');
+            if (data.awaiting_review > 0) {
+                document.getElementById('yvPendingCount').textContent =
+                    data.awaiting_review + ' post(s) received and awaiting the review pass.';
+            }
+            if (data.posts && data.posts.length) {
+                list.innerHTML = data.posts.map(p =>
+                    '<li>' +
+                    '<div class="yv-date">' + esc(p.date) + ' · <span class="yv-kind">' + esc(p.kind) + '</span></div>' +
+                    '<p class="yv-post">' + esc(p.post) + '</p>' +
+                    (p.response
+                        ? '<p class="yv-response">' + esc(p.response) + '</p>' +
+                          (p.responder ? '<p class="yv-responder">— ' + esc(p.responder) + '</p>' : '')
+                        : '<p class="yv-pending">Awaiting an answer — questions stay visible until someone qualified responds.</p>') +
+                    '</li>'
+                ).join('');
+            }
+        })
+        .catch(() => {});
+</script>
+
+</body>
+</html>

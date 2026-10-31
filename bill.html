@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A Minnesota housing bill written in public — the live draft, the numbers behind it, and how to weigh in. For renters, providers, students, and neighbors. No cost, no tracking.">
+    <meta name="theme-color" content="var(--color-gray-900)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="csrf-token" content="">
+    
+    
+
+    <title>The Minnesota Rent Assurance Bill — Semptify</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/ssot-design-system.css">
+    
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .section-description { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-block); padding: 0.5rem 0.85rem; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+    .service-card:hover { box-shadow: var(--elevation-2); transform: translateY(-2px); }
+    .service-card .icon { font-size: 1.1rem; display: inline-block; vertical-align: middle; margin: 0 0.4rem 0 0; }
+    .service-card h3 { font-size: 1rem; color: var(--color-primary); margin-bottom: 0.35rem; font-weight: 600; display: inline; vertical-align: middle; }
+    .service-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.3; margin: 0.4rem 0; flex-grow: 1; }
+    .service-card .cta-button { display: inline-block; background: var(--color-accent); color: var(--text-inverse); padding: 0.4rem 0.9rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); align-self: flex-start; }
+    .service-card .cta-button:hover { background: var(--color-accent-hover); }
+    .service-card .cta-button.secondary { background: var(--text-muted); }
+    .service-card .cta-button.secondary:hover { background: var(--text-secondary); }
+
+    /* Fixed light-island palette for service cards. These are literals on
+       purpose — they must NOT follow the dark-mode token flip, so the card
+       stays light in both themes. Defined once here; referenced below. */
+    .service-card {
+        --pc-bg: #efeeea; --pc-line: #d5d2ca; --pc-ink: #1f1d1a;
+        --pc-title: #2f4438; --pc-body: #4a4742; --pc-cta: #4c6b4c;
+        --pc-cta-hover: #3d583d; --pc-muted: #6b655d; --pc-muted-hover: #4a4742;
+    }
+    @media (prefers-color-scheme: dark) {
+        .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+        body .service-card h3 { color: var(--pc-title); }
+        .service-card p { color: var(--pc-body); }
+        .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+        .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+        .service-card .cta-button.secondary { background: var(--pc-muted); }
+        .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+    }
+    [data-theme="dark"] .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+    [data-theme="dark"] .service-card h3 { color: var(--pc-title); }
+    [data-theme="dark"] .service-card p { color: var(--pc-body); }
+    [data-theme="dark"] .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+    [data-theme="dark"] .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+    [data-theme="dark"] .service-card .cta-button.secondary { background: var(--pc-muted); }
+    [data-theme="dark"] .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+
+    .category-section { margin-bottom: 2.25rem; }
+    .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .category-header .category-icon { font-size: 1.5rem; }
+    .category-header h2 { font-size: 1.3rem; color: var(--color-primary); font-weight: 600; }
+    .category-description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+
+    .info-banner { background: var(--color-warning-50, color-mix(in srgb, var(--color-warning), transparent 88%)); border-left: 4px solid var(--color-warm); border-radius: var(--radius-block); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .info-banner p { color: var(--text-primary); font-style: italic; margin: 0; }
+
+    .cta-section { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-block); margin-top: 2rem; }
+    .cta-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+    .cta-button-large { display: inline-block; background: var(--color-primary); color: var(--text-inverse); padding: 1rem 2.5rem; font-size: 1.05rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); }
+    .cta-button-large:hover { background: var(--color-primary-light); }
+
+    /* Liquid desktop layout — public pages fit the viewport without page
+       scroll: tighter sections, denser grid, compact CTA band. */
+    @media (min-width: 1024px) {
+        .section { margin-bottom: 1rem; }
+        .section-title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .section-description { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .services-grid { gap: 0.75rem; }
+        .category-section { margin-bottom: 1.25rem; }
+        .category-header { margin-bottom: 0.25rem; }
+        .category-description { margin-bottom: 0.75rem; }
+        .info-banner { margin: 1rem 0; padding: 0.85rem 1.25rem; }
+        .cta-section { padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+        .cta-section h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .cta-button-large { padding: 0.6rem 1.75rem; font-size: 0.95rem; }
+    }
+
+    @media (max-width: 640px) {
+        .services-grid { grid-template-columns: 1fr; }
+        .service-card { padding: 1.25rem; }
+    }
+</style>
+
+<link rel="stylesheet" href="/static/css/themes/northstar.css">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+    .ns-hero { display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center; margin-bottom:2rem; }
+    .ns-flags { display:flex; gap:0.75rem; align-items:flex-start; }
+    .ns-flags img { width:120px; border:1px solid var(--card-border); }
+    .ns-flags img:first-child { width:100px; }
+    .ns-hero-text h2 { font-family:"IM Fell English", Georgia, serif; font-size:1.9rem; margin:0 0 0.4rem; color:var(--text-primary); }
+    .ns-hero-text p { margin:0; color:var(--text-secondary); max-width:34rem; line-height:1.55; }
+    .ns-lanes { display:grid; gap:0.9rem; }
+    .ns-lane { background:var(--card-bg); border-left:4px solid var(--accent-secondary); padding:1rem 1.25rem; }
+    .ns-lane h3 { margin:0 0 0.3rem; color:var(--text-primary); font-size:1.05rem; }
+    .ns-lane p { margin:0 0 0.5rem; color:var(--text-secondary); font-size:0.95rem; line-height:1.5; }
+    .ns-flag-note { font-size:0.8rem; color:var(--text-muted); margin-top:1.5rem; }
+</style>
+
+</head>
+<body class="shell bill-section" data-theme="northstar">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    
+    <header class="main-nav">
+        <div class="nav-container">
+            <a class="nav-brand" href="/" aria-label="Semptify home">
+                <span class="nav-logo" aria-hidden="true">S</span>
+                <span class="nav-title">Semptify</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-links">
+                    
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill">The Bill</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill/live">Live draft</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill/research">The numbers</a></li>
+<li class="nav-item"><a class="nav-link" href="/your-voice">Your Voice</a></li>
+<li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn--accent btn--sm" href="/help">Get help now</a>
+            </div>
+            <button type="button" class="nav-toggle" aria-label="Open menu" hidden>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+    
+
+    
+<div id="narration-strip" class="narration-strip" role="status" aria-live="polite"></div>
+<script src="/static/js/core/websocket-client.js?v=2" defer></script>
+<script src="/static/js/narration-strip.js" defer></script>
+
+    <main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+        
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>The Minnesota Bill</h1>
+
+<p class="shell-lede">Written in public, for the North Star State.</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">Rent assurance and deposit protection — read the live draft, check the numbers, weigh in.</p>
+
+
+
+
+<section class="section">
+    <div class="ns-hero">
+        <div class="ns-flags">
+            <img src="/static/img/flag-us.svg" alt="Flag of the United States">
+            <img src="/static/img/flag-mn.svg" alt="Flag of Minnesota — the North Star flag">
+        </div>
+        <div class="ns-hero-text">
+            <h2>A bill for Minnesota, in the open.</h2>
+            <p>Renters deserve a fair shot when things go wrong at home — a deposit
+            that comes back, a repair that gets made, a record that counts. This
+            proposal is being written where everyone can watch, and everyone can
+            check the work.</p>
+        </div>
+    </div>
+    <p class="ns-flag-note">Flags displayed unaltered per Minn. Stat. § 609.40.
+    Semptify is a pre-nonprofit project — this page carries no advertising.</p>
+</section>
+
+<section class="section">
+    <div class="ns-lanes">
+        <div class="ns-lane">
+            <h3><a href="/bill/live">The live draft →</a></h3>
+            <p>The real working text, refreshed daily. What you see is what
+            exists right now — honest labels for what is decided, what is an
+            aim, and what is still a question.</p>
+        </div>
+        <div class="ns-lane">
+            <h3><a href="/bill/research">The numbers &amp; sources →</a></h3>
+            <p>Every figure the bill relies on, with its source and its
+            verification status. Nothing publishes that hasn't been
+            triple-checked — and unchecked figures say so.</p>
+        </div>
+        <div class="ns-lane">
+            <h3><a href="/your-voice">Your voice →</a></h3>
+            <p>Ask a question or share an opinion on the public board — no
+            names, no tracking. Invited contributors answer in the open.</p>
+        </div>
+        <div class="ns-lane">
+            <h3><a href="/what-the-bill-changes">What it would change →</a></h3>
+            <p>The plain-language case for the bill — and an honest look at
+            what it doesn't fix yet.</p>
+        </div>
+    </div>
+</section>
+
+
+
+    </main>
+    
+<aside class="shell-side" id="shell-side" aria-label="Supporting">
+    
+<h2>The bill</h2>
+<ul class="shell-list">
+    <li><a href="/bill/live">Read the live draft</a></li>
+    <li><a href="/bill/research">The numbers &amp; sources</a></li>
+    <li><a href="/your-voice">Ask or weigh in</a></li>
+    <li><a href="/what-the-bill-changes">What it would change</a></li>
+    <li><a href="/help">Get help now</a></li>
+</ul>
+
+</aside>
+
+
+
+    
+    <footer class="unified-footer">
+    <div class="footer-container">
+        <div class="footer-disclaimer">
+            <div class="footer-disclaimer-icon" aria-hidden="true">!</div>
+            <p class="footer-disclaimer-title">Semptify is not legal advice</p>
+            <p class="footer-disclaimer-text">
+                Semptify helps tenants organize documents and find verified facts. It is not a law firm.
+                For legal advice, contact a licensed attorney or your local legal aid office.
+                If you need help right now, <a href="/help">get help now</a>.
+            </p>
+        </div>
+        <nav class="footer-legal" aria-label="Legal and site information">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/accessibility">Accessibility</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/feedback">Feedback</a>
+            <a href="/credits">Credits</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 Semptify.org</p>
+            <p class="footer-mandates">No ads &middot; Your data stays yours &middot; Not legal advice &mdash; get qualified help</p>
+            <p class="footer-help">AI-Assisted Content Notice: Semptify uses AI tools to help generate
+                Minnesota housing-law educational material. This site does not provide legal advice.
+                For case-specific guidance, contact a licensed Minnesota attorney.</p>
+            <div class="footer-help"><form method="post" action="/api/i18n/set-locale" class="locale-selector" aria-label="Choose your preferred language">
+    <label for="locale-select" class="locale-selector__label">Language</label>
+    <select id="locale-select" name="locale" class="locale-selector__select" aria-label="Choose your preferred language">
+        
+        <option value="en" selected>
+            English
+        </option>
+        
+        <option value="es" >
+            Spanish *
+        </option>
+        
+        <option value="so" >
+            Somali *
+        </option>
+        
+        <option value="hmn" >
+            Hmong *
+        </option>
+        
+        <option value="ar" >
+            Arabic *
+        </option>
+        
+        <option value="am" >
+            Amharic *
+        </option>
+        
+        <option value="ti" >
+            Tigrinya *
+        </option>
+        
+        <option value="zh" >
+            Mandarin *
+        </option>
+        
+        <option value="fr" >
+            French *
+        </option>
+        
+        <option value="de" >
+            German *
+        </option>
+        
+        <option value="ko" >
+            Korean *
+        </option>
+        
+        <option value="ja" >
+            Japanese *
+        </option>
+        
+        <option value="pt" >
+            Portuguese *
+        </option>
+        
+        <option value="it" >
+            Italian *
+        </option>
+        
+    </select>
+    <button type="submit" class="locale-selector__button">Save</button>
+    <p class="locale-selector__note text-muted">* Machine translation; may contain errors.</p>
+</form></div>
+        </div>
+    </div>
+</footer>
+    
+
+    <script src="/static/js/fetch-helpers.js"></script>
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/law-linker.js"></script>
+    
+
+
+
+</body>
+</html>

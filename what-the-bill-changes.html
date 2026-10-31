@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="The Issue 001 cover story: nobody sends you a letter when your rights are violated. What the public housing-documentation bill aims to change — and what it honestly isn't yet.">
+    <meta name="theme-color" content="var(--color-gray-900)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="csrf-token" content="">
+    
+    
+
+    <title>What the Bill Would Change — Semptify Live, Issue 001</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/ssot-design-system.css">
+    
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .section-description { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-block); padding: 0.5rem 0.85rem; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+    .service-card:hover { box-shadow: var(--elevation-2); transform: translateY(-2px); }
+    .service-card .icon { font-size: 1.1rem; display: inline-block; vertical-align: middle; margin: 0 0.4rem 0 0; }
+    .service-card h3 { font-size: 1rem; color: var(--color-primary); margin-bottom: 0.35rem; font-weight: 600; display: inline; vertical-align: middle; }
+    .service-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.3; margin: 0.4rem 0; flex-grow: 1; }
+    .service-card .cta-button { display: inline-block; background: var(--color-accent); color: var(--text-inverse); padding: 0.4rem 0.9rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); align-self: flex-start; }
+    .service-card .cta-button:hover { background: var(--color-accent-hover); }
+    .service-card .cta-button.secondary { background: var(--text-muted); }
+    .service-card .cta-button.secondary:hover { background: var(--text-secondary); }
+
+    /* Fixed light-island palette for service cards. These are literals on
+       purpose — they must NOT follow the dark-mode token flip, so the card
+       stays light in both themes. Defined once here; referenced below. */
+    .service-card {
+        --pc-bg: #efeeea; --pc-line: #d5d2ca; --pc-ink: #1f1d1a;
+        --pc-title: #2f4438; --pc-body: #4a4742; --pc-cta: #4c6b4c;
+        --pc-cta-hover: #3d583d; --pc-muted: #6b655d; --pc-muted-hover: #4a4742;
+    }
+    @media (prefers-color-scheme: dark) {
+        .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+        body .service-card h3 { color: var(--pc-title); }
+        .service-card p { color: var(--pc-body); }
+        .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+        .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+        .service-card .cta-button.secondary { background: var(--pc-muted); }
+        .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+    }
+    [data-theme="dark"] .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+    [data-theme="dark"] .service-card h3 { color: var(--pc-title); }
+    [data-theme="dark"] .service-card p { color: var(--pc-body); }
+    [data-theme="dark"] .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+    [data-theme="dark"] .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+    [data-theme="dark"] .service-card .cta-button.secondary { background: var(--pc-muted); }
+    [data-theme="dark"] .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+
+    .category-section { margin-bottom: 2.25rem; }
+    .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .category-header .category-icon { font-size: 1.5rem; }
+    .category-header h2 { font-size: 1.3rem; color: var(--color-primary); font-weight: 600; }
+    .category-description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+
+    .info-banner { background: var(--color-warning-50, color-mix(in srgb, var(--color-warning), transparent 88%)); border-left: 4px solid var(--color-warm); border-radius: var(--radius-block); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .info-banner p { color: var(--text-primary); font-style: italic; margin: 0; }
+
+    .cta-section { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-block); margin-top: 2rem; }
+    .cta-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+    .cta-button-large { display: inline-block; background: var(--color-primary); color: var(--text-inverse); padding: 1rem 2.5rem; font-size: 1.05rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); }
+    .cta-button-large:hover { background: var(--color-primary-light); }
+
+    /* Liquid desktop layout — public pages fit the viewport without page
+       scroll: tighter sections, denser grid, compact CTA band. */
+    @media (min-width: 1024px) {
+        .section { margin-bottom: 1rem; }
+        .section-title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .section-description { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .services-grid { gap: 0.75rem; }
+        .category-section { margin-bottom: 1.25rem; }
+        .category-header { margin-bottom: 0.25rem; }
+        .category-description { margin-bottom: 0.75rem; }
+        .info-banner { margin: 1rem 0; padding: 0.85rem 1.25rem; }
+        .cta-section { padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+        .cta-section h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .cta-button-large { padding: 0.6rem 1.75rem; font-size: 0.95rem; }
+    }
+
+    @media (max-width: 640px) {
+        .services-grid { grid-template-columns: 1fr; }
+        .service-card { padding: 1.25rem; }
+    }
+</style>
+
+<style>
+    .story { max-width: 66ch; }
+    .story p { font-size: 1.02rem; line-height: 1.7; margin-bottom: 1.1rem; }
+    .story-lede {
+        font-size: 1.2rem !important; line-height: 1.6 !important;
+        color: var(--text-primary); font-weight: 500;
+        padding-bottom: 0.9rem; margin-bottom: 1.2rem !important;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .story h2 {
+        font-size: 1.35rem; margin: 1.8rem 0 0.7rem;
+        padding-top: 1.1rem; border-top: 1px solid var(--border-color);
+    }
+    .story-list { margin: 0.4rem 0 1.1rem; padding-left: 1.3rem; }
+    .story-list li { margin-bottom: 0.7rem; line-height: 1.6; }
+    .story-doors { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.8rem; font-weight: 600; }
+</style>
+
+</head>
+<body class="shell" >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    
+    <header class="main-nav">
+        <div class="nav-container">
+            <a class="nav-brand" href="/" aria-label="Semptify home">
+                <span class="nav-logo" aria-hidden="true">S</span>
+                <span class="nav-title">Semptify</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-links">
+                    
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/your-voice">Your Voice</a></li>
+<li class="nav-item"><a class="nav-link" href="/law-library">Library</a></li>
+<li class="nav-item"><a class="nav-link" href="/office">Office</a></li>
+<li class="nav-item"><a class="nav-link" href="/tools">Tools</a></li>
+<li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn--accent btn--sm" href="/help">Get help now</a>
+            </div>
+            <button type="button" class="nav-toggle" aria-label="Open menu" hidden>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+    
+
+    
+<div id="narration-strip" class="narration-strip" role="status" aria-live="polite"></div>
+<script src="/static/js/core/websocket-client.js?v=2" defer></script>
+<script src="/static/js/narration-strip.js" defer></script>
+
+    <main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+        
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>Nobody Sends You a Letter</h1>
+
+<p class="shell-lede">Cover story — Issue Nº 001</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">What the housing bill — the one being written in public — aims to change, and for whom.</p>
+
+
+
+<article class="story">
+
+<p class="story-lede">
+    When your rights are violated, nothing arrives in the mail. No notice, no
+    flag, no friendly letter saying <em>what just happened to you was not
+    allowed</em>. The protection exists on paper — but paper doesn't knock on
+    your door.
+</p>
+
+<p>
+    That is the quiet problem underneath most housing disputes. A repair goes
+    unmade for months. A deposit comes back short, with no explanation. A
+    complaint is answered with a notice to leave. Each of those may already be
+    against the rules — renters frequently can't tell, because nobody's job is
+    to tell them. The first time many people learn what their rights were is
+    after they've already lost the chance to use them.
+</p>
+
+<p>
+    The bill being drafted on this site starts from a simple observation:
+    <strong>a documented fact beats a loud argument.</strong> If the record of
+    what happened — dates, photos, notices, responses — counted for something
+    the moment it was made, a renter wouldn't have to discover their rights
+    after the fact. The record would carry them there.
+</p>
+
+<h2>What it aims to change</h2>
+
+<p>
+    The draft is early — an outline, honestly labeled. These are its aims,
+    not promises:
+</p>
+
+<ul class="story-list">
+    <li><strong>Your record counts.</strong> Plain-language standards for how
+    housing problems get documented — so that a photo with a date and a repair
+    request with a timestamp carry real weight, the same weight for everyone.</li>
+    <li><strong>Answers have a clock.</strong> Reasonable timelines for
+    responses — on both sides. A renter who reports a problem deserves to know
+    when to expect an answer; a housing provider deserves a clear ask, not an
+    open-ended complaint.</li>
+    <li><strong>Telling the truth is protected.</strong> Reporting a real
+    problem shouldn't be a risk. The draft aims to protect honest reporting
+    from being answered with punishment.</li>
+    <li><strong>One standard, any size.</strong> The same documentation
+    standard for a four-unit landlord and a four-hundred-unit operator —
+    scaled so small providers aren't crushed by paperwork meant for the big
+    ones. How to do that fairly is one of the open questions.</li>
+</ul>
+
+<h2>Who it changes things for</h2>
+
+<p>
+    <strong>Renters</strong> get something they rarely have today: a record
+    that was worth keeping. Not a promise that every dispute goes their way —
+    a fair chance for their side to be heard.
+</p>
+
+<p>
+    <strong>Honest housing providers</strong> get the same thing, from the
+    other direction. When a claim isn't true, a good record is what proves
+    it. The standard that protects a tenant's real complaint is the same one
+    that protects a provider from a false one. This bill is not aimed at
+    anyone — it is aimed at the fog that hurts both sides.
+</p>
+
+<p>
+    <strong>Courts and mediators</strong> get better files. Most housing
+    cases don't fail because someone is lying; they fail because nobody can
+    show what actually happened. A shared standard means disputes arrive
+    smaller and resolve faster.
+</p>
+
+<p>
+    <strong>And everyone watching</strong> gets something rarer than any of
+    that: a law being drafted where they can see it. Every edit is public.
+    Every question asked on this site is answered or honestly marked
+    unanswered. Students can follow an idea from a first outline all the way
+    to — if it earns it — a statute.
+</p>
+
+<h2>What it is not</h2>
+
+<p>
+    It is not law. It is not filed. It is not before any legislature. It is
+    an outline that a small, donation-funded organization is writing in the
+    open, and it will change many times before it deserves a sponsor. It may
+    never become law at all — and if it doesn't, the public record of how it
+    was written still belongs to everyone.
+</p>
+
+<p>
+    What it can already do, today, is make the invisible visible — starting
+    with the idea that your own record of your own home should count.
+</p>
+
+<h2>The hope, stated plainly</h2>
+
+<p>
+    Most renters lose long before anyone calls it a loss. They lose the day
+    they decide there's no point in writing it down. This bill exists to make
+    that decision wrong — to make the record you keep the thing that carries
+    you. That's the hope, and it's the kind you can verify: it's written down,
+    in public, one honest draft at a time.
+</p>
+
+<p class="story-doors">
+    <a href="/your-voice">Read the live draft →</a>
+    <a href="/your-voice#ask">Ask a question or weigh in →</a>
+</p>
+
+</article>
+
+
+    </main>
+    
+<aside class="shell-side" id="shell-side" aria-label="Supporting">
+    
+<h2>Semptify</h2>
+<ul class="shell-list">
+    <li><a href="/help">Get help now</a></li>
+    <li><a href="/your-voice">Your Voice — the bill</a></li>
+    <li><a href="/law-library">Know your rights</a></li>
+    <li><a href="/portal">The portal</a></li>
+    <li><a href="/about">About the organization</a></li>
+    <li><a href="/donate">Support the work</a></li>
+</ul>
+
+</aside>
+
+
+
+    
+    <footer class="unified-footer">
+    <div class="footer-container">
+        <div class="footer-disclaimer">
+            <div class="footer-disclaimer-icon" aria-hidden="true">!</div>
+            <p class="footer-disclaimer-title">Semptify is not legal advice</p>
+            <p class="footer-disclaimer-text">
+                Semptify helps tenants organize documents and find verified facts. It is not a law firm.
+                For legal advice, contact a licensed attorney or your local legal aid office.
+                If you need help right now, <a href="/help">get help now</a>.
+            </p>
+        </div>
+        <nav class="footer-legal" aria-label="Legal and site information">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/accessibility">Accessibility</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/feedback">Feedback</a>
+            <a href="/credits">Credits</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 Semptify.org</p>
+            <p class="footer-mandates">No ads &middot; Your data stays yours &middot; Not legal advice &mdash; get qualified help</p>
+            <p class="footer-help">AI-Assisted Content Notice: Semptify uses AI tools to help generate
+                Minnesota housing-law educational material. This site does not provide legal advice.
+                For case-specific guidance, contact a licensed Minnesota attorney.</p>
+            <div class="footer-help"><form method="post" action="/api/i18n/set-locale" class="locale-selector" aria-label="Choose your preferred language">
+    <label for="locale-select" class="locale-selector__label">Language</label>
+    <select id="locale-select" name="locale" class="locale-selector__select" aria-label="Choose your preferred language">
+        
+        <option value="en" selected>
+            English
+        </option>
+        
+        <option value="es" >
+            Spanish *
+        </option>
+        
+        <option value="so" >
+            Somali *
+        </option>
+        
+        <option value="hmn" >
+            Hmong *
+        </option>
+        
+        <option value="ar" >
+            Arabic *
+        </option>
+        
+        <option value="am" >
+            Amharic *
+        </option>
+        
+        <option value="ti" >
+            Tigrinya *
+        </option>
+        
+        <option value="zh" >
+            Mandarin *
+        </option>
+        
+        <option value="fr" >
+            French *
+        </option>
+        
+        <option value="de" >
+            German *
+        </option>
+        
+        <option value="ko" >
+            Korean *
+        </option>
+        
+        <option value="ja" >
+            Japanese *
+        </option>
+        
+        <option value="pt" >
+            Portuguese *
+        </option>
+        
+        <option value="it" >
+            Italian *
+        </option>
+        
+    </select>
+    <button type="submit" class="locale-selector__button">Save</button>
+    <p class="locale-selector__note text-muted">* Machine translation; may contain errors.</p>
+</form></div>
+        </div>
+    </div>
+</footer>
+    
+
+    <script src="/static/js/fetch-helpers.js"></script>
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/law-linker.js"></script>
+    
+
+
+
+</body>
+</html>

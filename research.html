@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Every figure behind the Minnesota rent assurance bill, with its source and verification status — published only after triple-check.">
+    <meta name="theme-color" content="var(--color-gray-900)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="csrf-token" content="">
+    
+    
+
+    <title>The Numbers &amp; Sources — Minnesota Bill — Semptify</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/ssot-design-system.css">
+    
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .section-description { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-block); padding: 0.5rem 0.85rem; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+    .service-card:hover { box-shadow: var(--elevation-2); transform: translateY(-2px); }
+    .service-card .icon { font-size: 1.1rem; display: inline-block; vertical-align: middle; margin: 0 0.4rem 0 0; }
+    .service-card h3 { font-size: 1rem; color: var(--color-primary); margin-bottom: 0.35rem; font-weight: 600; display: inline; vertical-align: middle; }
+    .service-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.3; margin: 0.4rem 0; flex-grow: 1; }
+    .service-card .cta-button { display: inline-block; background: var(--color-accent); color: var(--text-inverse); padding: 0.4rem 0.9rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); align-self: flex-start; }
+    .service-card .cta-button:hover { background: var(--color-accent-hover); }
+    .service-card .cta-button.secondary { background: var(--text-muted); }
+    .service-card .cta-button.secondary:hover { background: var(--text-secondary); }
+
+    /* Fixed light-island palette for service cards. These are literals on
+       purpose — they must NOT follow the dark-mode token flip, so the card
+       stays light in both themes. Defined once here; referenced below. */
+    .service-card {
+        --pc-bg: #efeeea; --pc-line: #d5d2ca; --pc-ink: #1f1d1a;
+        --pc-title: #2f4438; --pc-body: #4a4742; --pc-cta: #4c6b4c;
+        --pc-cta-hover: #3d583d; --pc-muted: #6b655d; --pc-muted-hover: #4a4742;
+    }
+    @media (prefers-color-scheme: dark) {
+        .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+        body .service-card h3 { color: var(--pc-title); }
+        .service-card p { color: var(--pc-body); }
+        .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+        .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+        .service-card .cta-button.secondary { background: var(--pc-muted); }
+        .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+    }
+    [data-theme="dark"] .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+    [data-theme="dark"] .service-card h3 { color: var(--pc-title); }
+    [data-theme="dark"] .service-card p { color: var(--pc-body); }
+    [data-theme="dark"] .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+    [data-theme="dark"] .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+    [data-theme="dark"] .service-card .cta-button.secondary { background: var(--pc-muted); }
+    [data-theme="dark"] .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+
+    .category-section { margin-bottom: 2.25rem; }
+    .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .category-header .category-icon { font-size: 1.5rem; }
+    .category-header h2 { font-size: 1.3rem; color: var(--color-primary); font-weight: 600; }
+    .category-description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+
+    .info-banner { background: var(--color-warning-50, color-mix(in srgb, var(--color-warning), transparent 88%)); border-left: 4px solid var(--color-warm); border-radius: var(--radius-block); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .info-banner p { color: var(--text-primary); font-style: italic; margin: 0; }
+
+    .cta-section { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-block); margin-top: 2rem; }
+    .cta-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+    .cta-button-large { display: inline-block; background: var(--color-primary); color: var(--text-inverse); padding: 1rem 2.5rem; font-size: 1.05rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); }
+    .cta-button-large:hover { background: var(--color-primary-light); }
+
+    /* Liquid desktop layout — public pages fit the viewport without page
+       scroll: tighter sections, denser grid, compact CTA band. */
+    @media (min-width: 1024px) {
+        .section { margin-bottom: 1rem; }
+        .section-title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .section-description { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .services-grid { gap: 0.75rem; }
+        .category-section { margin-bottom: 1.25rem; }
+        .category-header { margin-bottom: 0.25rem; }
+        .category-description { margin-bottom: 0.75rem; }
+        .info-banner { margin: 1rem 0; padding: 0.85rem 1.25rem; }
+        .cta-section { padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+        .cta-section h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .cta-button-large { padding: 0.6rem 1.75rem; font-size: 0.95rem; }
+    }
+
+    @media (max-width: 640px) {
+        .services-grid { grid-template-columns: 1fr; }
+        .service-card { padding: 1.25rem; }
+    }
+</style>
+
+<link rel="stylesheet" href="/static/css/themes/northstar.css">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+    .rs-how { background:var(--card-bg); padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
+    .rs-how p { margin:0 0 0.6rem; line-height:1.6; }
+    .rs-how p:last-child { margin-bottom:0; }
+    .rs-ledger { width:100%; border-collapse:collapse; background:var(--card-bg); }
+    .rs-ledger td, .rs-ledger th { padding:0.7rem 0.9rem; text-align:left; vertical-align:top;
+                                  border-bottom:1px solid var(--card-border); font-size:0.95rem; }
+    .rs-ledger th { color:var(--accent-primary); font-weight:600; }
+    .rs-ok { color:var(--accent-success); font-weight:600; }
+    .rs-pend { color:var(--accent-secondary); font-weight:600; }
+</style>
+
+</head>
+<body class="shell bill-section" data-theme="northstar">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    
+    <header class="main-nav">
+        <div class="nav-container">
+            <a class="nav-brand" href="/" aria-label="Semptify home">
+                <span class="nav-logo" aria-hidden="true">S</span>
+                <span class="nav-title">Semptify</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-links">
+                    
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill">The Bill</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill/live">Live draft</a></li>
+<li class="nav-item"><a class="nav-link" href="/bill/research">The numbers</a></li>
+<li class="nav-item"><a class="nav-link" href="/your-voice">Your Voice</a></li>
+<li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn--accent btn--sm" href="/help">Get help now</a>
+            </div>
+            <button type="button" class="nav-toggle" aria-label="Open menu" hidden>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+    
+
+    
+<div id="narration-strip" class="narration-strip" role="status" aria-live="polite"></div>
+<script src="/static/js/core/websocket-client.js?v=2" defer></script>
+<script src="/static/js/narration-strip.js" defer></script>
+
+    <main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+        
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>The numbers &amp; sources</h1>
+
+<p class="shell-lede">Every figure, its source, and its check status.</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">A figure publishes only after three independent checks. Unchecked work says so.</p>
+
+
+
+
+<section class="section">
+    <div class="rs-how">
+        <p><strong>How a figure earns its place.</strong> Every number on this
+        site comes from a source you can read yourself. Before it publishes,
+        it goes through three checks: (1) the source exists and says what we
+        claim, (2) the math is re-derived independently, and (3) the figure is
+        presented without spin. Fail any check and the figure waits — it does
+        not publish.</p>
+        <p><strong>What you won't find.</strong> No people's names, no business
+        names — private parties appear only as roles ("a metro provider,"
+        "a renter"), unless that party has given written consent to be named.
+        Public agencies and published research sources are cited by name —
+        that's how you check our work.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">The verification ledger</h2>
+    <p class="section-description">Live from the research registry — the same
+    ledger the publish gate reads.</p>
+    <table class="rs-ledger">
+        <tr><th>Figure</th><th>Claim</th><th>Source</th><th>Status</th></tr>
+        
+        <tr>
+            <td>~$780M / ~20%</td>
+            <td>Deposit float ~$780M self-funds ~20% of program</td>
+            <td>whitepaper L44</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>3-7%</td>
+            <td>Private carriers sell narrower versions at 3-7% of annual rent</td>
+            <td>whitepaper L48</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>1%</td>
+            <td>Statutory 1% deposit interest; treasury-only investment audited annually</td>
+            <td>whitepaper L78</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>15%/25%/$1,200</td>
+            <td>Turnover model: 15% turnover x 25% legitimate x $1,200 avg</td>
+            <td>whitepaper L91</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>$15.33 / 1.18%</td>
+            <td>Base case: $106M premium vs $110M claims = $15.33/unit, 1.18% of rent</td>
+            <td>whitepaper L99</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>$21.23 / 1.63%</td>
+            <td>Fraud stress +30% claims: $138M/$153M = $21.23, 1.63%</td>
+            <td>whitepaper L100</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>$30.00 / 2.31%</td>
+            <td>Recession shock 6% default: $185M/$216M = $30.00, 2.31%</td>
+            <td>whitepaper L101</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>~$4M/yr</td>
+            <td>Reserves build ~$4M/yr normal years</td>
+            <td>whitepaper L104</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>~$39/mo</td>
+            <td>Premium ~3% of rent ~= $39/mo at modeled rent level</td>
+            <td>whitepaper L106</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>~$23M/yr</td>
+            <td>Deposit float ~$23M/yr (4% yield less 1% statutory interest)</td>
+            <td>whitepaper L114</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>~1%</td>
+            <td>Premium add-on ~1% of rent headline figure</td>
+            <td>whitepaper L159</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+        <tr>
+            <td>~1.6%</td>
+            <td>Fraud stress +30% lands ~1.6% of rent</td>
+            <td>whitepaper L190</td>
+            <td><span class="rs-pend">checking</span></td>
+        </tr>
+        
+    </table>
+</section>
+
+
+
+    </main>
+    
+<aside class="shell-side" id="shell-side" aria-label="Supporting">
+    
+<h2>The bill</h2>
+<ul class="shell-list">
+    <li><a href="/bill">Bill home</a></li>
+    <li><a href="/bill/live">Read the live draft</a></li>
+    <li><a href="/your-voice">Ask or weigh in</a></li>
+    <li><a href="/what-the-bill-changes">What it would change</a></li>
+    <li><a href="/help">Get help now</a></li>
+</ul>
+
+</aside>
+
+
+
+    
+    <footer class="unified-footer">
+    <div class="footer-container">
+        <div class="footer-disclaimer">
+            <div class="footer-disclaimer-icon" aria-hidden="true">!</div>
+            <p class="footer-disclaimer-title">Semptify is not legal advice</p>
+            <p class="footer-disclaimer-text">
+                Semptify helps tenants organize documents and find verified facts. It is not a law firm.
+                For legal advice, contact a licensed attorney or your local legal aid office.
+                If you need help right now, <a href="/help">get help now</a>.
+            </p>
+        </div>
+        <nav class="footer-legal" aria-label="Legal and site information">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/accessibility">Accessibility</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/feedback">Feedback</a>
+            <a href="/credits">Credits</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 Semptify.org</p>
+            <p class="footer-mandates">No ads &middot; Your data stays yours &middot; Not legal advice &mdash; get qualified help</p>
+            <p class="footer-help">AI-Assisted Content Notice: Semptify uses AI tools to help generate
+                Minnesota housing-law educational material. This site does not provide legal advice.
+                For case-specific guidance, contact a licensed Minnesota attorney.</p>
+            <div class="footer-help"><form method="post" action="/api/i18n/set-locale" class="locale-selector" aria-label="Choose your preferred language">
+    <label for="locale-select" class="locale-selector__label">Language</label>
+    <select id="locale-select" name="locale" class="locale-selector__select" aria-label="Choose your preferred language">
+        
+        <option value="en" selected>
+            English
+        </option>
+        
+        <option value="es" >
+            Spanish *
+        </option>
+        
+        <option value="so" >
+            Somali *
+        </option>
+        
+        <option value="hmn" >
+            Hmong *
+        </option>
+        
+        <option value="ar" >
+            Arabic *
+        </option>
+        
+        <option value="am" >
+            Amharic *
+        </option>
+        
+        <option value="ti" >
+            Tigrinya *
+        </option>
+        
+        <option value="zh" >
+            Mandarin *
+        </option>
+        
+        <option value="fr" >
+            French *
+        </option>
+        
+        <option value="de" >
+            German *
+        </option>
+        
+        <option value="ko" >
+            Korean *
+        </option>
+        
+        <option value="ja" >
+            Japanese *
+        </option>
+        
+        <option value="pt" >
+            Portuguese *
+        </option>
+        
+        <option value="it" >
+            Italian *
+        </option>
+        
+    </select>
+    <button type="submit" class="locale-selector__button">Save</button>
+    <p class="locale-selector__note text-muted">* Machine translation; may contain errors.</p>
+</form></div>
+        </div>
+    </div>
+</footer>
+    
+
+    <script src="/static/js/fetch-helpers.js"></script>
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/law-linker.js"></script>
+    
+
+
+
+</body>
+</html>
