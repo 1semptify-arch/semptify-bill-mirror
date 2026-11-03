@@ -1,0 +1,838 @@
+/**
+ * Law Linker — Universal legal citation linker
+ * Detects citations in page text and links them to their official source.
+ *
+ * Supported citation types (local -> state -> federal):
+ *   - Minnesota Statutes (Minn. Stat. § XXXX.XXX) -> revisor.mn.gov
+ *   - US Code (XX U.S.C. § XXXXf or XXXX-XX) -> law.cornell.edu
+ *   - CFR (XX C.F.R. § XXX.XXX) -> ecfr.gov
+ *   - IRS Publications (IRS Publication XXX) -> irs.gov
+ *   - HUD / FHEO Notices (HUD FHEO Notice YYYY-NN) -> hud.gov
+ *   - Minneapolis Code (Minneapolis Code § XXX) -> library.municode.com
+ *   - St. Paul Code (St. Paul Ordinance XX-XX) -> library.municode.com
+ *   - County / municipal code (e.g. Hennepin County Code § ...) -> library.municode.com (jurisdiction-aware)
+ *   - US Supreme Court (XXX U.S. XXX (YYYY)) -> courtlistener.com
+ *   - Federal Appellate (XXX F.3d XXX (Xth Cir. YYYY)) -> courtlistener.com
+ *   - Federal District (XXX F. Supp. XXX (D. X YYYY)) -> courtlistener.com
+ *   - Minnesota Cases (XXX Minn. XX, XXX N.W.2d XXX) -> courtlistener.com
+ *   - Westlaw / loose citations (YYYY WL XXXXXX) -> courtlistener.com
+ *
+ * Each popup shows: title, summary, full text excerpt, and a clickable
+ * "View Official Source →" link to the authoritative source.
+ *
+ * TODO (post-funding): Build a live-feed verification engine that continuously
+ * checks all registered URLs and alerts when a source page moves or a statute
+ * is amended. For now, last_verified dates are displayed so users know freshness.
+ */
+
+(function() {
+    'use strict';
+
+    const lawCache = new Map();
+    const countyCache = new Map();
+    const MAX_CACHE_SIZE = 50;
+    let popup = null;
+    let scrollHandler = null;
+    let userJurisdiction = null;
+    let jurisdictionPromise = null;
+
+    // Multi-word Minnesota county names. Keep in sync with
+    // app/core/law_source_registry.py _MN_MULTIWORD_COUNTIES.
+    const MN_MULTIWORD_COUNTIES = new Set([
+        'Big Stone', 'Blue Earth', 'Crow Wing', 'Lac qui Parle',
+        'Lake of the Woods', 'Le Sueur', 'Mille Lacs', 'Otter Tail',
+        'Red Lake', 'St. Louis', 'Yellow Medicine',
+    ]);
+    const INVALID_COUNTY_WORDS = new Set([
+        'this', 'that', 'the', 'a', 'an', 'see', 'per', 'in', 'under',
+        'of', 'for', 'from', 'by', 'with', 'as', 'at', 'to', 'on', 'about',
+        'and', 'or', 'but', 'if', 'is', 'are', 'was', 'were', 'be', 'been',
+        'my', 'our', 'your', 'their', 'his', 'her', 'its', 'such',
+    ]);
+
+    // =========================================================================
+    // Jurisdiction helpers — used for county-code resolution
+    // =========================================================================
+
+    function getJurisdiction() {
+        if (userJurisdiction) return userJurisdiction;
+        if (typeof window !== 'undefined' && window.SEMPTIFY_JURISDICTION) {
+            const j = window.SEMPTIFY_JURISDICTION;
+            userJurisdiction = {
+                state: j.state || 'MN',
+                county: j.county || '',
+            };
+            return userJurisdiction;
+        }
+        return { state: 'MN', county: '' };
+    }
+
+    async function loadJurisdiction() {
+        if (jurisdictionPromise) return jurisdictionPromise;
+        if (userJurisdiction && userJurisdiction.county) return userJurisdiction;
+        // Jurisdiction is best-effort; default to MN and avoid a network call
+        // to a non-existent /api/location/current endpoint.
+        jurisdictionPromise = (async () => getJurisdiction())();
+        return jurisdictionPromise;
+    }
+
+    function buildMunicodeCountyUrl(county, state) {
+        // Mirrors the Python CountyCodeRegistry slug normalization.
+        const slug = (county || '')
+            .replace(/\s+county$/i, '')
+            .toLowerCase()
+            .replace(/\./g, '')
+            .replace(/'/g, '')
+            .replace(/[^a-z0-9\s]/g, '')
+            .trim()
+            .replace(/\s+/g, '_') + '_county';
+        return 'https://library.municode.com/' + (state || 'mn').toLowerCase() + '/' + slug + '/codes/code_of_ordinances';
+    }
+
+    async function resolveCountyUrl(county, state) {
+        const j = getJurisdiction();
+        const stateCode = (state || j.state || 'MN').toUpperCase();
+        const countyName = (county || j.county || '').trim();
+        if (!countyName) return 'https://library.municode.com/' + stateCode.toLowerCase();
+
+        const cacheKey = stateCode + ':' + countyName;
+        if (countyCache.has(cacheKey)) return countyCache.get(cacheKey);
+
+        try {
+            const url = new URL('/api/law-library/county-code', window.location.origin);
+            url.searchParams.set('county', countyName);
+            url.searchParams.set('state', stateCode);
+            const res = await fetch(url, {
+                credentials: 'include',
+            });
+            if (res.ok) {
+                const data = await res.json();
+                countyCache.set(cacheKey, data.official_url);
+                return data.official_url;
+            }
+        } catch (e) {
+            console.debug('Law Linker: county-code endpoint failed', e);
+        }
+
+        // Fallback to the client-side Municode slug builder.
+        const fallback = buildMunicodeCountyUrl(countyName, stateCode);
+        countyCache.set(cacheKey, fallback);
+        return fallback;
+    }
+
+    function cleanCountyName(name) {
+        if (!name) return getJurisdiction().county || '';
+        name = name.trim();
+        if (MN_MULTIWORD_COUNTIES.has(name)) return name;
+        const parts = name.split(/\s+/);
+        if (parts.length === 1) {
+            return INVALID_COUNTY_WORDS.has(name.toLowerCase()) ? (getJurisdiction().county || '') : name;
+        }
+        const last = parts[parts.length - 1];
+        const leading = parts.slice(0, -1).join(' ').toLowerCase();
+        const leadingWords = leading.split(/\s+/);
+        if (parts.length > 2 && MN_MULTIWORD_COUNTIES.has(name)) return name;
+        if (leadingWords.length === 1 && INVALID_COUNTY_WORDS.has(leading)) {
+            return last;
+        }
+        if (parts.length > 2) {
+            return INVALID_COUNTY_WORDS.has(last.toLowerCase()) ? (getJurisdiction().county || '') : last;
+        }
+        return name;
+    }
+
+    // =========================================================================
+    // Citation patterns — order matters (most specific first)
+    // =========================================================================
+    const CITATION_PATTERNS = [
+        // Minnesota Statutes — section level (e.g. Minn. Stat. § 504B.321)
+        {
+            type: 'minnesota_statute',
+            label: 'MN Statute',
+            regex: /Minn\.\s*Stat\.\s*§?\s*(\d+[A-Z]?\.\d+(?:\.\d+)?)/gi,
+            detect: /Minn\.\s*Stat\.\s*§?\s*\d+/i,
+            idBuilder: (m) => 'minn_stat_' + m.replace(/\./g, '_').toLowerCase(),
+            urlBuilder: (m) => 'https://www.revisor.mn.gov/statutes/cite/' + m,
+            displayLabel: (m) => 'Minn. Stat. § ' + m,
+            apiPath: '/api/law-library/statutes/'
+        },
+        // Minnesota Statutes — chapter level (e.g. Minn. Stat. § 504B, § 580, § 322C; § 333)
+        {
+            type: 'minnesota_statute_chapter',
+            label: 'MN Statute Chapter',
+            regex: /Minn\.\s*Stat\.\s*§?\s*(\d+[A-Z]?)(?!\.\d)(?:\s*;|\s*$|\s+)/gi,
+            detect: /Minn\.\s*Stat\.\s*§?\s*\d+[A-Z]?(?!\.\d)/i,
+            idBuilder: (m) => 'minn_stat_' + m.toLowerCase(),
+            urlBuilder: (m) => 'https://www.revisor.mn.gov/statutes/cite/' + m,
+            displayLabel: (m) => 'Minn. Stat. § ' + m,
+            apiPath: '/api/law-library/statutes/'
+        },
+        // US Code (e.g. 42 U.S.C. § 3601, 42 U.S.C. § 1437f, 42 U.S.C. § 1715z-1)
+        {
+            type: 'us_code',
+            label: 'US Code',
+            regex: /(\d+)\s*U\.?S\.?C\.?\s*[§\s]*(\d+[a-zA-Z]*(?:-[0-9a-zA-Z]+)?)(?:\s+note)?/gi,
+            detect: /\d+\s*U\.?S\.?C\.?/i,
+            idBuilder: (title, section) => 'usc_' + title + '_' + section,
+            urlBuilder: (title, section) => 'https://www.law.cornell.edu/uscode/text/' + title + '/' + section,
+            displayLabel: (title, section) => title + ' U.S.C. § ' + section,
+            apiPath: '/api/law-library/statutes/'
+        },
+        // Code of Federal Regulations (e.g. 24 C.F.R. § 100.204)
+        {
+            type: 'cfr',
+            label: 'CFR',
+            regex: /(\d+)\s*C\.?F\.?R\.?\s*[§\s]*([\d.]+)/gi,
+            detect: /\d+\s*C\.?F\.?R\.?/i,
+            idBuilder: (title, section) => 'cfr_' + title + '_' + section.replace(/\./g, '_'),
+            urlBuilder: (title, section) => 'https://www.ecfr.gov/current/title-' + title + '/section-' + section,
+            displayLabel: (title, section) => title + ' C.F.R. § ' + section,
+            apiPath: null
+        },
+        // IRS Publications (e.g. IRS Publication 527)
+        {
+            type: 'irs_pub',
+            label: 'IRS Publication',
+            regex: /IRS\s*Publication\s*(\d+)/gi,
+            detect: /IRS\s*Publication\s*\d+/i,
+            idBuilder: (num) => 'irs_pub_' + num,
+            urlBuilder: (num) => 'https://www.irs.gov/publications/p' + num,
+            displayLabel: (num) => 'IRS Publication ' + num,
+            apiPath: '/api/law-library/statutes/'
+        },
+        // HUD / FHEO Notices (e.g. HUD FHEO Notice 2020-01)
+        {
+            type: 'hud_notice',
+            label: 'HUD Notice',
+            regex: /HUD\s*(?:FHEO\s*)?Notice\s*(\d{4})\s*[-/]?\s*(\d+)/gi,
+            detect: /HUD\s*(?:FHEO\s*)?Notice\s*\d{4}\s*[-/]?\s*\d+/i,
+            idBuilder: (year, num) => 'hud_notice_' + year + '_' + num,
+            urlBuilder: (year, num) => 'https://www.hud.gov/program_offices/fair_housing_equal_opp/assistance_animals',
+            displayLabel: (year, num) => 'HUD FHEO Notice ' + year + '-' + num,
+            apiPath: null
+        },
+        // Westlaw / loose reporter citations (e.g. 2014 WL 4782034)
+        {
+            type: 'westlaw',
+            label: 'Case Citation',
+            regex: /(\d{4})\s*WL\s*(\d+)/gi,
+            detect: /\d{4}\s*WL\s*\d+/i,
+            idBuilder: (year, num) => 'westlaw_' + year + '_' + num,
+            urlBuilder: (year, num) => 'https://www.courtlistener.com/?q=%22' + year + '+WL+' + num + '%22&type=o',
+            displayLabel: (year, num) => year + ' WL ' + num,
+            apiPath: '/api/law-library/case-law/'
+        },
+        // Minneapolis Code (e.g. Minneapolis Code § 244)
+        {
+            type: 'mpls_code',
+            label: 'Minneapolis Code',
+            regex: /Minneapolis\s*(?:Code|Ordinance)\s*[§\s]*(?:[\w-]+)?/gi,
+            detect: /Minneapolis\s*(?:Code|Ordinance)/i,
+            idBuilder: () => 'mpls_code',
+            urlBuilder: () => 'https://library.municode.com/mn/minneapolis',
+            displayLabel: () => 'Minneapolis Code of Ordinances',
+            apiPath: '/api/law-library/statutes/'
+        },
+        // St. Paul Code (e.g. St. Paul Ordinance 21-44)
+        {
+            type: 'stpaul_code',
+            label: 'St. Paul Code',
+            regex: /St\.?\s*Paul\s*(?:Ordinance|Legislative\s*Code)\s*[\w-]+/gi,
+            detect: /St\.?\s*Paul\s*(?:Ordinance|Legislative)/i,
+            idBuilder: () => 'stpaul_code',
+            urlBuilder: () => 'https://library.municode.com/mn/st-paul',
+            displayLabel: () => 'St. Paul Legislative Code',
+            apiPath: '/api/law-library/statutes/'
+        },
+        // County / municipal code of ordinances (jurisdiction-aware)
+        // Matches "Hennepin County Code § 1.02", "St. Louis County Ordinance 123",
+        // and generic "County Code § ..." (uses the user's detected county).
+        {
+            type: 'county_code',
+            label: 'County Code',
+            regex: /([A-Z][a-zA-Z\s.']+?)?\s*County(?:\s+(?:Code|Ordinance|Ord\.?))(?:\s+(?:§|No\.|#)\s*[\w.\-]+)?/gi,
+            detect: /(?:[A-Z][a-zA-Z\s.']+?\s*)?County\s+(?:Code|Ordinance|Ord\.?)/i,
+            idBuilder: (county) => 'county_' + (county || getJurisdiction().county || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+            urlBuilder: (county) => buildMunicodeCountyUrl(county || getJurisdiction().county, getJurisdiction().state),
+            displayLabel: (county) => (county || getJurisdiction().county || 'County') + ' County Code',
+            apiPath: null,
+            countyName: true
+        },
+        // US Supreme Court (e.g. 576 U.S. 519 (2015))
+        {
+            type: 'scotus',
+            label: 'SCOTUS Case',
+            regex: /(\d+)\s*U\.?\s*S\.?\s*(\d+)\s*\((\d{4})\)/g,
+            detect: /\d+\s*U\.?\s*S\.?\s*\d+\s*\(\d{4}\)/i,
+            idBuilder: (vol, page, year) => 'scotus_' + vol + '_' + page,
+            urlBuilder: (vol, page, year) => 'https://www.courtlistener.com/?q=%22' + vol + '+U.S.+' + page + '%22&type=o',
+            displayLabel: (vol, page, year) => vol + ' U.S. ' + page + ' (' + year + ')',
+            apiPath: '/api/law-library/case-law/'
+        },
+        // Federal Appellate (e.g. 343 F.3d 1143 (9th Cir. 2003))
+        {
+            type: 'federal_appellate',
+            label: 'Federal Appeals Case',
+            regex: /(\d+)\s*F\.\w*\s*(\d+)\s*\((\w+\s*Cir\.\s*\d{4})\)/g,
+            detect: /\d+\s*F\.\w*\s*\d+\s*\(\w+\s*Cir\./i,
+            idBuilder: (vol, page, court) => 'fed_app_' + vol + '_' + page,
+            urlBuilder: (vol, page, court) => 'https://www.courtlistener.com/?q=%22' + vol + '+F.+' + page + '%22&type=o',
+            displayLabel: (vol, page, court) => vol + ' F.3d ' + page + ' (' + court + ')',
+            apiPath: '/api/law-library/case-law/'
+        },
+        // Federal District (e.g. 6 F. Supp. 3d 1272 (S.D. Fla. 2014))
+        {
+            type: 'federal_district',
+            label: 'Federal District Case',
+            regex: /(\d+)\s*F\.\s*Supp\.\s*\w*\s*(\d+)\s*\(([^)]+)\)/g,
+            detect: /\d+\s*F\.\s*Supp\.\s*\w*\s*\d+/i,
+            idBuilder: (vol, page, court) => 'fed_dist_' + vol + '_' + page,
+            urlBuilder: (vol, page, court) => 'https://www.courtlistener.com/?q=%22' + vol + '+F.+Supp.+%22&type=o',
+            displayLabel: (vol, page, court) => vol + ' F. Supp. ' + page + ' (' + court + ')',
+            apiPath: '/api/law-library/case-law/'
+        },
+        // Minnesota Cases (e.g. 298 Minn. 54, 213 N.W.2d 339 (1973))
+        {
+            type: 'minnesota_case',
+            label: 'MN Case',
+            regex: /(\d+)\s*Minn\.\s*(\d+)(?:,\s*\d+\s*N\.?W\.?\w*\s*\d+)?\s*\((\d{4})\)/g,
+            detect: /\d+\s*Minn\.\s*\d+/i,
+            idBuilder: (vol, page, year) => 'mn_case_' + vol + '_' + page,
+            urlBuilder: (vol, page, year) => 'https://www.courtlistener.com/?q=%22' + vol + '+Minn.+' + page + '%22&type=o',
+            displayLabel: (vol, page, year) => vol + ' Minn. ' + page + ' (' + year + ')',
+            apiPath: '/api/law-library/case-law/'
+        }
+    ];
+
+    function createPopup() {
+        const el = document.createElement('div');
+        el.id = 'law-linker-popup';
+        el.innerHTML = `
+            <div class="law-linker-header">
+                <span class="law-linker-citation"></span>
+                <span class="law-linker-type"></span>
+            </div>
+            <div class="law-linker-content"></div>
+            <div class="law-linker-footer">
+                <span class="law-linker-source-name">Source: —</span>
+                <a href="#" class="law-linker-full" target="_blank" rel="noopener noreferrer">View Official Source →</a>
+            </div>
+        `;
+        document.body.appendChild(el);
+        return el;
+    }
+
+    function initStyles() {
+        if (document.getElementById('law-linker-styles')) return;
+        const styles = document.createElement('style');
+        styles.id = 'law-linker-styles';
+        styles.textContent = `
+            .law-linker-cite {
+                color: var(--color-info);
+                border-bottom: 1px dotted var(--color-info);
+                cursor: help;
+                transition: all 0.2s;
+            }
+            .law-linker-cite:hover {
+                color: var(--color-calm-200);
+                background: color-mix(in srgb, var(--color-info), transparent 90%);
+                border-radius: 2px;
+            }
+            #law-linker-popup {
+                position: fixed;
+                z-index: 10000;
+                max-width: 450px;
+                min-width: 300px;
+                background: var(--color-primary-dark);
+                border: 1px solid var(--color-gray-600);
+                border-radius: 12px;
+                box-shadow: 0 20px 40px color-mix(in srgb, var(--color-black), transparent 60%);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.2s, visibility 0.2s;
+                pointer-events: none;
+            }
+            #law-linker-popup.visible {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .law-linker-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 16px;
+                background: linear-gradient(135deg, var(--color-calm-dark), var(--color-primary-dark));
+                border-radius: 12px 12px 0 0;
+                border-bottom: 1px solid var(--color-calm-dark);
+            }
+            .law-linker-citation {
+                font-weight: 700;
+                color: var(--text-inverse);
+                font-size: 0.95rem;
+            }
+            .law-linker-type {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                color: var(--color-calm-light);
+                background: var(--color-calm-dark);
+                padding: 2px 8px;
+                border-radius: 99px;
+            }
+            .law-linker-content {
+                padding: 16px;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            .law-linker-content h4 {
+                margin: 0 0 8px 0;
+                color: var(--color-info);
+                font-size: 0.9rem;
+            }
+            .law-linker-content p {
+                margin: 0;
+                color: var(--color-calm-200);
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+            .law-linker-content .law-fulltext {
+                background: var(--tone-900);
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 0.8rem;
+                color: var(--color-calm-100);
+                line-height: 1.7;
+                border-left: 3px solid var(--color-info);
+                margin-top: 12px;
+                white-space: pre-wrap;
+            }
+            .law-linker-content .law-verified {
+                margin-top: 10px;
+                font-size: 0.72rem;
+                color: var(--color-gray-500);
+                font-style: italic;
+            }
+            .law-linker-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 16px;
+                background: var(--tone-900);
+                border-radius: 0 0 12px 12px;
+                border-top: 1px solid var(--color-calm-dark);
+                font-size: 0.75rem;
+                color: var(--color-gray-500);
+            }
+            .law-linker-full {
+                color: var(--color-info);
+                text-decoration: none;
+                font-weight: 600;
+            }
+            .law-linker-full:hover {
+                color: var(--color-calm-200);
+                text-decoration: underline;
+            }
+            .law-linker-loading {
+                text-align: center;
+                padding: 20px;
+                color: var(--color-calm-light);
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    // =========================================================================
+    // Citation parsing — tries each pattern, returns first match
+    // =========================================================================
+    function parseCitation(text) {
+        for (const pattern of CITATION_PATTERNS) {
+            if (!pattern.detect.test(text)) continue;
+            pattern.detect.lastIndex = 0;
+            pattern.regex.lastIndex = 0;
+            const m = pattern.regex.exec(text);
+            if (m) {
+                const args = m.slice(1);
+                const id = pattern.idBuilder.apply(null, args);
+                const url = pattern.urlBuilder.apply(null, args);
+                const label = pattern.displayLabel.apply(null, args);
+                return {
+                    type: pattern.type,
+                    label: pattern.label,
+                    id: id,
+                    officialUrl: url,
+                    displayLabel: label,
+                    apiPath: pattern.apiPath,
+                    matchedText: m[0]
+                };
+            }
+        }
+        return null;
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function setCache(key, value) {
+        if (lawCache.size >= MAX_CACHE_SIZE) {
+            const firstKey = lawCache.keys().next().value;
+            lawCache.delete(firstKey);
+        }
+        lawCache.set(key, value);
+    }
+
+    async function fetchLaw(citation) {
+        const cacheKey = citation.id;
+        if (lawCache.has(cacheKey)) {
+            return lawCache.get(cacheKey);
+        }
+
+        // County codes are resolved against the jurisdiction endpoint.
+        if (citation.type === 'county_code') {
+            const officialUrl = await resolveCountyUrl(citation.county, citation.state);
+            const countyName = citation.county || getJurisdiction().county || 'County';
+            const data = {
+                statute: {
+                    title: countyName + ' County Code of Ordinances',
+                    source_name: 'Municode County Code of Ordinances',
+                    official_url: officialUrl,
+                    last_verified: '2026-08-21',
+                    summary: 'County-level ordinances for ' + countyName + '.',
+                    full_text: '',
+                }
+            };
+            setCache(cacheKey, data);
+            return data;
+        }
+
+        if (!citation.apiPath) {
+            return { error: 'no_api', message: 'No API endpoint for this citation type. Use the official source link.' };
+        }
+        try {
+            const res = await fetch(citation.apiPath + citation.id, {
+                credentials: 'include'
+            });
+            if (!res.ok) {
+                if (res.status === 404) {
+                    return { error: 'not_found', message: 'Law not found in database. Use the official source link.' };
+                }
+                throw new Error('HTTP ' + res.status);
+            }
+            const data = await res.json();
+            setCache(cacheKey, data);
+            return data;
+        } catch (e) {
+            console.error('Law Linker fetch error:', e);
+            return { error: 'fetch_failed', message: 'Unable to load law text. Use the official source link.' };
+        }
+    }
+
+    function showPopup(element, citation) {
+        if (!popup) popup = createPopup();
+
+        const rect = element.getBoundingClientRect();
+        popup.querySelector('.law-linker-citation').textContent = citation.displayLabel;
+        popup.querySelector('.law-linker-type').textContent = citation.label;
+        popup.querySelector('.law-linker-content').innerHTML = '<div class="law-linker-loading">Loading...</div>';
+        popup.querySelector('.law-linker-full').href = citation.officialUrl;
+        popup.querySelector('.law-linker-source-name').textContent = 'Source: official';
+
+        let left = rect.left + window.scrollX;
+        let top = rect.bottom + window.scrollY + 8;
+
+        if (left + 450 > window.innerWidth) {
+            left = window.innerWidth - 460;
+        }
+        if (top + 300 > window.innerHeight + window.scrollY) {
+            top = rect.top + window.scrollY - 308;
+        }
+
+        popup.style.left = left + 'px';
+        popup.style.top = top + 'px';
+        popup.classList.add('visible');
+        attachScrollHandler();
+
+        fetchLaw(citation).then(data => {
+            if (data && data.error) {
+                popup.querySelector('.law-linker-content').innerHTML = '<p>' + escapeHtml(data.message) + '</p>';
+                return;
+            }
+            const s = data.statute || data.case || data.rule;
+            if (!s) {
+                popup.querySelector('.law-linker-content').innerHTML = '<p>Could not load law text. Use the official source link.</p>';
+                return;
+            }
+            const fullText = s.full_text ? (s.full_text.length > 800 ? s.full_text.substring(0, 800) + '...' : s.full_text) : '';
+            const verified = s.last_verified ? '<div class="law-verified">Last verified: ' + escapeHtml(s.last_verified) + '</div>' : '';
+            const sourceName = s.source_name || 'official source';
+            popup.querySelector('.law-linker-source-name').textContent = 'Source: ' + sourceName;
+            if (s.official_url) {
+                popup.querySelector('.law-linker-full').href = s.official_url;
+            }
+            const summary = s.summary || s.holding || '';
+            const title = s.title || s.case_name || '';
+            popup.querySelector('.law-linker-content').innerHTML = `
+                <h4>${escapeHtml(title)}</h4>
+                <p>${escapeHtml(summary)}</p>
+                ${fullText ? '<div class="law-fulltext">' + escapeHtml(fullText) + '</div>' : ''}
+                ${verified}
+            `;
+        });
+    }
+
+    function hidePopup() {
+        if (popup) popup.classList.remove('visible');
+        if (scrollHandler) {
+            window.removeEventListener('scroll', scrollHandler);
+            scrollHandler = null;
+        }
+    }
+
+    function attachScrollHandler() {
+        if (scrollHandler) return;
+        scrollHandler = () => hidePopup();
+        window.addEventListener('scroll', scrollHandler, { passive: true });
+    }
+
+    // =========================================================================
+    // Process element — scan text nodes for any recognized citation
+    // =========================================================================
+    async function processElement(element) {
+        if (element.closest && element.closest('.law-linker-cite, #law-linker-popup')) return;
+        await loadJurisdiction();
+
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+        const nodesToReplace = [];
+        let node;
+
+        while (node = walker.nextNode()) {
+            const text = node.textContent;
+            // Quick check: does this text contain any citation pattern?
+            let hasCitation = false;
+            for (const pattern of CITATION_PATTERNS) {
+                if (pattern.detect.test(text)) {
+                    hasCitation = true;
+                    break;
+                }
+            }
+            if (!hasCitation) continue;
+            // Reset regex state
+            for (const pattern of CITATION_PATTERNS) {
+                pattern.detect.lastIndex = 0;
+                pattern.regex.lastIndex = 0;
+            }
+            if (node.parentElement && node.parentElement.closest('.law-linker-cite, #law-linker-popup')) continue;
+
+            // Find all citation matches with their positions
+            const matches = [];
+            for (const pattern of CITATION_PATTERNS) {
+                pattern.regex.lastIndex = 0;
+                let m;
+                while ((m = pattern.regex.exec(text)) !== null) {
+                    const args = m.slice(1);
+                    const citation = {
+                        type: pattern.type,
+                        label: pattern.label,
+                        id: pattern.idBuilder.apply(null, args),
+                        officialUrl: pattern.urlBuilder.apply(null, args),
+                        displayLabel: pattern.displayLabel.apply(null, args),
+                        apiPath: pattern.apiPath,
+                        matchedText: m[0]
+                    };
+
+                    // County codes must be resolved against the user's jurisdiction
+                    // before we create the link.
+                    if (citation.type === 'county_code') {
+                        const county = cleanCountyName(args[0] || getJurisdiction().county || '');
+                        const state = getJurisdiction().state || 'MN';
+                        citation.county = county;
+                        citation.state = state;
+                        citation.id = 'county_' + county.toLowerCase().replace(/\s+/g, '_');
+                        citation.displayLabel = county + ' County Code';
+                        citation.officialUrl = await resolveCountyUrl(county, state);
+                    }
+
+                    matches.push({ index: m.index, length: m[0].length, citation });
+                }
+            }
+
+            if (matches.length === 0) continue;
+
+            // Sort matches by position and remove overlaps
+            matches.sort((a, b) => a.index - b.index);
+            const nonOverlapping = [];
+            let lastEnd = -1;
+            for (const match of matches) {
+                if (match.index >= lastEnd) {
+                    nonOverlapping.push(match);
+                    lastEnd = match.index + match.length;
+                }
+            }
+
+            // Build parts array
+            const parts = [];
+            let lastIndex = 0;
+            for (const match of nonOverlapping) {
+                if (match.index > lastIndex) {
+                    parts.push({ type: 'text', content: text.slice(lastIndex, match.index) });
+                }
+                parts.push({ type: 'cite', content: text.slice(match.index, match.index + match.length), citation: match.citation });
+                lastIndex = match.index + match.length;
+            }
+            if (lastIndex < text.length) {
+                parts.push({ type: 'text', content: text.slice(lastIndex) });
+            }
+
+            if (parts.some(p => p.type === 'cite')) {
+                nodesToReplace.push({ node, parts });
+            }
+        }
+
+        nodesToReplace.forEach(({ node, parts }) => {
+            const parent = node.parentNode;
+            if (!parent) return;
+            parts.forEach(part => {
+                if (part.type === 'text') {
+                    parent.insertBefore(document.createTextNode(part.content), node);
+                } else {
+                    const span = document.createElement('span');
+                    span.className = 'law-linker-cite';
+                    span.textContent = part.content;
+                    span.dataset.citation = JSON.stringify(part.citation);
+                    span.title = part.citation.displayLabel + ' — Click to view official source';
+                    // Hover popup
+                    span.addEventListener('mouseenter', () => showPopup(span, part.citation));
+                    span.addEventListener('mouseleave', hidePopup);
+                    // Click opens the Law Linker pop-out window
+                    span.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const popOutUrl = '/law-linker/pop-out?citation=' + encodeURIComponent(part.citation.matchedText);
+                        window.open(popOutUrl, 'law_linker_popout', 'width=700,height=700,resizable=1,scrollbars=1,status=0,location=0');
+                    });
+                    parent.insertBefore(span, node);
+                }
+            });
+            parent.removeChild(node);
+        });
+    }
+
+    // =========================================================================
+    // Public API
+    // =========================================================================
+    window.LawLinker = {
+        init: async function(selector) {
+            initStyles();
+            await loadJurisdiction();
+            let elements;
+            if (selector) {
+                elements = document.querySelectorAll(selector);
+            } else {
+                // Prefer explicitly-marked elements, fall back to main content
+                elements = document.querySelectorAll('[data-law-linker]');
+                if (elements.length === 0) {
+                    elements = document.querySelectorAll('main, article, .law-summary, .law-card, .modal-section, .content, .document-body, .analysis-text');
+                }
+            }
+            for (const el of elements) {
+                await processElement(el);
+            }
+        },
+        process: processElement,
+        parseCitation: parseCitation
+    };
+
+    // =========================================================================
+    // Mutation observer — keep marking citations in dynamically added content
+    // =========================================================================
+    function setupMutationObserver() {
+        const root = document.querySelector('main') || document.body;
+        if (!root) return;
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType !== Node.ELEMENT_NODE) continue;
+                    if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE') continue;
+                    if (node.closest && node.closest('.law-linker-cite, #law-linker-popup, #law-scratch-menu')) continue;
+                    processElement(node);
+                }
+            }
+        });
+        observer.observe(root, { childList: true, subtree: true });
+    }
+
+    // =========================================================================
+    // Right-click "Copy to Scratch Pad" for any selected text
+    // =========================================================================
+    function createScratchMenu() {
+        const menu = document.createElement('div');
+        menu.id = 'law-scratch-menu';
+        menu.style.cssText = 'position:fixed;z-index:11000;display:none;background:var(--color-primary-dark);border:1px solid var(--color-gray-600);border-radius:8px;box-shadow:0 10px 25px color-mix(in srgb, var(--color-black), transparent 60%);padding:4px 0;min-width:160px;color:var(--text-inverse);font-size:0.85rem;';
+        menu.innerHTML = '<button type="button" style="display:block;width:100%;text-align:left;padding:8px 16px;background:none;border:none;color:inherit;cursor:pointer;" data-action="save">Copy to Scratch Pad</button>';
+        document.body.appendChild(menu);
+
+        menu.addEventListener('click', async (e) => {
+            const selection = window.getSelection ? window.getSelection().toString().trim() : '';
+            if (!selection) {
+                hideScratchMenu();
+                return;
+            }
+            try {
+                const res = await fetch('/api/sticky-notes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: selection, source: window.location.pathname })
+                });
+                if (res.ok) {
+                    menu.innerHTML = '<span style="display:block;padding:8px 16px;color:var(--color-calm-200);">Saved</span>';
+                    setTimeout(hideScratchMenu, 800);
+                } else {
+                    menu.innerHTML = '<span style="display:block;padding:8px 16px;color:var(--color-error);">Could not save</span>';
+                    setTimeout(() => menu.innerHTML = '<button type="button" style="display:block;width:100%;text-align:left;padding:8px 16px;background:none;border:none;color:inherit;cursor:pointer;" data-action="save">Copy to Scratch Pad</button>', 1200);
+                }
+            } catch (err) {
+                menu.innerHTML = '<span style="display:block;padding:8px 16px;color:var(--color-error);">Could not save</span>';
+                setTimeout(() => menu.innerHTML = '<button type="button" style="display:block;width:100%;text-align:left;padding:8px 16px;background:none;border:none;color:inherit;cursor:pointer;" data-action="save">Copy to Scratch Pad</button>', 1200);
+            }
+        });
+
+        document.addEventListener('click', () => hideScratchMenu());
+        document.addEventListener('scroll', () => hideScratchMenu(), { passive: true });
+        return menu;
+    }
+
+    function hideScratchMenu() {
+        const menu = document.getElementById('law-scratch-menu');
+        if (menu) menu.style.display = 'none';
+    }
+
+    function showScratchMenu(x, y) {
+        let menu = document.getElementById('law-scratch-menu');
+        if (!menu) menu = createScratchMenu();
+        menu.innerHTML = '<button type="button" style="display:block;width:100%;text-align:left;padding:8px 16px;background:none;border:none;color:inherit;cursor:pointer;" data-action="save">Copy to Scratch Pad</button>';
+        menu.style.display = 'block';
+        const rect = menu.getBoundingClientRect();
+        let left = x;
+        let top = y;
+        if (left + rect.width > window.innerWidth) left = window.innerWidth - rect.width - 8;
+        if (top + rect.height > window.innerHeight) top = window.innerHeight - rect.height - 8;
+        menu.style.left = left + 'px';
+        menu.style.top = top + 'px';
+    }
+
+    document.addEventListener('contextmenu', (e) => {
+        const selection = window.getSelection ? window.getSelection().toString().trim() : '';
+        if (!selection) return;
+        if (e.target.closest && e.target.closest('.law-linker-cite, #law-linker-popup, #law-scratch-menu')) return;
+        e.preventDefault();
+        showScratchMenu(e.clientX, e.clientY);
+    });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => LawLinker.init().then(setupMutationObserver));
+    } else {
+        LawLinker.init().then(setupMutationObserver);
+    }
+})();
