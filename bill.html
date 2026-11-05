@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Minnesota Rent Assurance Bill — Semptify</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="A Minnesota housing bill written in public — the live draft, the numbers behind it, and how to weigh in. For renters, providers, students, and neighbors. No cost, no tracking.">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#002d5c">
+<meta name="color-scheme" content="light">
+<title>The Minnesota Rent Assurance Bill — Semptify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="topbar">
+    <a class="brand" href="/bill">The Bill</a>
+    <nav>
+        <a href="/bill" aria-current="page">The Bill</a>
+        <a href="/bill/live">Live draft</a>
+        <a href="/bill/research">The numbers</a>
+        <a href="/what-the-bill-changes">What it changes</a>
+        <a href="/your-voice">Your Voice</a>
+        <a href="/">Semptify &rarr;</a>
+    </nav>
+</header>
+
+
 <style>
 :root{
     --dawn-deep:#0b1e33; --dawn-mid:#14324f; --dawn-rose:#b85c38; --dawn-gold:#f2a65a;
@@ -68,9 +90,6 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
 .foot-flags img{height:34px;border:1px solid rgba(232,238,244,.25);border-radius:2px}
 .foot a{color:var(--ink-soft)}
 </style>
-</head>
-<body>
-
 <div class="scene" aria-hidden="true">
     <img class="lake" src="/static/img/bill-scene-day.jpg" alt="">
 
@@ -79,15 +98,7 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
     <div class="fogband f2"></div>
 </div>
 
-<header class="topbar">
-    <a class="brand" href="/">Semptify</a>
-    <nav>
-        <a href="/bill" class="here">The Bill</a>
-        <a href="/bill/live">Live draft</a>
-        <a href="/bill/research">The numbers</a>
-        <a href="/your-voice">Your Voice</a>
-    </nav>
-</header>
+
 
 <section class="hero">
     <p class="kicker">The Minnesota Rent Assurance Bill</p>
@@ -134,6 +145,12 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
     </div>
 </main>
 
+
+<style>
+    .foot-legal { margin-top: .8rem; }
+    .foot-legal a { color: var(--ink-soft); }
+    .foot-legal a:hover { color: var(--gold); }
+</style>
 <footer class="foot">
     <div class="foot-flags">
         <img src="/static/img/flag-us.svg" alt="Flag of the United States">
@@ -142,7 +159,15 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
     <p>Semptify carries no advertising — not this page, not anywhere on the site, ever.
     A pre-nonprofit Minnesota project. Flags of the United States and of Minnesota appear
     unaltered per Minn. Stat. § 609.40.</p>
+    <p class="foot-legal">
+        <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot;
+        <a href="/disclaimer">Disclaimer</a> &middot; <a href="/accessibility">Accessibility</a> &middot;
+        <a href="/contact">Contact</a> &middot; <a href="/">Semptify.org</a><br>
+        Semptify is not legal advice — for case-specific guidance, contact a licensed Minnesota attorney.
+    </p>
 </footer>
+
+<script src="/static/js/law-linker.js"></script>
 
 </body>
 </html>
