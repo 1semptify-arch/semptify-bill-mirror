@@ -9,7 +9,7 @@
 <title>The Live Draft — Minnesota Rent Assurance Bill — Semptify</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 <style>
 /* ============================================================================
    bill.css - THE BILL MICROSITE single stylesheet (vendored, self-contained).
@@ -1815,13 +1815,76 @@ body.shell .shell-step-desc {
   color: var(--body-text);
 }
 
-/* Bill-section typography — the document itself is set in a period
-   print face; UI chrome stays in the system stack. */
+/* Bill document — the bill text itself is set as an old printed
+   instrument: parchment ground, period faces, sepia ink. UI chrome and
+   annotations stay in the system stack. */
+[data-theme="northstar"] .bill-text,
+[data-theme="northstar"] .yv-draft {
+  --doc-parchment: #f2e7cb;
+  --doc-ink: #3a2f24;
+  --doc-ink-soft: #6b5a44;
+  --doc-rule: #c9b78d;
+  background-color: var(--doc-parchment);
+  background-image:
+    radial-gradient(ellipse 60% 45% at 15% 8%, rgba(255, 250, 230, 0.55), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 88% 92%, rgba(146, 110, 55, 0.10), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(110, 85, 45, 0.02) 0 2px, transparent 2px 6px);
+  border: 1px solid var(--doc-rule);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 252, 238, 0.6),
+    inset 0 0 34px rgba(146, 110, 55, 0.10),
+    0 1px 3px rgba(0, 45, 92, 0.10);
+  color: var(--doc-ink);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
 [data-theme="northstar"] .bill-text,
 [data-theme="northstar"] .bill-text h1,
 [data-theme="northstar"] .bill-text h2,
-[data-theme="northstar"] .bill-text h3 {
+[data-theme="northstar"] .bill-text h3,
+[data-theme="northstar"] .bill-text p,
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft,
+[data-theme="northstar"] .yv-draft h3,
+[data-theme="northstar"] .yv-draft p,
+[data-theme="northstar"] .yv-draft li {
   font-family: "IM Fell English", Georgia, serif;
+}
+
+[data-theme="northstar"] .bill-text p,
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft p,
+[data-theme="northstar"] .yv-draft li {
+  color: var(--doc-ink);
+}
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft li {
+  color: var(--doc-ink-soft);
+}
+
+/* Section heads inside the document get the blackletter face — the
+   "old instrument" signal; the bill body stays in Fell English. */
+[data-theme="northstar"] .bill-text h3,
+[data-theme="northstar"] .yv-draft h3 {
+  font-family: "UnifrakturMaguntia", "IM Fell English", Georgia, serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.25;
+}
+
+/* Draft annotations are modern marginalia — sans, not period face. */
+[data-theme="northstar"] .bill-text .draft-label,
+[data-theme="northstar"] .bill-text .draft-status,
+[data-theme="northstar"] .yv-draft .draft-label,
+[data-theme="northstar"] .yv-draft .draft-status {
+  font-family: var(--font-sans);
+}
+[data-theme="northstar"] .bill-text .draft-status,
+[data-theme="northstar"] .yv-draft .draft-status {
+  border-top-color: var(--doc-rule);
+  color: var(--doc-ink-soft);
 }
 
 /* Explicit-theme pin — northstar is a LIGHT-ONLY palette (white star card,
@@ -2060,7 +2123,7 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
 
 
 <style>
-.bill-text { background:var(--card-bg); padding:2rem 2.25rem; max-width:46rem;
+.bill-text { padding:2rem 2.25rem; max-width:46rem;
                  font-size:1.05rem; line-height:1.7; }
     .bill-text h3 { color:var(--accent-primary); margin:1.6rem 0 0.4rem; font-size:1.35rem; }
     .bill-text p { margin:0 0 1rem; }
