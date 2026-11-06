@@ -34,6 +34,17 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-06
 
+- **Desk scene replaces lake on interior pages** (swe-2, Brad's spec):
+  sitter's-POV oak desk — worn front edge, haphazard written-on parchment
+  stack left, fresh sheet front-center, ink bottle, quill resting right,
+  half-burnt candlestick back-left. Animations: candle-flame flicker +
+  halo/light pulse, quill lifts and writes left→right laying a visible
+  ink line that fades, dust motes. Quill write disabled ≤700px (would
+  smudge behind the content column); all motion off under
+  prefers-reduced-motion. Lamplit parchment pool added behind .shell-main
+  for heading contrast. Cover (/bill deck) keeps the lake scene.
+  Built via build.py; verified locally at 1280px + 375px, console clean.
+  NOT yet pushed — awaiting Brad's visual check.
 - **MN manuscript theme applied** — lake-dawn scene (mn-lake-sunrise.jpg)
   + MN flag + loon + cherry branch + ink-bottle/quill SVG on all bill
   pages; interior pages' cards now parchment (doc-page.jpeg texture);

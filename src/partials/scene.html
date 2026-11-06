@@ -1,21 +1,203 @@
-<!-- MN scene — fixed full-screen backdrop: lake at dawn, state flag,
-     loon on the water, cherry branch, ink bottle + quill. aria-hidden:
-     purely decorative; every meaning is also in the text. -->
-<div class="mn-scene" aria-hidden="true">
-    <img class="mn-scene__lake" src="/static/img/mn-lake-sunrise.jpg" alt="">
-    <div class="mn-scene__scrim"></div>
-    <img class="mn-scene__flag" src="/static/img/mn-flag.png" alt="">
-    <img class="mn-scene__cherry" src="/static/img/cherry.jpg" alt="">
-    <img class="mn-scene__loon" src="/static/img/loon.png" alt="">
-    <svg class="mn-scene__ink" viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M24 8c0 0-9 10-9 22a9 9 0 0 0 18 0c0-12-9-22-9-22z"/>
-        <path d="M19 38h10M24 30v16"/>
-        <rect x="17" y="46" width="14" height="12" rx="2"/>
+<!-- Desk scene — fixed full-screen backdrop for every interior bill page.
+     POV: sitting in the chair at a big old oak desk. A haphazard stack of
+     written-on parchment sheets sits left; a fresh sheet waits front-center;
+     ink bottle beside it; a long quill rests to the right and periodically
+     lifts to write; a half-burnt candle burns back-left, its flame flickering
+     and throwing warm light across the wood.
+     Pure SVG — no external assets, works from file:// like the rest of the
+     microsite. aria-hidden: purely decorative; every meaning is in the text.
+     All motion is CSS in bill.css (.desk-scene*); prefers-reduced-motion
+     leaves the scene lit and at rest. -->
+<div class="desk-scene" aria-hidden="true">
+    <svg class="desk-scene__svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="dWall" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2b1d12"/>
+                <stop offset=".55" stop-color="#22160d"/>
+                <stop offset="1" stop-color="#170e08"/>
+            </linearGradient>
+            <linearGradient id="dOak" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#5a3b21"/>
+                <stop offset=".45" stop-color="#7a5230"/>
+                <stop offset=".8" stop-color="#8a5f38"/>
+                <stop offset="1" stop-color="#7c5530"/>
+            </linearGradient>
+            <linearGradient id="dEdge" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8a5f38"/>
+                <stop offset=".12" stop-color="#a4763f"/>
+                <stop offset=".45" stop-color="#5c3d22"/>
+                <stop offset="1" stop-color="#3c2613"/>
+            </linearGradient>
+            <radialGradient id="dCandleGlow" cx=".5" cy=".5" r=".5">
+                <stop offset="0" stop-color="#ffca6e" stop-opacity=".55"/>
+                <stop offset=".45" stop-color="#e89b45" stop-opacity=".22"/>
+                <stop offset="1" stop-color="#e89b45" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="dLightWash" cx=".36" cy=".42" r=".75">
+                <stop offset="0" stop-color="#ffbe62" stop-opacity=".38"/>
+                <stop offset=".5" stop-color="#c07f3a" stop-opacity=".16"/>
+                <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="dFlameOuter" cx=".5" cy=".62" r=".5">
+                <stop offset="0" stop-color="#ffe9a8"/>
+                <stop offset=".55" stop-color="#ff9d33"/>
+                <stop offset="1" stop-color="#c85c17" stop-opacity=".85"/>
+            </radialGradient>
+            <linearGradient id="dFlameCore" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fffbe8"/>
+                <stop offset=".7" stop-color="#ffd76e"/>
+                <stop offset="1" stop-color="#ff9d33"/>
+            </linearGradient>
+            <linearGradient id="dParch" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f3e8cc"/>
+                <stop offset="1" stop-color="#ddc99b"/>
+            </linearGradient>
+            <linearGradient id="dParchFresh" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f7edd4"/>
+                <stop offset="1" stop-color="#e6d4a8"/>
+            </linearGradient>
+            <linearGradient id="dBrass" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#8a6a34"/>
+                <stop offset=".5" stop-color="#b08b45"/>
+                <stop offset="1" stop-color="#6e5124"/>
+            </linearGradient>
+            <linearGradient id="dGlass" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#3a4a52"/>
+                <stop offset=".5" stop-color="#1c262b"/>
+                <stop offset="1" stop-color="#0d1417"/>
+            </linearGradient>
+            <linearGradient id="dQuillVane" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f4efe2"/>
+                <stop offset=".7" stop-color="#ddd2b6"/>
+                <stop offset="1" stop-color="#c4b48f"/>
+            </linearGradient>
+            <linearGradient id="dQuillShaft" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e9e0c8"/>
+                <stop offset="1" stop-color="#a89372"/>
+            </linearGradient>
+            <filter id="dBlur6"><feGaussianBlur stdDeviation="6"/></filter>
+            <filter id="dBlur10"><feGaussianBlur stdDeviation="10"/></filter>
+            <filter id="dBlur18"><feGaussianBlur stdDeviation="18"/></filter>
+            <filter id="dWood" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="3" seed="7" result="n"/>
+                <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.24  0 0 0 0 0.15  0 0 0 0 0.07  0 0 0 .55 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in"/>
+            </filter>
+        </defs>
+
+        <!-- room wall behind the desk -->
+        <rect x="0" y="0" width="1600" height="385" fill="url(#dWall)"/>
+        <ellipse cx="455" cy="300" rx="330" ry="200" fill="url(#dCandleGlow)" class="desk-glowwall"/>
+
+        <!-- oak desktop: surface + worn front face -->
+        <polygon points="150,345 1450,345 1700,868 -100,868" fill="url(#dOak)"/>
+        <polygon points="150,345 1450,345 1700,868 -100,868" fill="#000" filter="url(#dWood)" opacity=".55"/>
+        <!-- grain streaks drawn with the perspective -->
+        <g stroke="#3c2410" fill="none" opacity=".28">
+            <path d="M210,400 Q800,392 1390,398" stroke-width="2.2"/>
+            <path d="M170,470 Q800,460 1440,468" stroke-width="3"/>
+            <path d="M120,560 Q800,546 1510,556" stroke-width="3.4"/>
+            <path d="M60,670 Q800,652 1590,664" stroke-width="4"/>
+            <path d="M0,780 Q800,758 1660,772" stroke-width="4.6"/>
+        </g>
+        <ellipse cx="1140" cy="610" rx="60" ry="16" fill="#3c2410" opacity=".2"/>
+        <ellipse cx="380" cy="720" rx="46" ry="13" fill="#3c2410" opacity=".16"/>
+        <!-- front face of the desk — end grain, worn lighter along the lip -->
+        <polygon points="-100,868 1700,868 1700,900 -100,900" fill="url(#dEdge)"/>
+        <path d="M-100,866 L1700,866" stroke="#c69a5e" stroke-width="3" opacity=".5"/>
+        <ellipse cx="640" cy="868" rx="90" ry="6" fill="#c69a5e" opacity=".28"/>
+        <ellipse cx="1180" cy="868" rx="70" ry="5" fill="#c69a5e" opacity=".22"/>
+
+        <!-- warm wash of candlelight over the desktop -->
+        <rect class="desk-light" x="0" y="300" width="1600" height="600" fill="url(#dLightWash)"/>
+
+        <!-- ==== candlestick, back-left ==== -->
+        <g class="desk-candle" transform="translate(455,495) scale(1.22) translate(-455,-495)">
+            <ellipse cx="455" cy="512" rx="58" ry="14" fill="#160e07" opacity=".5" filter="url(#dBlur6)"/>
+            <ellipse cx="455" cy="505" rx="52" ry="13" fill="url(#dBrass)"/>
+            <ellipse cx="455" cy="502" rx="38" ry="9" fill="#7d6030"/>
+            <path d="M443,500 L449,424 L461,424 L467,500 Z" fill="url(#dBrass)"/>
+            <ellipse cx="455" cy="424" rx="26" ry="7" fill="url(#dBrass)"/>
+            <!-- half-burnt candle + wax drips -->
+            <rect x="441" y="352" width="28" height="74" rx="4" fill="#efe6d2"/>
+            <path d="M441,356 q-3,18 2,30 l4,-4 q-6,-14 -2,-26 Z" fill="#e2d6ba"/>
+            <path d="M469,358 q4,16 0,32 l-4,-4 q5,-16 0,-28 Z" fill="#e2d6ba"/>
+            <ellipse cx="455" cy="353" rx="14" ry="4.5" fill="#f7efdd"/>
+            <ellipse cx="455" cy="353" rx="9" ry="3" fill="#e0d3b4"/>
+            <line x1="455" y1="352" x2="455" y2="342" stroke="#241708" stroke-width="2.4"/>
+            <!-- flame: glow + body + core + blue base -->
+            <g class="desk-flame">
+                <ellipse class="desk-flame__halo" cx="455" cy="322" rx="46" ry="60" fill="url(#dCandleGlow)"/>
+                <path class="desk-flame__body" d="M455,300 C470,318 468,336 455,344 C442,336 440,318 455,300 Z" fill="url(#dFlameOuter)"/>
+                <path class="desk-flame__core" d="M455,318 C462,328 461,338 455,342 C449,338 448,328 455,318 Z" fill="url(#dFlameCore)"/>
+                <ellipse cx="455" cy="340" rx="5" ry="4" fill="#5a86c8" opacity=".55"/>
+            </g>
+        </g>
+
+        <!-- ==== haphazard stack of written-on parchment, left-center ==== -->
+        <g class="desk-stack">
+            <ellipse cx="700" cy="588" rx="180" ry="22" fill="#160e07" opacity=".45" filter="url(#dBlur10)"/>
+            <g transform="translate(700,545)">
+                <g transform="rotate(-6)"><rect x="-160" y="-50" width="320" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/></g>
+                <g transform="rotate(4)"><rect x="-158" y="-58" width="316" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/></g>
+                <g transform="rotate(-3)"><rect x="-162" y="-66" width="322" height="122" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
+                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-140,-46 h180 M-140,-30 h230 M-140,-14 h160 M-140,2 h220 M-140,18 h190 M-140,34 h210"/></g>
+                </g>
+                <g transform="rotate(5)"><rect x="-156" y="-74" width="314" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
+                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-136,-54 h200 M-136,-38 h170 M-136,-22 h230 M-136,-6 h150 M-136,10 h200"/></g>
+                </g>
+                <g transform="rotate(-4)"><rect x="-160" y="-82" width="320" height="124" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
+                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-140,-62 h190 M-140,-46 h220 M-140,-30 h160 M-140,-14 h205 M-140,2 h170 M-140,18 h215"/></g>
+                    <path d="M-140,-74 q60,-8 120,0" stroke="#5c4525" stroke-width="2.6" fill="none" opacity=".5"/>
+                </g>
+            </g>
+        </g>
+
+        <!-- ==== the fresh sheet, front-center — ready to take the ink ==== -->
+        <g class="desk-sheet" transform="translate(800,700) rotate(-1.5)">
+            <rect x="-215" y="-140" width="430" height="300" rx="4" fill="#160e07" opacity=".45" filter="url(#dBlur10)" transform="translate(6,10)"/>
+            <rect x="-215" y="-140" width="430" height="300" rx="4" fill="url(#dParchFresh)" stroke="#b89a63" stroke-width="1.2"/>
+            <path d="M-215,-140 h430 M-215,160 h430" stroke="#fff" stroke-width="1" opacity=".35"/>
+            <!-- the ink line the quill lays down while it writes -->
+            <path class="desk-inkline" d="M-150,-80 C-120,-92 -90,-72 -60,-84 S0,-96 30,-82 S90,-70 120,-84 M-140,-30 C-100,-44 -60,-24 -20,-38 S60,-48 100,-34" fill="none" stroke="#4a3520" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+
+        <!-- ==== ink bottle, left of the fresh sheet ==== -->
+        <g class="desk-bottle" transform="translate(545,735)">
+            <ellipse cx="0" cy="52" rx="46" ry="12" fill="#160e07" opacity=".5" filter="url(#dBlur6)"/>
+            <path d="M-30,-14 Q-34,38 -26,48 Q0,58 26,48 Q34,38 30,-14 Z" fill="url(#dGlass)"/>
+            <path d="M-24,-14 L-14,-34 L14,-34 L24,-14 Z" fill="url(#dGlass)"/>
+            <rect x="-16" y="-40" width="32" height="10" rx="3" fill="#10181c" stroke="#3a4a52" stroke-width="1"/>
+            <ellipse cx="0" cy="22" rx="24" ry="18" fill="#0a0f14"/>
+            <path d="M-22,-6 q-4,30 0,44" stroke="#7d99a8" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>
+        </g>
+
+        <!-- ==== quill, right side toward the front — lifts and writes ==== -->
+        <g class="desk-quill" transform="translate(1035,795)">
+            <ellipse class="desk-quill__shadow" cx="-30" cy="16" rx="110" ry="14" fill="#160e07" opacity=".45" filter="url(#dBlur6)"/>
+            <g class="desk-quill__tilt">
+                <g class="desk-quill__vane" transform="rotate(-38)">
+                    <!-- feather vane -->
+                    <path d="M0,0 C-26,-46 -38,-112 -30,-196 C-16,-134 -8,-66 6,-8 Z" fill="url(#dQuillVane)"/>
+                    <path d="M0,0 C24,-42 30,-104 22,-186 C10,-124 2,-62 -8,-6 Z" fill="#eae2cc"/>
+                    <g stroke="#b3a27c" stroke-width="1" opacity=".45">
+                        <path d="M-14,-50 L-27,-74 M-12,-84 L-27,-108 M-9,-118 L-25,-142"/>
+                        <path d="M10,-44 L22,-66 M9,-76 L22,-100 M6,-108 L19,-132"/>
+                    </g>
+                    <!-- shaft tapering to the nib -->
+                    <path d="M2,-190 L-1,4 L3,4 L7,-186 Z" fill="url(#dQuillShaft)"/>
+                    <path d="M-1,4 L2,14 L5,4 Z" fill="#8a6f48"/>
+                    <path d="M2,14 L2.6,10" stroke="#4a3520" stroke-width="1.6"/>
+                </g>
+            </g>
+        </g>
+
+        <!-- dust motes drifting through the candlelight -->
+        <g class="desk-motes" fill="#ffdf9e">
+            <circle class="desk-mote desk-mote--a" cx="390" cy="430" r="2.2"/>
+            <circle class="desk-mote desk-mote--b" cx="520" cy="470" r="1.8"/>
+            <circle class="desk-mote desk-mote--c" cx="330" cy="520" r="2.6"/>
+        </g>
     </svg>
-    <svg class="mn-scene__quill" viewBox="0 0 64 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 84C30 62 44 40 50 10c1-5 6-5 6 0 2 22-8 48-24 66-3 3-8 1-8-4 0-3 2-6 6-8z"/>
-        <path d="M20 76c8-14 18-30 26-44M26 68c6-10 12-20 17-30"/>
-    </svg>
-    <div class="mn-scene__mist mn-scene__mist--a"></div>
-    <div class="mn-scene__mist mn-scene__mist--b"></div>
+    <div class="desk-scene__scrim"></div>
 </div>
