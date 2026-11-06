@@ -2089,113 +2089,124 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
 }
 
 /* ============================================================
-   DESK SCENE — bill microsite interior pages
-   Sitter's-POV oak desk behind the parchment content: haphazard
-   written-on stack left, fresh sheet front-center, ink bottle,
-   quill resting right. Candle flame flickers; the quill lifts and
-   writes on the fresh sheet; warm light pulses with the flame;
-   dust motes drift in the glow. Pure SVG + CSS, no assets.
+   PARCHMENT LIQUID LAYOUT — bill microsite interior pages
+   True-liquid shell: low-profile Semptify bar in the header,
+   the bill nav as a top rail inside the body, a tools rail left,
+   content center, an options+board rail right. Flat warm
+   parchment backdrop — no fixed scene (desk scene retired to
+   git history, commit 9353a37).
    ============================================================ */
 
-/* ——— the fixed scene ——— */
-.desk-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.desk-scene__svg{position:absolute;inset:0;width:100%;height:100%}
-/* readability scrim — keeps parchment cards legible over the wood,
-   deepens toward the top where nav + header sit, holds the corners
-   in shadow like a room lit by one candle */
-.desk-scene__scrim{position:absolute;inset:0;background:
-    radial-gradient(ellipse 90% 70% at 50% 62%, transparent 30%, rgba(12,7,3,.42) 100%),
-    linear-gradient(180deg, rgba(14,9,5,.55) 0%, rgba(14,9,5,.18) 26%, rgba(14,9,5,.10) 55%, rgba(14,9,5,.30) 100%)}
+/* ——— the fixed parchment backdrop ——— */
+.paper-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:#f3ead6;
+    background-image:
+        radial-gradient(ellipse 55% 38% at 22% -4%, rgba(255,252,240,.8), transparent 72%),
+        radial-gradient(ellipse 46% 52% at 104% 104%, rgba(146,110,55,.07), transparent 72%),
+        repeating-linear-gradient(0deg, rgba(110,85,45,.022) 0 2px, transparent 2px 5px)}
 
-/* ——— candle flame — two layered animations: body flicker + halo breath ——— */
-.desk-flame{transform-box:fill-box;transform-origin:50% 100%;
-    animation:deskFlick 2.9s ease-in-out infinite}
-.desk-flame__halo{transform-box:fill-box;transform-origin:50% 50%;
-    animation:deskHalo 4.8s ease-in-out infinite alternate}
-@keyframes deskFlick{
-    0%,100%{transform:scale(1,1) skewX(0deg) translateX(0)}
-    12%{transform:scale(.97,1.06) skewX(-2.2deg) translateX(-1.2px)}
-    23%{transform:scale(1.03,.95) skewX(1.6deg) translateX(1px)}
-    31%{transform:scale(.98,1.09) skewX(-1deg) translateX(-.6px)}
-    44%{transform:scale(1.02,.97) skewX(2.4deg) translateX(1.4px)}
-    55%{transform:scale(.96,1.05) skewX(-2.8deg) translateX(-1.6px)}
-    68%{transform:scale(1.04,.94) skewX(1.2deg) translateX(.8px)}
-    80%{transform:scale(.98,1.07) skewX(-1.4deg) translateX(-1px)}
-    91%{transform:scale(1.01,.96) skewX(.8deg) translateX(.5px)}
-}
-@keyframes deskHalo{
-    from{opacity:.5;transform:scale(.94)}
-    to{opacity:.85;transform:scale(1.06)}
+/* ——— liquid frame: header | bill-nav rail | tools-main-options | footer ——— */
+body.bill-section{
+    grid-template-columns:minmax(11.5rem,1fr) minmax(0,3.2fr) minmax(13.5rem,1.1fr);
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    grid-template-areas:
+        "header header header"
+        "railtop railtop railtop"
+        "tools main options"
+        "footer footer footer";
+    background:transparent;
 }
 
-/* ——— candlelight washing the room — gentle pulse, follows the flame ——— */
-.desk-light{animation:deskLight 5.6s ease-in-out infinite alternate}
-.desk-glowwall{animation:deskLight 6.8s ease-in-out infinite alternate}
-@keyframes deskLight{from{opacity:.7}to{opacity:1}}
+/* ——— low-profile Semptify bar, visually part of the header ——— */
+.lp-header{grid-area:header;display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;min-height:2.25rem;padding:0 1.25rem;
+    background:var(--role-tint);border-bottom:1px solid var(--shell-line)}
+.lp-brand{font-weight:700;font-size:.95rem;color:var(--ns-navy);text-decoration:none;letter-spacing:.01em}
+.lp-mark{color:#8b1e2d;margin-right:.2rem}
+.lp-sempnav{display:flex;gap:1.1rem;align-items:center;overflow-x:auto;white-space:nowrap}
+.lp-sempnav a{font-size:.78rem;font-weight:500;color:var(--shell-ink-2);text-decoration:none}
+.lp-sempnav a:hover{color:#8b1e2d}
+.lp-sempnav a:first-child{color:#8b1e2d;font-weight:600}
 
-/* ——— the quill writes — 14s cycle: rest → lift → write → hover → settle ——— */
-.desk-quill__tilt{transform-box:fill-box;transform-origin:50% 96%;
-    animation:deskWrite 14s ease-in-out infinite}
-@keyframes deskWrite{
-    /* resting flat on the desk, right side toward the front */
-    0%,26%{transform:translate(0,0) rotate(0deg)}
-    /* lifts and glides left to the head of the sheet, tilting nib-down */
-    33%{transform:translate(-350px,-168px) rotate(22deg)}
-    /* writes left → right — strokes with little presses and lifts */
-    38%{transform:translate(-355px,-172px) rotate(24deg)}
-    43%{transform:translate(-315px,-164px) rotate(21deg)}
-    47%{transform:translate(-275px,-175px) rotate(26deg)}
-    51%{transform:translate(-235px,-166px) rotate(21deg)}
-    55%{transform:translate(-190px,-176px) rotate(25deg)}
-    58%{transform:translate(-150px,-168px) rotate(20deg)}
-    /* hovers a beat — reads what it wrote */
-    64%{transform:translate(-162px,-188px) rotate(26deg)}
-    /* glides back down to the right side of the desk */
-    78%,100%{transform:translate(0,0) rotate(0deg)}
-}
-.desk-quill__shadow{animation:deskQuillShadow 14s ease-in-out infinite}
-@keyframes deskQuillShadow{
-    0%,26%{opacity:.45;transform:translate(0,0) scale(1)}
-    33%{opacity:.28;transform:translate(-140px,-18px) scale(.8)}
-    38%,58%{opacity:.24;transform:translate(-180px,-14px) scale(.76)}
-    64%{opacity:.26;transform:translate(-150px,-16px) scale(.78)}
-    78%,100%{opacity:.45;transform:translate(0,0) scale(1)}
-}
+/* ——— bill nav: the body's top rail ——— */
+.rail-top{grid-area:railtop;display:flex;align-items:center;gap:.25rem;
+    padding:.35rem 1.25rem;background:rgba(243,234,214,.72);
+    border-bottom:1px solid #d9c9a3;overflow-x:auto;scrollbar-width:thin}
+.rail-top__link{flex:0 0 auto;font-size:.85rem;font-weight:600;color:#57452c;
+    text-decoration:none;padding:.45rem .85rem;border-bottom:2px solid transparent;
+    font-family:"IM Fell English",Georgia,serif}
+.rail-top__link:hover{color:#8b1e2d}
+.rail-top__link[aria-current="page"]{color:#0b3d6e;border-bottom-color:#8b1e2d}
+.rail-top__status{margin-left:auto;font-size:.72rem;color:#7d6845;white-space:nowrap;
+    font-style:italic}
 
-/* ——— the ink line appears while the quill writes, fades after ——— */
-.desk-inkline{stroke-dasharray:1400;stroke-dashoffset:1400;opacity:0;
-    animation:deskInk 14s linear infinite}
-@keyframes deskInk{
-    0%,36%{stroke-dashoffset:1400;opacity:0}
-    38%{opacity:.85}
-    58%{stroke-dashoffset:260;opacity:.85}
-    60%,76%{stroke-dashoffset:260;opacity:.85}
-    82%{stroke-dashoffset:260;opacity:0}
-    82.1%,100%{stroke-dashoffset:1400;opacity:0}
-}
+/* ——— side rails ——— */
+.rail{overflow-y:auto;padding:1rem .9rem;font-size:.85rem}
+.rail--tools{grid-area:tools;border-right:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail--options{grid-area:options;border-left:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail-title{font-family:"IM Fell English",Georgia,serif;font-weight:400;
+    font-size:.95rem;color:#57452c;margin:1.1rem 0 .4rem;letter-spacing:.02em}
+.rail-title:first-child{margin-top:0}
+.rail-list{list-style:none;margin:0;padding:0}
+.rail-list li{margin:.12rem 0}
+.rail-list a{color:#57452c;text-decoration:none;font-size:.82rem;
+    display:block;padding:.28rem .4rem;border-radius:4px}
+.rail-list a:hover{background:rgba(217,201,163,.5);color:#8b1e2d}
 
-/* ——— dust motes in the candlelight ——— */
-.desk-mote{opacity:0}
-.desk-mote--a{animation:deskMote 11s ease-in-out infinite}
-.desk-mote--b{animation:deskMote 14s ease-in-out 3s infinite}
-.desk-mote--c{animation:deskMote 17s ease-in-out 7s infinite}
-@keyframes deskMote{
-    0%{opacity:0;transform:translate(0,0)}
-    18%{opacity:.7}
-    55%{opacity:.5;transform:translate(18px,-56px)}
-    100%{opacity:0;transform:translate(30px,-96px)}
-}
+/* ——— the bulletin board in the options rail ——— */
+.bb{font-size:.8rem}
+.bb-empty{color:#7d6845;font-size:.78rem;line-height:1.45}
+.bb-empty a{color:#0b5fa5}
+.bb-live{display:inline-block;font-size:.62rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#346538;background:#edf3ec;
+    border:1px solid #cfdcc9;border-radius:9999px;padding:.05rem .45rem;
+    vertical-align:.12em;margin-left:.35rem}
+.bb-list{list-style:none;margin:0;padding:0}
+.bb-item{border:1px solid #d9c9a3;border-radius:8px;background:rgba(247,237,212,.85);
+    padding:.5rem .6rem;margin:.4rem 0}
+.bb-meta{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.25rem}
+.bb-kind{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:.08rem .45rem;border-radius:9999px;background:#fbf3db;color:#956400}
+.bb-kind--question{background:#e1f3fe;color:#1f6c9f}
+.bb-kind--opinion{background:#edf3ec;color:#346538}
+.bb-date{font-size:.68rem;color:#7d6845}
+.bb-post{margin:.2rem 0;font-size:.8rem;line-height:1.45;color:#2c1f10}
+.bb-response{margin:.3rem 0 0;padding-top:.3rem;border-top:1px dashed #d9c9a3;
+    font-size:.78rem;line-height:1.45;color:#3a2f1e}
+.bb-responder{font-size:.68rem;color:#7d6845;margin:.15rem 0 0}
+.bb-pending{font-size:.72rem;font-style:italic;color:#7d6845;margin:.25rem 0 0}
+.bb-more{font-size:.74rem;margin:.4rem 0 0}
+.bb-more a{color:#0b5fa5}
 
-/* narrow screens: the content column covers the sheet, so the writing
-   quill would read as a smudge sweeping behind the cards — rest instead */
+/* ——— main column resets for the liquid frame ——— */
+body.bill-section .shell-main{border-left:none}
+body.bill-section .shell-main::before{content:none}
+body.bill-section .shell-side{display:none}
+
+/* ——— liquid behavior: rails fold as the window narrows ——— */
+@media (max-width:1100px){
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+        grid-template-rows:auto auto minmax(0,1fr) auto auto;
+        grid-template-areas:
+            "header header"
+            "railtop railtop"
+            "main main"
+            "tools options"
+            "footer footer"}
+    .rail--tools{border-right:1px solid #dccdb0;border-left:none}
+    .rail{max-height:16rem;padding:.8rem}
+}
 @media (max-width:700px){
-    .desk-quill__tilt,.desk-quill__shadow,.desk-inkline{animation:none}
-    .desk-inkline{opacity:0}
-}
-@media (prefers-reduced-motion:reduce){
-    .desk-flame,.desk-flame__halo,.desk-light,.desk-glowwall,
-    .desk-quill__tilt,.desk-quill__shadow,.desk-inkline,.desk-mote{animation:none}
-    .desk-inkline{opacity:0}
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr);
+        grid-template-areas:"header" "railtop" "main" "options" "tools" "footer"}
+    .rail--tools,.rail--options{border:none;border-top:1px solid #dccdb0}
+    .rail{max-height:14rem}
+    .lp-sempnav{gap:.7rem}
+    .lp-sempnav a:not(:first-child):not(:last-child){display:none}
 }
 
 /* ——— parchment surfaces on the interior pages ——— */
@@ -2218,13 +2229,6 @@ body.bill-section{
     z-index:1;
 }
 body.bill-section main,body.bill-section .shell-main{position:relative;z-index:1}
-/* lamplit zone — a soft pool of parchment light behind the main column so
-   headings and lede stay readable over the dark wood without a hard panel */
-body.bill-section .shell-main::before{content:"";position:absolute;z-index:-1;
-    inset:-2.5rem -2rem -1.25rem -1.5rem;pointer-events:none;
-    background:
-        radial-gradient(ellipse 78% 46% at 34% 16%, rgba(243,232,204,.88), rgba(243,232,204,.42) 58%, rgba(243,232,204,0) 80%),
-        radial-gradient(ellipse 95% 70% at 42% 58%, rgba(243,232,204,.28), rgba(243,232,204,0) 72%)}
 body.bill-section .card,
 body.bill-section .section > div,
 body.bill-section .shell-panel{
@@ -2255,237 +2259,49 @@ body.bill-section .draft-status{border-top:1px solid #cbb98d}
 
 <body class="shell bill-section" data-theme="northstar">
 
-<!-- Desk scene — fixed full-screen backdrop for every interior bill page.
-     POV: sitting in the chair at a big old oak desk. A haphazard stack of
-     written-on parchment sheets sits left; a fresh sheet waits front-center;
-     ink bottle beside it; a long quill rests to the right and periodically
-     lifts to write; a half-burnt candle burns back-left, its flame flickering
-     and throwing warm light across the wood.
-     Pure SVG — no external assets, works from file:// like the rest of the
-     microsite. aria-hidden: purely decorative; every meaning is in the text.
-     All motion is CSS in bill.css (.desk-scene*); prefers-reduced-motion
-     leaves the scene lit and at rest. -->
-<div class="desk-scene" aria-hidden="true">
-    <svg class="desk-scene__svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="dWall" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#2b1d12"/>
-                <stop offset=".55" stop-color="#22160d"/>
-                <stop offset="1" stop-color="#170e08"/>
-            </linearGradient>
-            <linearGradient id="dOak" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#5a3b21"/>
-                <stop offset=".45" stop-color="#7a5230"/>
-                <stop offset=".8" stop-color="#8a5f38"/>
-                <stop offset="1" stop-color="#7c5530"/>
-            </linearGradient>
-            <linearGradient id="dEdge" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#8a5f38"/>
-                <stop offset=".12" stop-color="#a4763f"/>
-                <stop offset=".45" stop-color="#5c3d22"/>
-                <stop offset="1" stop-color="#3c2613"/>
-            </linearGradient>
-            <radialGradient id="dCandleGlow" cx=".5" cy=".5" r=".5">
-                <stop offset="0" stop-color="#ffca6e" stop-opacity=".55"/>
-                <stop offset=".45" stop-color="#e89b45" stop-opacity=".22"/>
-                <stop offset="1" stop-color="#e89b45" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="dLightWash" cx=".36" cy=".42" r=".75">
-                <stop offset="0" stop-color="#ffbe62" stop-opacity=".38"/>
-                <stop offset=".5" stop-color="#c07f3a" stop-opacity=".16"/>
-                <stop offset="1" stop-color="#000000" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="dFlameOuter" cx=".5" cy=".62" r=".5">
-                <stop offset="0" stop-color="#ffe9a8"/>
-                <stop offset=".55" stop-color="#ff9d33"/>
-                <stop offset="1" stop-color="#c85c17" stop-opacity=".85"/>
-            </radialGradient>
-            <linearGradient id="dFlameCore" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#fffbe8"/>
-                <stop offset=".7" stop-color="#ffd76e"/>
-                <stop offset="1" stop-color="#ff9d33"/>
-            </linearGradient>
-            <linearGradient id="dParch" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#f3e8cc"/>
-                <stop offset="1" stop-color="#ddc99b"/>
-            </linearGradient>
-            <linearGradient id="dParchFresh" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#f7edd4"/>
-                <stop offset="1" stop-color="#e6d4a8"/>
-            </linearGradient>
-            <linearGradient id="dBrass" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#8a6a34"/>
-                <stop offset=".5" stop-color="#b08b45"/>
-                <stop offset="1" stop-color="#6e5124"/>
-            </linearGradient>
-            <linearGradient id="dGlass" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#3a4a52"/>
-                <stop offset=".5" stop-color="#1c262b"/>
-                <stop offset="1" stop-color="#0d1417"/>
-            </linearGradient>
-            <linearGradient id="dQuillVane" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#f4efe2"/>
-                <stop offset=".7" stop-color="#ddd2b6"/>
-                <stop offset="1" stop-color="#c4b48f"/>
-            </linearGradient>
-            <linearGradient id="dQuillShaft" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#e9e0c8"/>
-                <stop offset="1" stop-color="#a89372"/>
-            </linearGradient>
-            <filter id="dBlur6"><feGaussianBlur stdDeviation="6"/></filter>
-            <filter id="dBlur10"><feGaussianBlur stdDeviation="10"/></filter>
-            <filter id="dBlur18"><feGaussianBlur stdDeviation="18"/></filter>
-            <filter id="dWood" x="-5%" y="-5%" width="110%" height="110%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="3" seed="7" result="n"/>
-                <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.24  0 0 0 0 0.15  0 0 0 0 0.07  0 0 0 .55 0" result="grain"/>
-                <feComposite in="grain" in2="SourceGraphic" operator="in"/>
-            </filter>
-        </defs>
-
-        <!-- room wall behind the desk -->
-        <rect x="0" y="0" width="1600" height="385" fill="url(#dWall)"/>
-        <ellipse cx="455" cy="300" rx="330" ry="200" fill="url(#dCandleGlow)" class="desk-glowwall"/>
-
-        <!-- oak desktop: surface + worn front face -->
-        <polygon points="150,345 1450,345 1700,868 -100,868" fill="url(#dOak)"/>
-        <polygon points="150,345 1450,345 1700,868 -100,868" fill="#000" filter="url(#dWood)" opacity=".55"/>
-        <!-- grain streaks drawn with the perspective -->
-        <g stroke="#3c2410" fill="none" opacity=".28">
-            <path d="M210,400 Q800,392 1390,398" stroke-width="2.2"/>
-            <path d="M170,470 Q800,460 1440,468" stroke-width="3"/>
-            <path d="M120,560 Q800,546 1510,556" stroke-width="3.4"/>
-            <path d="M60,670 Q800,652 1590,664" stroke-width="4"/>
-            <path d="M0,780 Q800,758 1660,772" stroke-width="4.6"/>
-        </g>
-        <ellipse cx="1140" cy="610" rx="60" ry="16" fill="#3c2410" opacity=".2"/>
-        <ellipse cx="380" cy="720" rx="46" ry="13" fill="#3c2410" opacity=".16"/>
-        <!-- front face of the desk — end grain, worn lighter along the lip -->
-        <polygon points="-100,868 1700,868 1700,900 -100,900" fill="url(#dEdge)"/>
-        <path d="M-100,866 L1700,866" stroke="#c69a5e" stroke-width="3" opacity=".5"/>
-        <ellipse cx="640" cy="868" rx="90" ry="6" fill="#c69a5e" opacity=".28"/>
-        <ellipse cx="1180" cy="868" rx="70" ry="5" fill="#c69a5e" opacity=".22"/>
-
-        <!-- warm wash of candlelight over the desktop -->
-        <rect class="desk-light" x="0" y="300" width="1600" height="600" fill="url(#dLightWash)"/>
-
-        <!-- ==== candlestick, back-left ==== -->
-        <g class="desk-candle" transform="translate(455,495) scale(1.22) translate(-455,-495)">
-            <ellipse cx="455" cy="512" rx="58" ry="14" fill="#160e07" opacity=".5" filter="url(#dBlur6)"/>
-            <ellipse cx="455" cy="505" rx="52" ry="13" fill="url(#dBrass)"/>
-            <ellipse cx="455" cy="502" rx="38" ry="9" fill="#7d6030"/>
-            <path d="M443,500 L449,424 L461,424 L467,500 Z" fill="url(#dBrass)"/>
-            <ellipse cx="455" cy="424" rx="26" ry="7" fill="url(#dBrass)"/>
-            <!-- half-burnt candle + wax drips -->
-            <rect x="441" y="352" width="28" height="74" rx="4" fill="#efe6d2"/>
-            <path d="M441,356 q-3,18 2,30 l4,-4 q-6,-14 -2,-26 Z" fill="#e2d6ba"/>
-            <path d="M469,358 q4,16 0,32 l-4,-4 q5,-16 0,-28 Z" fill="#e2d6ba"/>
-            <ellipse cx="455" cy="353" rx="14" ry="4.5" fill="#f7efdd"/>
-            <ellipse cx="455" cy="353" rx="9" ry="3" fill="#e0d3b4"/>
-            <line x1="455" y1="352" x2="455" y2="342" stroke="#241708" stroke-width="2.4"/>
-            <!-- flame: glow + body + core + blue base -->
-            <g class="desk-flame">
-                <ellipse class="desk-flame__halo" cx="455" cy="322" rx="46" ry="60" fill="url(#dCandleGlow)"/>
-                <path class="desk-flame__body" d="M455,300 C470,318 468,336 455,344 C442,336 440,318 455,300 Z" fill="url(#dFlameOuter)"/>
-                <path class="desk-flame__core" d="M455,318 C462,328 461,338 455,342 C449,338 448,328 455,318 Z" fill="url(#dFlameCore)"/>
-                <ellipse cx="455" cy="340" rx="5" ry="4" fill="#5a86c8" opacity=".55"/>
-            </g>
-        </g>
-
-        <!-- ==== haphazard stack of written-on parchment, left-center ==== -->
-        <g class="desk-stack">
-            <ellipse cx="700" cy="588" rx="180" ry="22" fill="#160e07" opacity=".45" filter="url(#dBlur10)"/>
-            <g transform="translate(700,545)">
-                <g transform="rotate(-6)"><rect x="-160" y="-50" width="320" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/></g>
-                <g transform="rotate(4)"><rect x="-158" y="-58" width="316" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/></g>
-                <g transform="rotate(-3)"><rect x="-162" y="-66" width="322" height="122" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
-                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-140,-46 h180 M-140,-30 h230 M-140,-14 h160 M-140,2 h220 M-140,18 h190 M-140,34 h210"/></g>
-                </g>
-                <g transform="rotate(5)"><rect x="-156" y="-74" width="314" height="120" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
-                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-136,-54 h200 M-136,-38 h170 M-136,-22 h230 M-136,-6 h150 M-136,10 h200"/></g>
-                </g>
-                <g transform="rotate(-4)"><rect x="-160" y="-82" width="320" height="124" rx="4" fill="url(#dParch)" stroke="#b89a63" stroke-width="1"/>
-                    <g stroke="#6b5330" stroke-width="1.6" opacity=".4"><path d="M-140,-62 h190 M-140,-46 h220 M-140,-30 h160 M-140,-14 h205 M-140,2 h170 M-140,18 h215"/></g>
-                    <path d="M-140,-74 q60,-8 120,0" stroke="#5c4525" stroke-width="2.6" fill="none" opacity=".5"/>
-                </g>
-            </g>
-        </g>
-
-        <!-- ==== the fresh sheet, front-center — ready to take the ink ==== -->
-        <g class="desk-sheet" transform="translate(800,700) rotate(-1.5)">
-            <rect x="-215" y="-140" width="430" height="300" rx="4" fill="#160e07" opacity=".45" filter="url(#dBlur10)" transform="translate(6,10)"/>
-            <rect x="-215" y="-140" width="430" height="300" rx="4" fill="url(#dParchFresh)" stroke="#b89a63" stroke-width="1.2"/>
-            <path d="M-215,-140 h430 M-215,160 h430" stroke="#fff" stroke-width="1" opacity=".35"/>
-            <!-- the ink line the quill lays down while it writes -->
-            <path class="desk-inkline" d="M-150,-80 C-120,-92 -90,-72 -60,-84 S0,-96 30,-82 S90,-70 120,-84 M-140,-30 C-100,-44 -60,-24 -20,-38 S60,-48 100,-34" fill="none" stroke="#4a3520" stroke-width="2.4" stroke-linecap="round"/>
-        </g>
-
-        <!-- ==== ink bottle, left of the fresh sheet ==== -->
-        <g class="desk-bottle" transform="translate(545,735)">
-            <ellipse cx="0" cy="52" rx="46" ry="12" fill="#160e07" opacity=".5" filter="url(#dBlur6)"/>
-            <path d="M-30,-14 Q-34,38 -26,48 Q0,58 26,48 Q34,38 30,-14 Z" fill="url(#dGlass)"/>
-            <path d="M-24,-14 L-14,-34 L14,-34 L24,-14 Z" fill="url(#dGlass)"/>
-            <rect x="-16" y="-40" width="32" height="10" rx="3" fill="#10181c" stroke="#3a4a52" stroke-width="1"/>
-            <ellipse cx="0" cy="22" rx="24" ry="18" fill="#0a0f14"/>
-            <path d="M-22,-6 q-4,30 0,44" stroke="#7d99a8" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>
-        </g>
-
-        <!-- ==== quill, right side toward the front — lifts and writes ==== -->
-        <g class="desk-quill" transform="translate(1035,795)">
-            <ellipse class="desk-quill__shadow" cx="-30" cy="16" rx="110" ry="14" fill="#160e07" opacity=".45" filter="url(#dBlur6)"/>
-            <g class="desk-quill__tilt">
-                <g class="desk-quill__vane" transform="rotate(-38)">
-                    <!-- feather vane -->
-                    <path d="M0,0 C-26,-46 -38,-112 -30,-196 C-16,-134 -8,-66 6,-8 Z" fill="url(#dQuillVane)"/>
-                    <path d="M0,0 C24,-42 30,-104 22,-186 C10,-124 2,-62 -8,-6 Z" fill="#eae2cc"/>
-                    <g stroke="#b3a27c" stroke-width="1" opacity=".45">
-                        <path d="M-14,-50 L-27,-74 M-12,-84 L-27,-108 M-9,-118 L-25,-142"/>
-                        <path d="M10,-44 L22,-66 M9,-76 L22,-100 M6,-108 L19,-132"/>
-                    </g>
-                    <!-- shaft tapering to the nib -->
-                    <path d="M2,-190 L-1,4 L3,4 L7,-186 Z" fill="url(#dQuillShaft)"/>
-                    <path d="M-1,4 L2,14 L5,4 Z" fill="#8a6f48"/>
-                    <path d="M2,14 L2.6,10" stroke="#4a3520" stroke-width="1.6"/>
-                </g>
-            </g>
-        </g>
-
-        <!-- dust motes drifting through the candlelight -->
-        <g class="desk-motes" fill="#ffdf9e">
-            <circle class="desk-mote desk-mote--a" cx="390" cy="430" r="2.2"/>
-            <circle class="desk-mote desk-mote--b" cx="520" cy="470" r="1.8"/>
-            <circle class="desk-mote desk-mote--c" cx="330" cy="520" r="2.6"/>
-        </g>
-    </svg>
-    <div class="desk-scene__scrim"></div>
-</div>
+<!-- Paper scene — the parchment backdrop for the liquid layout.
+     Flat warm parchment, faint grain + a soft light pool top-left.
+     Replaces the desk scene (kept in git history — commit 9353a37 —
+     if it should ever come back). aria-hidden: decorative only. -->
+<div class="paper-scene" aria-hidden="true"></div>
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
-<header class="main-nav">
-    <div class="nav-container">
-        <a class="nav-brand" href="/bill" aria-label="The Bill — home">
-            <span class="nav-logo" aria-hidden="true">&#9733;</span>
-            <span class="nav-title">The Bill</span>
-        </a>
-        <nav aria-label="Bill section">
-            <ul class="nav-links">
-                <li class="nav-item"><a class="nav-link" href="/bill">The Bill</a></li>
-                <li class="nav-item"><a class="nav-link" href="/bill/live" aria-current="page">Live draft</a></li>
-                <li class="nav-item"><a class="nav-link" href="/bill/research">The numbers</a></li>
-                <li class="nav-item"><a class="nav-link" href="/what-the-bill-changes">What it changes</a></li>
-                <li class="nav-item"><a class="nav-link" href="/your-voice">Your Voice</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Semptify &rarr;</a></li>
-            </ul>
-        </nav>
-        <div class="nav-actions">
-            <a class="btn btn--accent btn--sm" href="/help">Get help now</a>
-        </div>
-        <button type="button" class="nav-toggle" aria-label="Open menu" hidden>
-            <span class="toggle-bar"></span>
-            <span class="toggle-bar"></span>
-            <span class="toggle-bar"></span>
-        </button>
-    </div>
+<header class="lp-header">
+    <a class="lp-brand" href="/">
+        <span class="lp-mark" aria-hidden="true">&#9733;</span> Semptify
+    </a>
+    <nav class="lp-sempnav" aria-label="Semptify">
+        <a href="/help">Get help now</a>
+        <a href="/law-library">Rights library</a>
+        <a href="/tools">Tools</a>
+        <a href="/">Semptify.org &rarr;</a>
+    </nav>
 </header>
+
+<nav class="rail-top" aria-label="Bill section">
+    <a class="rail-top__link" href="/bill">The Bill</a>
+    <a class="rail-top__link" href="/bill/live" aria-current="page">Live draft</a>
+    <a class="rail-top__link" href="/bill/research">The numbers</a>
+    <a class="rail-top__link" href="/what-the-bill-changes">What it changes</a>
+    <a class="rail-top__link" href="/your-voice">Your Voice</a>
+    <span class="rail-top__status" data-brain-status></span>
+</nav>
+
+<aside class="rail rail--tools" aria-label="Tools">
+    <h2 class="rail-title">Tools</h2>
+    <ul class="rail-list" data-brain-tools>
+        <li><a href="#main-content">Back to top</a></li>
+        <li><a href="javascript:window.print()">Print this page</a></li>
+    </ul>
+    <h2 class="rail-title">The bill</h2>
+    <ul class="rail-list">
+        <li><a href="/bill">Bill home</a></li>
+        <li><a href="/bill/live">Read the live draft</a></li>
+        <li><a href="/bill/research">The numbers &amp; sources</a></li>
+        <li><a href="/what-the-bill-changes">What it would change</a></li>
+        <li><a href="/your-voice">Ask or weigh in</a></li>
+    </ul>
+</aside>
 
 
 <style>
@@ -2597,17 +2413,22 @@ frozen).</p>
 
     </main>
 
-<aside class="shell-side" id="shell-side" aria-label="Supporting">
+<aside class="rail rail--options" aria-label="Options and the board">
 
-<h2>The bill</h2>
-<ul class="shell-list">
-    <li><a href="/bill">Bill home</a></li>
-    <li><a href="/bill/live">Read the live draft</a></li>
-    <li><a href="/bill/research">The numbers &amp; sources</a></li>
-    <li><a href="/what-the-bill-changes">What it would change</a></li>
-    <li><a href="/your-voice">Ask or weigh in</a></li>
-    <li><a href="/help">Get help now</a></li>
-    <li><a href="/">Semptify.org &rarr;</a></li>
+<h2 class="rail-title">The board <span class="bb-live" data-brain-live hidden>live</span></h2>
+<div class="bb" id="bbBoard">
+    <p class="bb-empty">The public board loads here — questions and opinions
+    on the bill, answered in the open. <a href="/your-voice">Ask or weigh in</a>.</p>
+</div>
+<p class="bb-more"><a href="/your-voice#yvList">See the whole board &rarr;</a></p>
+
+<h2 class="rail-title">Options</h2>
+<ul class="rail-list">
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/accessibility">Accessibility</a></li>
+    <li><a href="/credits">Credits &amp; sources</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/donate">Support the work</a></li>
 </ul>
 
 </aside>
@@ -2709,6 +2530,7 @@ frozen).</p>
 </footer>
 
 <script src="/static/js/law-linker.js"></script>
+<script src="/static/js/brain.js" defer></script>
 
 </body>
 </html>

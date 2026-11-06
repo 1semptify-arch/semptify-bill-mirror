@@ -45,6 +45,17 @@ Dated record of site-affecting operations. Newest first. Format:
   for heading contrast. Cover (/bill deck) keeps the lake scene.
   Built via build.py; verified locally at 1280px + 375px, console clean.
   NOT yet pushed — awaiting Brad's visual check.
+- **Parchment liquid layout replaces desk scene** (swe-2, Brad's spec):
+  flat warm parchment backdrop; true-liquid frame = low-profile Semptify
+  bar (header) + bill nav top rail + tools rail left + options/board rail
+  right + main + footer. brain.js (root) = logic layer: auto 'On this
+  page' tool anchors, board polling /api/voice-posts every 30s into rail
+  + full list on /your-voice, live badge, rail status text. Board =
+  existing anonymous voice-posts API (bulletin board, not chat).
+  Desk scene retired to git history (9353a37). preview_server.py now
+  proxies /api/* to semptify.org. Verified: grid geometry + computed
+  styles at 1280px via IronBee, structure snapshot clean. NOT pushed —
+  awaiting Brad's visual check.
 - **MN manuscript theme applied** — lake-dawn scene (mn-lake-sunrise.jpg)
   + MN flag + loon + cherry branch + ink-bottle/quill SVG on all bill
   pages; interior pages' cards now parchment (doc-page.jpeg texture);

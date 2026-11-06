@@ -78,11 +78,17 @@ def build_page(path: pathlib.Path, bill_css: str) -> str:
                         "<style>\n" + bill_css + "\n</style>" if chrome == "interior" else "")
 
     nav = fill_nav(read(PARTIALS / NAV_FOR[chrome]), meta["nav"])
-    aside = read(PARTIALS / "aside.html") if chrome == "interior" else ""
+    if chrome == "interior":
+        scene = read(PARTIALS / "scene.html")
+        rail_top = fill_nav(read(PARTIALS / "rail_top.html"), meta["nav"])
+        rail_tools = read(PARTIALS / "rail_tools.html")
+        aside = read(PARTIALS / "aside.html")
+    else:
+        scene = rail_top = rail_tools = aside = ""
     foot = read(PARTIALS / FOOT_FOR[chrome])
-    scene = read(PARTIALS / "scene.html") if chrome == "interior" else ""
 
-    return "\n".join([head, BODY_OPEN[chrome], scene, nav, "", body, "", aside, foot]).rstrip() + "\n"
+    return "\n".join([head, BODY_OPEN[chrome], scene, nav, rail_top, rail_tools,
+                      "", body, "", aside, foot]).rstrip() + "\n"
 
 
 def main() -> int:

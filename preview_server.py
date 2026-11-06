@@ -30,6 +30,9 @@ APP_ROUTES = {"/help", "/privacy", "/terms", "/disclaimer", "/about",
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         clean = self.path.split("?", 1)[0].split("#", 1)[0]
+        if clean.startswith("/api/"):
+            self._proxy_api()
+            return
         if clean == "/favicon.ico":
             self.send_response(302)
             self.send_header("Location", "/static/img/mn-flag.png")
@@ -58,6 +61,31 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if cand.exists():
                 return str(cand)
         return super().translate_path(path)
+
+    def _proxy_api(self):
+        """Proxy /api/* to semptify.org so the board works in local preview
+        (the Cloudflare worker does the same in prod)."""
+        import urllib.request
+        url = "https://semptify.org" + self.path
+        try:
+            req = urllib.request.Request(url, headers={
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                              "AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/130.0 Safari/537.36"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                body = r.read()
+                self.send_response(r.status)
+                self.send_header("Content-Type", r.headers.get("Content-Type", "application/json"))
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+        except Exception as e:
+            self.send_response(502)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(('{"error":"preview api proxy failed","detail":%s}'
+                              % repr(str(e))).encode())
 
     def log_message(self, fmt, *args):
         import sys

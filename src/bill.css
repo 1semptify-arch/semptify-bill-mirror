@@ -2076,113 +2076,124 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
 }
 
 /* ============================================================
-   DESK SCENE — bill microsite interior pages
-   Sitter's-POV oak desk behind the parchment content: haphazard
-   written-on stack left, fresh sheet front-center, ink bottle,
-   quill resting right. Candle flame flickers; the quill lifts and
-   writes on the fresh sheet; warm light pulses with the flame;
-   dust motes drift in the glow. Pure SVG + CSS, no assets.
+   PARCHMENT LIQUID LAYOUT — bill microsite interior pages
+   True-liquid shell: low-profile Semptify bar in the header,
+   the bill nav as a top rail inside the body, a tools rail left,
+   content center, an options+board rail right. Flat warm
+   parchment backdrop — no fixed scene (desk scene retired to
+   git history, commit 9353a37).
    ============================================================ */
 
-/* ——— the fixed scene ——— */
-.desk-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.desk-scene__svg{position:absolute;inset:0;width:100%;height:100%}
-/* readability scrim — keeps parchment cards legible over the wood,
-   deepens toward the top where nav + header sit, holds the corners
-   in shadow like a room lit by one candle */
-.desk-scene__scrim{position:absolute;inset:0;background:
-    radial-gradient(ellipse 90% 70% at 50% 62%, transparent 30%, rgba(12,7,3,.42) 100%),
-    linear-gradient(180deg, rgba(14,9,5,.55) 0%, rgba(14,9,5,.18) 26%, rgba(14,9,5,.10) 55%, rgba(14,9,5,.30) 100%)}
+/* ——— the fixed parchment backdrop ——— */
+.paper-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:#f3ead6;
+    background-image:
+        radial-gradient(ellipse 55% 38% at 22% -4%, rgba(255,252,240,.8), transparent 72%),
+        radial-gradient(ellipse 46% 52% at 104% 104%, rgba(146,110,55,.07), transparent 72%),
+        repeating-linear-gradient(0deg, rgba(110,85,45,.022) 0 2px, transparent 2px 5px)}
 
-/* ——— candle flame — two layered animations: body flicker + halo breath ——— */
-.desk-flame{transform-box:fill-box;transform-origin:50% 100%;
-    animation:deskFlick 2.9s ease-in-out infinite}
-.desk-flame__halo{transform-box:fill-box;transform-origin:50% 50%;
-    animation:deskHalo 4.8s ease-in-out infinite alternate}
-@keyframes deskFlick{
-    0%,100%{transform:scale(1,1) skewX(0deg) translateX(0)}
-    12%{transform:scale(.97,1.06) skewX(-2.2deg) translateX(-1.2px)}
-    23%{transform:scale(1.03,.95) skewX(1.6deg) translateX(1px)}
-    31%{transform:scale(.98,1.09) skewX(-1deg) translateX(-.6px)}
-    44%{transform:scale(1.02,.97) skewX(2.4deg) translateX(1.4px)}
-    55%{transform:scale(.96,1.05) skewX(-2.8deg) translateX(-1.6px)}
-    68%{transform:scale(1.04,.94) skewX(1.2deg) translateX(.8px)}
-    80%{transform:scale(.98,1.07) skewX(-1.4deg) translateX(-1px)}
-    91%{transform:scale(1.01,.96) skewX(.8deg) translateX(.5px)}
-}
-@keyframes deskHalo{
-    from{opacity:.5;transform:scale(.94)}
-    to{opacity:.85;transform:scale(1.06)}
+/* ——— liquid frame: header | bill-nav rail | tools-main-options | footer ——— */
+body.bill-section{
+    grid-template-columns:minmax(11.5rem,1fr) minmax(0,3.2fr) minmax(13.5rem,1.1fr);
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    grid-template-areas:
+        "header header header"
+        "railtop railtop railtop"
+        "tools main options"
+        "footer footer footer";
+    background:transparent;
 }
 
-/* ——— candlelight washing the room — gentle pulse, follows the flame ——— */
-.desk-light{animation:deskLight 5.6s ease-in-out infinite alternate}
-.desk-glowwall{animation:deskLight 6.8s ease-in-out infinite alternate}
-@keyframes deskLight{from{opacity:.7}to{opacity:1}}
+/* ——— low-profile Semptify bar, visually part of the header ——— */
+.lp-header{grid-area:header;display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;min-height:2.25rem;padding:0 1.25rem;
+    background:var(--role-tint);border-bottom:1px solid var(--shell-line)}
+.lp-brand{font-weight:700;font-size:.95rem;color:var(--ns-navy);text-decoration:none;letter-spacing:.01em}
+.lp-mark{color:#8b1e2d;margin-right:.2rem}
+.lp-sempnav{display:flex;gap:1.1rem;align-items:center;overflow-x:auto;white-space:nowrap}
+.lp-sempnav a{font-size:.78rem;font-weight:500;color:var(--shell-ink-2);text-decoration:none}
+.lp-sempnav a:hover{color:#8b1e2d}
+.lp-sempnav a:first-child{color:#8b1e2d;font-weight:600}
 
-/* ——— the quill writes — 14s cycle: rest → lift → write → hover → settle ——— */
-.desk-quill__tilt{transform-box:fill-box;transform-origin:50% 96%;
-    animation:deskWrite 14s ease-in-out infinite}
-@keyframes deskWrite{
-    /* resting flat on the desk, right side toward the front */
-    0%,26%{transform:translate(0,0) rotate(0deg)}
-    /* lifts and glides left to the head of the sheet, tilting nib-down */
-    33%{transform:translate(-350px,-168px) rotate(22deg)}
-    /* writes left → right — strokes with little presses and lifts */
-    38%{transform:translate(-355px,-172px) rotate(24deg)}
-    43%{transform:translate(-315px,-164px) rotate(21deg)}
-    47%{transform:translate(-275px,-175px) rotate(26deg)}
-    51%{transform:translate(-235px,-166px) rotate(21deg)}
-    55%{transform:translate(-190px,-176px) rotate(25deg)}
-    58%{transform:translate(-150px,-168px) rotate(20deg)}
-    /* hovers a beat — reads what it wrote */
-    64%{transform:translate(-162px,-188px) rotate(26deg)}
-    /* glides back down to the right side of the desk */
-    78%,100%{transform:translate(0,0) rotate(0deg)}
-}
-.desk-quill__shadow{animation:deskQuillShadow 14s ease-in-out infinite}
-@keyframes deskQuillShadow{
-    0%,26%{opacity:.45;transform:translate(0,0) scale(1)}
-    33%{opacity:.28;transform:translate(-140px,-18px) scale(.8)}
-    38%,58%{opacity:.24;transform:translate(-180px,-14px) scale(.76)}
-    64%{opacity:.26;transform:translate(-150px,-16px) scale(.78)}
-    78%,100%{opacity:.45;transform:translate(0,0) scale(1)}
-}
+/* ——— bill nav: the body's top rail ——— */
+.rail-top{grid-area:railtop;display:flex;align-items:center;gap:.25rem;
+    padding:.35rem 1.25rem;background:rgba(243,234,214,.72);
+    border-bottom:1px solid #d9c9a3;overflow-x:auto;scrollbar-width:thin}
+.rail-top__link{flex:0 0 auto;font-size:.85rem;font-weight:600;color:#57452c;
+    text-decoration:none;padding:.45rem .85rem;border-bottom:2px solid transparent;
+    font-family:"IM Fell English",Georgia,serif}
+.rail-top__link:hover{color:#8b1e2d}
+.rail-top__link[aria-current="page"]{color:#0b3d6e;border-bottom-color:#8b1e2d}
+.rail-top__status{margin-left:auto;font-size:.72rem;color:#7d6845;white-space:nowrap;
+    font-style:italic}
 
-/* ——— the ink line appears while the quill writes, fades after ——— */
-.desk-inkline{stroke-dasharray:1400;stroke-dashoffset:1400;opacity:0;
-    animation:deskInk 14s linear infinite}
-@keyframes deskInk{
-    0%,36%{stroke-dashoffset:1400;opacity:0}
-    38%{opacity:.85}
-    58%{stroke-dashoffset:260;opacity:.85}
-    60%,76%{stroke-dashoffset:260;opacity:.85}
-    82%{stroke-dashoffset:260;opacity:0}
-    82.1%,100%{stroke-dashoffset:1400;opacity:0}
-}
+/* ——— side rails ——— */
+.rail{overflow-y:auto;padding:1rem .9rem;font-size:.85rem}
+.rail--tools{grid-area:tools;border-right:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail--options{grid-area:options;border-left:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail-title{font-family:"IM Fell English",Georgia,serif;font-weight:400;
+    font-size:.95rem;color:#57452c;margin:1.1rem 0 .4rem;letter-spacing:.02em}
+.rail-title:first-child{margin-top:0}
+.rail-list{list-style:none;margin:0;padding:0}
+.rail-list li{margin:.12rem 0}
+.rail-list a{color:#57452c;text-decoration:none;font-size:.82rem;
+    display:block;padding:.28rem .4rem;border-radius:4px}
+.rail-list a:hover{background:rgba(217,201,163,.5);color:#8b1e2d}
 
-/* ——— dust motes in the candlelight ——— */
-.desk-mote{opacity:0}
-.desk-mote--a{animation:deskMote 11s ease-in-out infinite}
-.desk-mote--b{animation:deskMote 14s ease-in-out 3s infinite}
-.desk-mote--c{animation:deskMote 17s ease-in-out 7s infinite}
-@keyframes deskMote{
-    0%{opacity:0;transform:translate(0,0)}
-    18%{opacity:.7}
-    55%{opacity:.5;transform:translate(18px,-56px)}
-    100%{opacity:0;transform:translate(30px,-96px)}
-}
+/* ——— the bulletin board in the options rail ——— */
+.bb{font-size:.8rem}
+.bb-empty{color:#7d6845;font-size:.78rem;line-height:1.45}
+.bb-empty a{color:#0b5fa5}
+.bb-live{display:inline-block;font-size:.62rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#346538;background:#edf3ec;
+    border:1px solid #cfdcc9;border-radius:9999px;padding:.05rem .45rem;
+    vertical-align:.12em;margin-left:.35rem}
+.bb-list{list-style:none;margin:0;padding:0}
+.bb-item{border:1px solid #d9c9a3;border-radius:8px;background:rgba(247,237,212,.85);
+    padding:.5rem .6rem;margin:.4rem 0}
+.bb-meta{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.25rem}
+.bb-kind{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:.08rem .45rem;border-radius:9999px;background:#fbf3db;color:#956400}
+.bb-kind--question{background:#e1f3fe;color:#1f6c9f}
+.bb-kind--opinion{background:#edf3ec;color:#346538}
+.bb-date{font-size:.68rem;color:#7d6845}
+.bb-post{margin:.2rem 0;font-size:.8rem;line-height:1.45;color:#2c1f10}
+.bb-response{margin:.3rem 0 0;padding-top:.3rem;border-top:1px dashed #d9c9a3;
+    font-size:.78rem;line-height:1.45;color:#3a2f1e}
+.bb-responder{font-size:.68rem;color:#7d6845;margin:.15rem 0 0}
+.bb-pending{font-size:.72rem;font-style:italic;color:#7d6845;margin:.25rem 0 0}
+.bb-more{font-size:.74rem;margin:.4rem 0 0}
+.bb-more a{color:#0b5fa5}
 
-/* narrow screens: the content column covers the sheet, so the writing
-   quill would read as a smudge sweeping behind the cards — rest instead */
+/* ——— main column resets for the liquid frame ——— */
+body.bill-section .shell-main{border-left:none}
+body.bill-section .shell-main::before{content:none}
+body.bill-section .shell-side{display:none}
+
+/* ——— liquid behavior: rails fold as the window narrows ——— */
+@media (max-width:1100px){
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+        grid-template-rows:auto auto minmax(0,1fr) auto auto;
+        grid-template-areas:
+            "header header"
+            "railtop railtop"
+            "main main"
+            "tools options"
+            "footer footer"}
+    .rail--tools{border-right:1px solid #dccdb0;border-left:none}
+    .rail{max-height:16rem;padding:.8rem}
+}
 @media (max-width:700px){
-    .desk-quill__tilt,.desk-quill__shadow,.desk-inkline{animation:none}
-    .desk-inkline{opacity:0}
-}
-@media (prefers-reduced-motion:reduce){
-    .desk-flame,.desk-flame__halo,.desk-light,.desk-glowwall,
-    .desk-quill__tilt,.desk-quill__shadow,.desk-inkline,.desk-mote{animation:none}
-    .desk-inkline{opacity:0}
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr);
+        grid-template-areas:"header" "railtop" "main" "options" "tools" "footer"}
+    .rail--tools,.rail--options{border:none;border-top:1px solid #dccdb0}
+    .rail{max-height:14rem}
+    .lp-sempnav{gap:.7rem}
+    .lp-sempnav a:not(:first-child):not(:last-child){display:none}
 }
 
 /* ——— parchment surfaces on the interior pages ——— */
@@ -2205,13 +2216,6 @@ body.bill-section{
     z-index:1;
 }
 body.bill-section main,body.bill-section .shell-main{position:relative;z-index:1}
-/* lamplit zone — a soft pool of parchment light behind the main column so
-   headings and lede stay readable over the dark wood without a hard panel */
-body.bill-section .shell-main::before{content:"";position:absolute;z-index:-1;
-    inset:-2.5rem -2rem -1.25rem -1.5rem;pointer-events:none;
-    background:
-        radial-gradient(ellipse 78% 46% at 34% 16%, rgba(243,232,204,.88), rgba(243,232,204,.42) 58%, rgba(243,232,204,0) 80%),
-        radial-gradient(ellipse 95% 70% at 42% 58%, rgba(243,232,204,.28), rgba(243,232,204,0) 72%)}
 body.bill-section .card,
 body.bill-section .section > div,
 body.bill-section .shell-panel{
