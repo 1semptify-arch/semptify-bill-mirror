@@ -80,8 +80,9 @@ def build_page(path: pathlib.Path, bill_css: str) -> str:
     nav = fill_nav(read(PARTIALS / NAV_FOR[chrome]), meta["nav"])
     aside = read(PARTIALS / "aside.html") if chrome == "interior" else ""
     foot = read(PARTIALS / FOOT_FOR[chrome])
+    scene = read(PARTIALS / "scene.html") if chrome == "interior" else ""
 
-    return "\n".join([head, BODY_OPEN[chrome], nav, "", body, "", aside, foot]).rstrip() + "\n"
+    return "\n".join([head, BODY_OPEN[chrome], scene, nav, "", body, "", aside, foot]).rstrip() + "\n"
 
 
 def main() -> int:

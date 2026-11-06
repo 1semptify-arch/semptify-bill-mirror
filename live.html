@@ -9,7 +9,7 @@
 <title>The Live Draft — Minnesota Rent Assurance Bill — Semptify</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
 /* ============================================================================
    bill.css - THE BILL MICROSITE single stylesheet (vendored, self-contained).
@@ -2088,10 +2088,104 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
   .rs-ledger { display: block; overflow-x: auto; max-width: 100%; }
 }
 
+/* ============================================================
+   MN MANUSCRIPT THEME — bill microsite
+   Lake-at-dawn scene behind; content rides on parchment;
+   blackletter display + iron-gall ink + script marginalia.
+   ============================================================ */
+
+/* ——— the fixed scene ——— */
+.mn-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.mn-scene__lake{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 60%}
+.mn-scene__scrim{position:absolute;inset:0;background:rgba(13,27,42,.62)}
+.mn-scene__flag{position:absolute;top:16%;right:clamp(.75rem,3vw,2.5rem);width:clamp(120px,16vw,220px);
+    filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));opacity:.92}
+.mn-scene__cherry{position:absolute;top:5.5rem;left:-.5rem;width:clamp(140px,20vw,240px);
+    transform:rotate(-8deg);opacity:.85;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4))}
+.mn-scene__loon{position:absolute;right:clamp(.5rem,4vw,3rem);bottom:16%;width:clamp(120px,15vw,190px);
+    opacity:.9;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}
+.mn-scene__ink,.mn-scene__quill{position:absolute;color:#e8d9b8;opacity:.8;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.mn-scene__ink{left:clamp(.75rem,3vw,2.2rem);bottom:8%;width:34px;height:46px}
+.mn-scene__quill{left:clamp(2.4rem,6vw,4.6rem);bottom:6%;width:44px;height:66px;transform:rotate(14deg)}
+.mn-scene__mist{position:absolute;left:-20%;width:140%;height:14vh;filter:blur(24px);
+    background:rgba(232,217,184,.10)}
+.mn-scene__mist--a{top:34%;animation:mnMist 34s ease-in-out infinite alternate}
+.mn-scene__mist--b{top:56%;height:10vh;opacity:.7;animation:mnMist 46s ease-in-out infinite alternate-reverse}
+@keyframes mnMist{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
+@media (prefers-reduced-motion:reduce){.mn-scene__mist{animation:none}}
+
+/* ——— parchment surfaces on the interior pages ——— */
+body.bill-section{
+    --bg-page:transparent;
+    --bg-card:#f0e4c8;
+    --bg-elevated:#f4ead2;
+    --bg-surface:#f0e4c8;
+    --bg-muted:#e6d7b4;
+    --bg-field:#efe3c6;
+    --bg-sidebar:#eadbb6;
+    --bg-footer:#e2d0a8;
+    --text-primary:#2c1f10;
+    --text-secondary:#57452c;
+    --text-muted:#7d6845;
+    --color-primary:#0b3d6e;
+    --color-primary-light:#1c5a96;
+    --color-accent:#8b1e2d;
+    position:relative;
+    z-index:1;
+}
+body.bill-section main,body.bill-section .shell-main{position:relative;z-index:1}
+body.bill-section .card,
+body.bill-section .section > div,
+body.bill-section .shell-panel{
+    background-color:#f0e4c8;
+    background-image:url("/static/img/doc-page.jpeg");
+    background-size:cover;background-position:center;
+    color:#2c1f10;
+}
+body.bill-section .card:hover{background-color:#f3ead0}
+body.bill-section h1,body.bill-section h2,body.bill-section h3{color:#1d2f47}
+body.bill-section a{color:#0b5fa5}
+body.bill-section a:hover{color:#8b1e2d}
+body.bill-section .card__title,body.bill-section .section h2{font-family:"UnifrakturMaguntia",Georgia,serif;font-weight:400}
+body.bill-section .shell-eyebrow{font-family:"Pinyon Script",cursive;font-size:1.5rem;letter-spacing:0;
+    text-transform:none;color:#8b1e2d}
+body.bill-section .draft-label{font-family:"Pinyon Script",cursive;font-size:1.15rem;
+    letter-spacing:0;text-transform:none;color:#7d6845}
+body.bill-section .draft-status{border-top:1px solid #cbb98d}
+
+/* ——— manuscript type helpers ——— */
+.ll-display{font-family:"UnifrakturMaguntia",Georgia,serif;font-weight:400;letter-spacing:.01em}
+.ll-script{font-family:"Pinyon Script",cursive}
+.ll-fell{font-family:"IM Fell English",Georgia,serif;font-style:italic}
+.ll-rule{color:#8b1e2d}
+
 </style>
 </head>
 
 <body class="shell bill-section" data-theme="northstar">
+
+<!-- MN scene — fixed full-screen backdrop: lake at dawn, state flag,
+     loon on the water, cherry branch, ink bottle + quill. aria-hidden:
+     purely decorative; every meaning is also in the text. -->
+<div class="mn-scene" aria-hidden="true">
+    <img class="mn-scene__lake" src="/static/img/mn-lake-sunrise.jpg" alt="">
+    <div class="mn-scene__scrim"></div>
+    <img class="mn-scene__flag" src="/static/img/mn-flag.png" alt="">
+    <img class="mn-scene__cherry" src="/static/img/cherry.jpg" alt="">
+    <img class="mn-scene__loon" src="/static/img/loon.png" alt="">
+    <svg class="mn-scene__ink" viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M24 8c0 0-9 10-9 22a9 9 0 0 0 18 0c0-12-9-22-9-22z"/>
+        <path d="M19 38h10M24 30v16"/>
+        <rect x="17" y="46" width="14" height="12" rx="2"/>
+    </svg>
+    <svg class="mn-scene__quill" viewBox="0 0 64 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 84C30 62 44 40 50 10c1-5 6-5 6 0 2 22-8 48-24 66-3 3-8 1-8-4 0-3 2-6 6-8z"/>
+        <path d="M20 76c8-14 18-30 26-44M26 68c6-10 12-20 17-30"/>
+    </svg>
+    <div class="mn-scene__mist mn-scene__mist--a"></div>
+    <div class="mn-scene__mist mn-scene__mist--b"></div>
+</div>
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="main-nav">

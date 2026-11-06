@@ -31,3 +31,13 @@ Dated record of site-affecting operations. Newest first. Format:
   is back.
 - Neon free plan: suspend is fixed 5 min, not configurable — app-side
   connection behavior is the only lever.
+
+## 2026-11-06
+
+- **MN manuscript theme applied** — lake-dawn scene (mn-lake-sunrise.jpg)
+  + MN flag + loon + cherry branch + ink-bottle/quill SVG on all bill
+  pages; interior pages' cards now parchment (doc-page.jpeg texture);
+  UnifrakturMaguntia blackletter + Pinyon Script calligraphy added to
+  head.html. New assets at repo root: mn-flag.png, loon.png, cherry.jpg,
+  doc-page.jpeg. Built via build.py; verified locally — all assets 200,
+  fonts load. NOT yet pushed — awaiting Brad's visual check.

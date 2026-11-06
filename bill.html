@@ -9,11 +9,12 @@
 <title>The Minnesota Rent Assurance Bill — Semptify</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&family=Pinyon+Script&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
+
 
 <header class="topbar">
     <a class="brand" href="/bill">The Bill</a>
@@ -51,12 +52,21 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
 @keyframes mistdrift{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
 
 .lake{animation:lakebreathe 24s ease-in-out infinite alternate}
-@keyframes lakebreathe{from{transform:scale(1)}to{transform:scale(1.04)}}
+/* ——— MN manuscript ornaments (scene layers) ——— */
+.mn-flag{position:absolute;top:4.6rem;right:clamp(.75rem,3vw,2.5rem);width:clamp(110px,14vw,190px);
+    filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));opacity:.9}
+.mn-cherry{position:absolute;top:-1rem;left:-.5rem;width:clamp(130px,18vw,210px);
+    transform:rotate(-8deg);opacity:.85;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4))}
+.mn-loon{position:absolute;right:clamp(.5rem,4vw,3rem);bottom:14%;width:clamp(110px,14vw,170px);
+    opacity:.9;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}
+.mn-ink,.mn-quill{position:absolute;color:#e8d9b8;opacity:.8;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.mn-ink{left:clamp(.75rem,3vw,2.2rem);bottom:9%;width:32px;height:44px}
+.mn-quill{left:clamp(2.3rem,5.5vw,4.4rem);bottom:7%;width:42px;height:62px;transform:rotate(14deg)}
 
 /* ——— chrome ——— */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
     padding:.85rem 1.4rem;background:linear-gradient(180deg,rgba(8,18,32,.85),rgba(8,18,32,0))}
-.topbar .brand{font-family:"IM Fell English",serif;font-size:1.15rem;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.topbar .brand{font-family:"UnifrakturMaguntia",serif;font-size:1.35rem;letter-spacing:.02em;color:var(--ink);text-decoration:none}
 .topbar nav{display:flex;gap:1.1rem;flex-wrap:wrap}
 .topbar nav a{color:var(--ink-soft);text-decoration:none;font-size:.92rem;letter-spacing:.02em}
 .topbar nav a:hover,.topbar nav a.here{color:var(--gold)}
@@ -64,9 +74,9 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
 /* ——— hero ——— */
 .hero{position:relative;z-index:2;min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
     padding:0 clamp(1.25rem,6vw,6rem)}
-.hero .kicker{font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
-.hero h1{font-family:"IM Fell English",Georgia,serif;font-weight:400;font-size:clamp(2.4rem,6.2vw,4.6rem);line-height:1.08;
-    max-width:13em;color:var(--ink);text-shadow:0 2px 30px rgba(8,18,32,.9)}
+.hero .kicker{font-family:"Pinyon Script",cursive;font-size:1.7rem;letter-spacing:0;text-transform:none;color:#e8c98a;margin-bottom:.4rem}
+.hero h1{font-family:"UnifrakturMaguntia",Georgia,serif;font-weight:400;font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.04;
+    max-width:13em;color:#f4e8cc;text-shadow:0 2px 30px rgba(8,18,32,.9)}
 .hero .sub{margin-top:1.4rem;max-width:34rem;font-size:clamp(1.02rem,1.6vw,1.2rem);line-height:1.6;color:var(--ink-soft);
     text-shadow:0 1px 18px rgba(8,18,32,.9)}
 .scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);color:var(--ink-dim);font-size:.8rem;
@@ -75,14 +85,15 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
 
 /* ——— content ——— */
 .deck{position:relative;z-index:2;padding:0 clamp(1.25rem,6vw,6rem) 4rem;display:grid;gap:1.1rem;max-width:1200px}
-.panel{background:var(--glass);border:1px solid var(--glass-edge);border-radius:14px;padding:1.5rem 1.7rem;
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.panel h2{font-family:"IM Fell English",serif;font-weight:400;font-size:1.5rem;color:var(--gold);margin-bottom:.55rem}
+.panel{background-color:#f0e4c8;background-image:url("/static/img/doc-page.jpeg");
+    background-size:cover;background-position:center;
+    border:1px solid rgba(44,31,16,.25);border-radius:6px;padding:1.5rem 1.7rem;color:#2c1f10}
+.panel h2{font-family:"UnifrakturMaguntia",serif;font-weight:400;font-size:1.6rem;color:#1d2f47;margin-bottom:.55rem}
 .panel h2 a{color:inherit;text-decoration:none}
-.panel h2 a:hover{text-decoration:underline}
-.panel p{color:var(--ink-soft);line-height:1.6;font-size:1rem;max-width:44rem}
-.panel .go{display:inline-block;margin-top:.7rem;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);font-size:.95rem}
-.panel .go:hover{color:var(--gold)}
+.panel h2 a:hover{color:#8b1e2d}
+.panel p{color:#57452c;line-height:1.6;font-size:1rem;max-width:44rem}
+.panel .go{display:inline-block;margin-top:.7rem;color:#2c1f10;text-decoration:none;border-bottom:1px solid #8b1e2d;font-size:.95rem}
+.panel .go:hover{color:#8b1e2d}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}.hero{min-height:88vh}}
 .foot{position:relative;z-index:2;padding:0 clamp(1.25rem,6vw,6rem) 3rem;max-width:1200px;color:var(--ink-dim);font-size:.82rem;line-height:1.6}
@@ -96,6 +107,13 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
     <!-- drifting fog over the water -->
     <div class="fogband f1"></div>
     <div class="fogband f2"></div>
+
+    <!-- MN manuscript ornaments -->
+    <img class="mn-flag" src="/static/img/mn-flag.png" alt="">
+    <img class="mn-cherry" src="/static/img/cherry.jpg" alt="">
+    <img class="mn-loon" src="/static/img/loon.png" alt="">
+    <svg class="mn-ink" viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8c0 0-9 10-9 22a9 9 0 0 0 18 0c0-12-9-22-9-22z"/><path d="M19 38h10M24 30v16"/><rect x="17" y="46" width="14" height="12" rx="2"/></svg>
+    <svg class="mn-quill" viewBox="0 0 64 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 84C30 62 44 40 50 10c1-5 6-5 6 0 2 22-8 48-24 66-3 3-8 1-8-4 0-3 2-6 6-8z"/><path d="M20 76c8-14 18-30 26-44M26 68c6-10 12-20 17-30"/></svg>
 </div>
 
 
