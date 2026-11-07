@@ -86,7 +86,7 @@ HISTORY_SOURCES = [
     ("bill site",
      ROOT,
      "https://github.com/1semptify-arch/semptify-bill-mirror/commit/",
-     ["src/", "build.py", "brain.js", "preview_server.py"]),
+     ["src/", "build.py", "sync_assets.py", "brain.js", "preview_server.py"]),
     ("bill draft &amp; canon",
      ROOT.parent / "modules" / "app-semptify-fastapi",
      "https://github.com/1semptify-arch/Semptify/commit/",
