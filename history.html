@@ -2097,13 +2097,46 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
    git history, commit 9353a37).
    ============================================================ */
 
-/* ——— the fixed parchment backdrop ——— */
-.paper-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
-    background:#f3ead6;
-    background-image:
-        radial-gradient(ellipse 55% 38% at 22% -4%, rgba(255,252,240,.8), transparent 72%),
-        radial-gradient(ellipse 46% 52% at 104% 104%, rgba(146,110,55,.07), transparent 72%),
-        repeating-linear-gradient(0deg, rgba(110,85,45,.022) 0 2px, transparent 2px 5px)}
+/* ——— the fixed parchment backdrop: the page at first light ———
+   The interior echo of the cover's lake-dawn scene: a real laid-paper
+   sheet (doc-page.jpeg — the same texture the cards use) under first
+   light. Layers, top to bottom of the image stack: a dawn band rising
+   at the top edge (deep water blue -> rose -> gold -> gone), a warm
+   lamplight pool upper-left, a cool water shade lower-right, then the
+   paper itself. z-index:-1 keeps the scene UNDER the liquid frame —
+   at z-index:0 it painted over every non-positioned element (header,
+   rails, nav), which is why the frame looked missing.
+   pointer-events:none so it never catches a click. */
+.paper-scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+    background:
+        linear-gradient(180deg, rgba(33,50,76,.5) 0%, rgba(120,80,62,.30) 7%,
+            rgba(190,138,86,.17) 15%, rgba(238,219,180,0) 33%),
+        radial-gradient(ellipse 60% 42% at 22% -4%, rgba(255,250,230,.8), transparent 70%),
+        radial-gradient(ellipse 55% 48% at 108% 112%, rgba(58,84,116,.16), transparent 70%),
+        url("/static/img/doc-page.jpeg") center / cover no-repeat #ede0c0}
+
+/* the loon watermark — woodcut loon, multiply so its white ground
+   melts into the paper; kept faint enough to read as a watermark. */
+.paper-scene::before{content:"";position:absolute;top:8%;right:4.5%;
+    width:min(23vw,270px);aspect-ratio:8/5;
+    background:url("/static/img/loon.png") center/contain no-repeat;
+    mix-blend-mode:multiply;opacity:.07}
+
+/* the deckle — aged darkening at the sheet's edges */
+.paper-scene::after{content:"";position:absolute;inset:0;
+    background:
+        linear-gradient(90deg, rgba(96,72,40,.17), transparent 8%, transparent 92%, rgba(96,72,40,.17)),
+        linear-gradient(180deg, rgba(70,50,26,.14), transparent 7%, transparent 88%, rgba(74,54,28,.22))}
+
+/* the lamp glow — a slow, quiet breathe of warm light. Off entirely
+   under prefers-reduced-motion. */
+.paper-scene__glow{position:absolute;top:-18%;left:-8%;width:70%;height:58%;
+    background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,238,196,.5), transparent 70%);
+    animation:paperlight 80s ease-in-out infinite alternate}
+@keyframes paperlight{
+    from{opacity:.45;transform:translateX(0)}
+    to{opacity:.85;transform:translateX(6%)}}
+@media (prefers-reduced-motion:reduce){.paper-scene__glow{animation:none}}
 
 /* ——— liquid frame: header | bill-nav rail | tools-main-options | footer ——— */
 body.bill-section{
@@ -2260,10 +2293,11 @@ body.bill-section .draft-status{border-top:1px solid #cbb98d}
 <body class="shell bill-section" data-theme="northstar">
 
 <!-- Paper scene — the parchment backdrop for the liquid layout.
-     Flat warm parchment, faint grain + a soft light pool top-left.
-     Replaces the desk scene (kept in git history — commit 9353a37 —
-     if it should ever come back). aria-hidden: decorative only. -->
-<div class="paper-scene" aria-hidden="true"></div>
+     "The page at first light": aged paper carrying the cover's
+     lake-dawn at the top edge, a loon watermark, edge deckle, and a
+     slow lamp glow. Sits at z-index:-1 under the frame — never
+     covers the rails. aria-hidden: decorative only. -->
+<div class="paper-scene" aria-hidden="true"><div class="paper-scene__glow"></div></div>
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="lp-header">
@@ -2360,6 +2394,8 @@ body.bill-section .draft-status{border-top:1px solid #cbb98d}
     repository</a>.</p>
     <table class="vh-table">
         <tr><th>Date</th><th>Where</th><th>Change</th><th>Commit</th></tr>
+        <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">turnbuchalla: send wave timed to post-certification window — legislator pitches HELD until org sessions name 2027-28 housing chairs; Birnberg/FHF/MHFA election-neutral (plan-20261105-time-turnbuchalla-send-wave-to-post-cert-a4b6)</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/e3612507">e3612507</a></td></tr>
+        <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">turnbuchalla: post-election champion-map propagation — Howard chair-elect, Igo ranking member, Port caveat resolved; chairs confirm after Dec org sessions (plan-20261105-update-turnbuchalla-champion-map-for-pos-e3ac)</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/9c6061d1">9c6061d1</a></td></tr>
         <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">Title II statutory draft: MHFA pilot track (new § 462A.46, QAP rails on LIHTC stock) — outside-counsel redline work product (plan-20261105-title-ii-rent-assurance)</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/a0815860">a0815860</a></td></tr>
         <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">admin: Split /bill/live into clean Working Statute tab + drafting notes tab</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/926cebbe">926cebbe</a></td></tr>
         <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill site</td><td class="vh-msg">cover: 3-way audience entry below hero — For renters / For property owners / For lawmakers. Routes each visitor type to its page; history.html regenerated by build (new commit rows).</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/semptify-bill-mirror/commit/4dbf38d">4dbf38d</a></td></tr>

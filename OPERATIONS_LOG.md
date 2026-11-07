@@ -5,6 +5,20 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-07
 
+- **Verification re-run post-4dbf38d/d7d4f70** (swe-2, same task —
+  dispatcher re-spawn): fresh pass on current HEAD. py_compile PASS
+  (3.11.9): build.py, sync_assets.py, preview_server.py; brain.js
+  `node --check` PASS. build.py clean — drift gate + 11 pages; only
+  diff = history.html picking up 2 new canon commits (e3612507,
+  9c6061d1), regenerated + committed as usual. pytest
+  test_ssot_architecture.py 8/8 PASS (68s, --no-cov; the earlier
+  coverage-gate error is an artifact of running one file, not a test
+  failure). guardrail_engine 9/9 PASS (86.4s). Manual: preview :8791 —
+  19 route/asset probes all 200 (11 pages, brain.js, law-linker.js,
+  5 images, /api/voice-posts proxy); IronBee runtime trace on
+  /bill/live: every request repo-local /static/* or Google Fonts except
+  the voice-posts data seam (200 via proxy), console zero messages,
+  ARIA shows all four rails + live-board status text.
 - **Verification resubmit pass** (swe-2, same task — desk bounce asked
   for populated verification fields): re-ran everything independently.
   py_compile PASS (3.11.9): build.py, sync_assets.py, preview_server.py.
