@@ -15,6 +15,11 @@ What's live, what's pending. Updated when state changes — not a changelog
 
 ## Built, awaiting push (not live yet)
 
+- **3-way audience entry below cover hero** (swe-2, 2026-11-07): For renters →
+  `/what-the-bill-changes`, For property owners → `/bill/providers`,
+  For lawmakers → `/bill/brief`. Doors strip between hero and deck on the
+  cover; renter door is live-safe today, provider/lawmaker doors go live with
+  the six new routes below.
 - **Six new bill-wing spaces** (architecture draft §5, swe-2, 2026-11-07):
   `/bill/history` (version history generated from git at build time),
   `/bill/providers`, `/bill/brief`, `/bill/classroom`, `/bill/press`,

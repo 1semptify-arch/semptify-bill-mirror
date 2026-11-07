@@ -104,6 +104,13 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
 .panel .go:hover{color:#8b1e2d}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}.hero{min-height:88vh}}
+
+/* ——— audience entry: three doors below the hero ——— */
+.audience{position:relative;z-index:2;padding:0 clamp(1.25rem,6vw,6rem) 2.6rem;max-width:1200px}
+.audience .lead{font-family:"Pinyon Script",cursive;font-size:1.45rem;color:#e8c98a;
+    margin:0 0 .9rem;text-shadow:0 1px 14px rgba(8,18,32,.9)}
+.audgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+@media (max-width:900px){.audgrid{grid-template-columns:1fr}}
 .foot{position:relative;z-index:2;padding:0 clamp(1.25rem,6vw,6rem) 3rem;max-width:1200px;color:var(--ink-dim);font-size:.82rem;line-height:1.6}
 .foot-flags{display:flex;gap:.6rem;margin-bottom:.8rem}
 .foot-flags img{height:34px;border:1px solid rgba(232,238,244,.25);border-radius:2px}
@@ -133,6 +140,30 @@ body{font-family:"Source Sans 3",system-ui,sans-serif;background:var(--lake-deep
     that comes back, a repair that gets made, a record that counts. This proposal is
     being written where everyone can watch, and everyone can check the work.</p>
     <a class="scrollcue" href="#deck">Read on ↓</a>
+</section>
+
+<section class="audience" aria-label="Start here — pick your door">
+    <p class="lead">Start here — one of these doors is yours.</p>
+    <div class="audgrid">
+        <section class="panel">
+            <h2><a href="/what-the-bill-changes">For renters →</a></h2>
+            <p>What the bill would change at home — a deposit that comes back,
+            a repair that gets made, a record that counts.</p>
+            <a class="go" href="/what-the-bill-changes">Read the renter case</a>
+        </section>
+        <section class="panel">
+            <h2><a href="/bill/providers">For property owners →</a></h2>
+            <p>What the bill asks of you, what it gives back — and the honest
+            part that costs you.</p>
+            <a class="go" href="/bill/providers">Read the provider page</a>
+        </section>
+        <section class="panel">
+            <h2><a href="/bill/brief">For lawmakers →</a></h2>
+            <p>The whole draft on one page — mechanism, funding, open
+            questions, and sources.</p>
+            <a class="go" href="/bill/brief">Read the brief</a>
+        </section>
+    </div>
 </section>
 
 <main class="deck" id="deck">
