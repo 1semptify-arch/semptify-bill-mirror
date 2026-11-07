@@ -108,12 +108,13 @@ flag footer.
 `history.html` → `/bill/history`, `providers.html` → `/bill/providers`,
 `brief.html` → `/bill/brief`, `classroom.html` → `/bill/classroom`,
 `press.html` → `/bill/press`, `myths.html` → `/bill/myths`,
-`/static/img/*` → root images, `/static/js/law-linker.js` →
-`law-linker.js`, `/api/*` → app origin. Root filenames are the contract —
-do not rename pages without updating the Worker map.
-**The six new `/bill/*` routes must be added to the Worker's URL map in
-the Cloudflare dashboard before they will resolve in production** — the
-Worker source lives only in the dashboard, not in any repo. Local
+`/static/img/*` → root images, `/static/js/*` → root JS files
+(`law-linker.js`, `brain.js`), `/api/*` → app origin. Root filenames are
+the contract — do not rename pages without updating the Worker map.
+**The six new `/bill/*` routes and `/static/js/brain.js` (the rail/board
+logic layer) must be added to the Worker's URL map in the Cloudflare
+dashboard before they will resolve in production** — the Worker source
+lives only in the dashboard, not in any repo. Local
 preview (`preview_server.py`, port 8791) already mirrors them.
 
 ## If you move it

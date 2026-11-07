@@ -23,6 +23,8 @@ What's live, what's pending. Updated when state changes — not a changelog
   repo must sit at `../modules/app-semptify-fastapi` for canon rows.**
 - **Deploy prerequisite:** the six `/bill/*` routes need entries in the
   Cloudflare Worker's URL map (dashboard-only source) or they 404 in prod.
+  Same for `/static/js/brain.js` — the rail/board logic layer (c041599);
+  without a map entry it 404s and the tools/options rails go dead.
 
 ## Pending / known gaps
 

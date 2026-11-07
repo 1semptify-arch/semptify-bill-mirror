@@ -5,6 +5,18 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-07
 
+- **Microsite self-containment audit + worker-map doc fix** (swe-2,
+  task plan-20261105-make-bill-section-a-self-contained-micro-06d7):
+  verified the site is fully self-contained — `python build.py` clean
+  (drift gate + 11 pages, zero diff vs committed root), runtime trace
+  on preview:8791 shows only repo-local `/static/*` + Google Fonts +
+  the `/api/voice-posts` data seam (200, proxied). No app-shell
+  dependency anywhere. Fixed a doc gap: `/static/js/brain.js` was not
+  in the README Worker-map contract or the BUILD_STATE deploy
+  prerequisite — without a worker entry it would 404 in prod and kill
+  the tools/options rails. Added `.gitignore` (`__pycache__/`, `*.log`,
+  `nul*`).
+
 - **Static-asset sync automated** (swe-2): new `sync_assets.py` syncs all
   app-sourced copies (root css/js/img + the vendored ssot sections inside
   `src/bill.css`) from `../modules/app-semptify-fastapi`, with `--check`
