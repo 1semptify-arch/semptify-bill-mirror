@@ -22,8 +22,11 @@ chrome: interior -> shell+nav+aside+footer, bill.css inlined in <style>
         deck     -> standalone cover (own palette/styles, topbar nav,
                     deck footer); bill.css NOT inlined
 """
+import datetime
+import html
 import pathlib
 import re
+import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).parent
@@ -58,15 +61,105 @@ def parse_fragment(text: str):
     return meta, text[m.end():].strip()
 
 
+NAV_KEYS = ("bill", "live", "research", "changes", "voice",
+            "history", "providers", "brief", "classroom", "press", "myths")
+
+
 def fill_nav(nav_html: str, active: str) -> str:
-    for key in ("bill", "live", "research", "changes", "voice"):
+    for key in NAV_KEYS:
         mark = ' aria-current="page"' if key == active else ""
         nav_html = nav_html.replace("{{CUR_%s}}" % key, mark)
     return nav_html
 
 
+# Version history — the public change log, generated from git at build time.
+# Each entry: (label, repo dir, commit-url base, paths to log).
+# The bill draft's canon lives in the sibling Semptify app checkout; if that
+# repo isn't beside this one its rows just don't appear (with a note).
+HISTORY_SOURCES = [
+    ("bill site",
+     ROOT,
+     "https://github.com/1semptify-arch/semptify-bill-mirror/commit/",
+     ["src/", "build.py", "brain.js", "preview_server.py"]),
+    ("bill draft &amp; canon",
+     ROOT.parent / "modules" / "app-semptify-fastapi",
+     "https://github.com/1semptify-arch/Semptify/commit/",
+     ["app/static/turnbuchalla/",
+      "app/templates/public/bill_draft.html",
+      "app/templates/public/bill_hub.html",
+      "app/templates/public/bill_live.html",
+      "app/templates/public/bill_research.html",
+      "app/templates/public/what_the_bill_changes.html",
+      "data/bill_claims_public.json"]),
+]
+HISTORY_LIMIT = 60
+
+
+def _git_log(repo: pathlib.Path, paths):
+    cmd = (["git", "-C", str(repo), "log", "--all",
+            "--format=%aI%x09%h%x09%s", "--"] + paths)
+    out = subprocess.run(cmd, capture_output=True, text=True,
+                         encoding="utf-8", errors="replace",
+                         timeout=30)
+    if out.returncode != 0:
+        return []
+    rows = []
+    for line in out.stdout.splitlines():
+        parts = line.split("\t", 2)
+        if len(parts) == 3:
+            rows.append(parts)
+    return rows
+
+
+def bill_history() -> str:
+    """Merged, dated git history of the bill canon -> <tr> rows."""
+    entries = []
+    missing = []
+    for label, repo, base, paths in HISTORY_SOURCES:
+        if not repo.is_dir():
+            missing.append(label)
+            continue
+        try:
+            for iso, short, subj in _git_log(repo, paths):
+                entries.append((iso, label, short, subj, base))
+        except (OSError, subprocess.SubprocessError):
+            missing.append(label)
+
+    def sortkey(e):
+        try:
+            return datetime.datetime.fromisoformat(
+                e[0].replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            return 0.0
+
+    entries.sort(key=sortkey, reverse=True)
+    rows = []
+    for iso, label, short, subj, base in entries[:HISTORY_LIMIT]:
+        rows.append(
+            '<tr><td class="vh-date">%s</td>'
+            '<td class="vh-repo">%s</td>'
+            '<td class="vh-msg">%s</td>'
+            '<td class="vh-hash"><a href="%s%s">%s</a></td></tr>' % (
+                html.escape(iso[:10]), label,
+                html.escape(subj),
+                base, html.escape(short), html.escape(short)))
+    for label in missing:
+        rows.append(
+            '<tr><td colspan="4" class="vh-msg"><em>History source '
+            "unavailable in this build: %s — the record lives in the "
+            "public repos.</em></td></tr>" % label)
+    if not rows:
+        rows.append(
+            '<tr><td colspan="4" class="vh-msg"><em>Git history not '
+            "available in this build — the record lives in the public "
+            "repos.</em></td></tr>")
+    return "\n        ".join(rows)
+
+
 def build_page(path: pathlib.Path, bill_css: str) -> str:
     meta, body = parse_fragment(read(path))
+    if "{{BILL_HISTORY}}" in body:
+        body = body.replace("{{BILL_HISTORY}}", bill_history())
     chrome = meta["chrome"]
     if chrome not in BODY_OPEN:
         raise ValueError(f"{path.name}: unknown chrome '{chrome}'")

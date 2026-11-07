@@ -20,6 +20,12 @@ ALIASES = {
     "/what-the-bill-changes": "what-the-bill-changes.html",
     "/your-voice": "your-voice.html",
     "/voice": "your-voice.html",
+    "/bill/history": "history.html",
+    "/bill/providers": "providers.html",
+    "/bill/brief": "brief.html",
+    "/bill/classroom": "classroom.html",
+    "/bill/press": "press.html",
+    "/bill/myths": "myths.html",
 }
 
 

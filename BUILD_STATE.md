@@ -13,6 +13,17 @@ What's live, what's pending. Updated when state changes — not a changelog
 - Dark mode, public anonymous APIs, voice-post lane — all verified
   2026-11-05 audit.
 
+## Built, awaiting push (not live yet)
+
+- **Six new bill-wing spaces** (architecture draft §5, swe-2, 2026-11-07):
+  `/bill/history` (version history generated from git at build time),
+  `/bill/providers`, `/bill/brief`, `/bill/classroom`, `/bill/press`,
+  `/bill/myths`. New links in top rail + tools rail + cover panels.
+  **`/bill/history` build now runs `git log` over both repos — the app
+  repo must sit at `../modules/app-semptify-fastapi` for canon rows.**
+- **Deploy prerequisite:** the six `/bill/*` routes need entries in the
+  Cloudflare Worker's URL map (dashboard-only source) or they 404 in prod.
+
 ## Pending / known gaps
 
 - **Retire the 5 app bill templates** (`your_voice.html`, `bill_draft.html`,

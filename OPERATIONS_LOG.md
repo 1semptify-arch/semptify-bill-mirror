@@ -3,6 +3,18 @@
 Dated record of site-affecting operations. Newest first. Format:
 `YYYY-MM-DD — what changed — where verified`.
 
+## 2026-11-07
+
+- **Six new bill-wing spaces built** (swe-2, architecture draft §5):
+  history (public version history — build.py now merges `git log` from
+  this repo + the app repo's bill canon into a dated table with GitHub
+  commit links), providers, lawmakers' brief, classroom kit, press room,
+  myths & facts. New links added to rail_top, nav_deck, rail_tools, and
+  cover panels. preview_server.py aliases added for the six routes;
+  port 8791 registered in PORTS.md. Verified via build + local preview.
+  NOT pushed — deploy needs the six `/bill/*` routes added to the
+  Cloudflare Worker URL map first (dashboard-only source).
+
 ## 2026-11-05
 
 - **DB pool retune shipped** — `NullPool` on `render_balanced` (#332) +

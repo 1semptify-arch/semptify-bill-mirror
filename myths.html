@@ -1,0 +1,2582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Common claims about the Minnesota rent assurance bill, each answered with its source — facts only, opinion labeled as opinion.">
+<meta name="theme-color" content="#002d5c">
+<meta name="color-scheme" content="light">
+<title>Myths &amp; Facts — Minnesota Bill — Semptify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=UnifrakturMaguntia&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   bill.css - THE BILL MICROSITE single stylesheet (vendored, self-contained).
+   Merged: ssot sections 1,2,3,4,6,7,8,9,10 + site-shell + northstar + bill
+   token map + shared page components. No imports, no external stylesheet
+   deps. Inlined into each page by build.py.
+   ============================================================================ */
+:root {
+  /* ========================================================================
+     HSL DESIGN DIALS — wired from the Semptify 5.0 Design Playground.
+     Adjust these values (or paste the playground's exported :root block)
+     to retheme the entire app. Semantic colors (success, error, calm,
+     alarm) are NOT derived from these dials — they stay fixed.
+     ======================================================================== */
+  --h-primary: 40;   --s-primary: 12%;  --l-primary: 22%;
+  --h-accent:  130;  --s-accent:  18%;  --l-accent:  42%;
+  --h-bg:      43;   --s-bg:      10%;  --l-bg:      97%;
+  --h-text:    40;   --s-text:    10%;  --l-text:    15%;
+
+  /* Primary Brand Colors — derived from HSL dials */
+  --color-primary:       hsl(var(--h-primary) var(--s-primary) var(--l-primary));
+  --color-primary-light: hsl(var(--h-primary) var(--s-primary) calc(var(--l-primary) + 15%));
+  --color-primary-dark:  hsl(var(--h-primary) var(--s-primary) calc(var(--l-primary) - 8%));
+  --color-accent:        hsl(var(--h-accent)  var(--s-accent)  var(--l-accent));
+  --color-accent-hover:  hsl(var(--h-accent)  var(--s-accent)  calc(var(--l-accent) - 10%));
+  /* Text-safe accent: WCAG AA on paper. Use for accent-colored TEXT and
+     accent fills carrying light text; keep --color-accent for borders and
+     decorative fills where 3:1 is enough. */
+  --color-accent-strong:        hsl(var(--h-accent)  var(--s-accent)  calc(var(--l-accent) - 10%));
+  --color-accent-strong-hover:  hsl(var(--h-accent)  var(--s-accent)  calc(var(--l-accent) - 18%));
+  --color-accent-text:   var(--text-inverse);
+
+  /* Semantic Colors — fixed, NOT derived from brand dials */
+  --color-success: #10b981;
+  --color-success-50: #ecfdf5;
+  --color-success-800: #065f46;
+  --color-warning: #f59e0b;
+  --color-warning-50: #fffbeb;
+  --color-warning-800: #92400e;
+  --color-error: #ef4444;
+  --color-error-50: #fef2f2;
+  --color-error-800: #991b1b;
+  --color-info: #3b82f6;
+  --color-info-50: #eff6ff;
+  --color-info-800: #1e40af;
+
+  /* Calm Baseline + Reserved Alarm (Task 1 — Master Handoff)
+     Alarm color is reserved for genuine urgency only: real deadlines,
+     eviction dates, response windows. Never use it for general emphasis. */
+  --color-calm: #5c7a99;
+  --color-calm-light: #8aa3bf;
+  --color-calm-dark: #3a4f66;
+  --color-calm-50: #f0f4f8;
+  --color-calm-100: #dce4ed;
+  --color-calm-200: #b8c8d9;
+  --color-calm-300: #94a8bf;
+  --color-calm-400: #7a92a8;
+  --color-calm-500: #5c7a99;
+  --color-calm-600: #4a6582;
+  --color-calm-700: #3a4f66;
+  --color-calm-800: #2d3d4f;
+  --color-calm-900: #1f2b38;
+  --color-alarm: #d97706;
+  --color-alarm-hover: #b45309;
+  --color-alarm-text: #ffffff;
+
+  /* Neutral Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Text Colors
+     --text-primary is derived from the HSL text dial (warm near-black).
+     --text-secondary and --text-muted are CONTRAST-FIXED per design
+     refresh 2026-09-07, tightened 2026-11-03: EVERY text token must clear
+     WCAG AA 4.5:1 on the lightest AND darkest light-theme surface (paper
+     #f6f4ef and card #efeeea). secondary #4b5560 = 7.0:1, muted #5f6772 =
+     4.9:1 on the darkest surface. No "large text only" tokens. Do NOT change
+     these without re-running tests/test_text_contrast.py. */
+  --text-primary:   hsl(var(--h-text) var(--s-text) var(--l-text));
+  --text-secondary: #4b5560;
+  --text-muted: #5f6772;
+  --text-inverse:   hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) + 2%));
+
+  /* Backward-compatible aliases for design-system source naming.
+     NOTE: we intentionally do NOT alias --color-text-* to --text-* here
+     because the existing gui-panels.css uses --color-text-primary with a
+     #fff fallback for dark GUI zones. Aliasing it would break that.
+     These surface/background aliases are safe because they are theme-agnostic. */
+  --color-bg-card: var(--bg-card);
+  --color-bg-primary: var(--bg-page);
+  --color-border: var(--border-color);
+
+  /* Background Colors — derived from HSL bg dial */
+  --bg-page:    hsl(var(--h-bg) var(--s-bg) var(--l-bg));
+  --bg-card: #ffffff;
+  --bg-elevated: hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) + 1.5%));
+  --bg-header: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+
+  /* Playground-derived surface tokens (used by new templates) */
+  --bg-surface: hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) + 1.5%));
+  --bg-muted:   hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) - 3%));
+  --bg-field:   hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) - 1.5%));
+  --bg-sidebar: hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) - 5%));
+  --bg-footer:  hsl(var(--h-bg) var(--s-bg) calc(var(--l-bg) - 8%));
+
+  /* Tonal scale — warm neutral, used for zone separation instead of borders */
+  --tone-0: #ffffff;
+  --tone-50: #fafaf8;
+  --tone-100: #f7f7f5;
+  --tone-200: #f0f0ec;
+  --tone-300: #e8e3d4;
+  --tone-400: #d8d6c8;
+  --tone-500: #c8c8c0;
+  --tone-600: #a0a098;
+  --tone-700: #6b6b63;
+  --tone-800: #4a4a4a;
+  --tone-900: #1a1a1a;
+
+  /* Magazine-cover palette — printed over the cover photograph on the
+     landing page (app/templates/index.html). Warm dark-photo inks. */
+  --cover-bg: #3a2a20;        /* fallback behind the cover image */
+  --cover-accent: #e8c9a8;    /* kicker / cover-line numbers / hover */
+  --cover-ink: #ffffff;       /* headline, links, cover-line titles */
+  --cover-ink-soft: #f5efe6;  /* standfirst body text */
+
+  /* Spacing Scale (8px base) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+
+  /* Typography — Design Handoff 2026-07-01 */
+  --font-sans: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  /* Playground font dials — adjustable from the design playground.
+     --font-body aliases --font-sans for backward compat; changing the
+     playground's body font updates both. --font-head is new (serif by
+     default) and not yet applied to any existing elements. */
+  --font-head: 'Playfair Display', Georgia, serif;
+  --font-body: var(--font-sans);
+
+  /* Legacy scale (kept for backward compat — do not use in new templates) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  /* New type scale — Design Handoff 2026-07-01 */
+  --type-h1: 22px;
+  --type-h2: 17px;
+  --type-h3: 15px;
+  --type-body: 13px;
+  --type-label: 11px;
+  --type-h1-weight: 600;
+  --type-h2-weight: 600;
+  --type-h3-weight: 500;
+  --type-body-weight: 400;
+  --type-label-weight: 500;
+  --type-body-leading: 1.45;
+  --type-label-tracking: 0.06em;
+  --type-h1-tracking: -0.01em;
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Borders & Radius — Design Handoff 2026-09-07: radius is now a
+     deliberate depth/polish tool, not a prohibition. */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 10px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Deliberate radius tokens for common surface types */
+  --radius-block: 6px;
+  --radius-block-lg: 10px;
+  --radius-pill: 9999px;
+  --radius-input: 4px;
+
+  --border-width: 1px;
+  --border-color: hsl(var(--h-text) var(--s-text) var(--l-text) / 0.10);
+
+  /* Elevation — intentional shadow tiers for depth.
+     Legacy --shadow-* tokens are aliased to elevation values for backward
+     compatibility; prefer --elevation-* in new code. */
+  --elevation-1: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --elevation-2: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --elevation-3: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --elevation-4: 0 8px 32px rgba(15, 23, 42, 0.10);
+  --elevation-sticky: 0 1px 0 rgba(15, 23, 42, 0.06);
+
+  --shadow-sm: var(--elevation-1);
+  --shadow-md: var(--elevation-2);
+  --shadow-lg: var(--elevation-3);
+  --shadow-xl: var(--elevation-4);
+
+  /* Layout */
+  --max-width-xs: 20rem;      /* 320px */
+  --max-width-sm: 24rem;      /* 384px */
+  --max-width-md: 28rem;      /* 448px */
+  --max-width-lg: 32rem;      /* 512px */
+  --max-width-xl: 36rem;      /* 576px */
+  --max-width-2xl: 42rem;     /* 672px */
+  --max-width-3xl: 48rem;     /* 768px */
+  --max-width-4xl: 56rem;     /* 896px */
+  --max-width-5xl: 64rem;     /* 1024px */
+  --max-width-6xl: 72rem;     /* 1152px */
+  --max-width-7xl: 80rem;     /* 1280px */
+  --max-width-full: 100%;
+
+  /* Easing curves — deliberate micro-interaction curves */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Transitions */
+  --transition-fast: 150ms var(--ease-out);
+  --transition-normal: 250ms var(--ease-out);
+  --transition-slow: 350ms var(--ease-out);
+
+  /* Z-Index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-drawer: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+
+  /* ============================================================================
+     TEMPLATE COLOR TOKENS — Design Handoff 2026-07-01
+     5 sets, 3 colors each (header / body / footer).
+     Header & footer are dark (white text, WCAG AA). Body is light (black text).
+     ============================================================================ */
+
+  /* Template 1 — Tenants (blue / warm neutral) */
+  --tpl-1-header: #0C447C;
+  --tpl-1-body:   #f7f7f5;
+  --tpl-1-footer: #042C53;
+
+  /* Template 2 — Legal / Agencies (teal / official) */
+  --tpl-2-header: #0F6E56;
+  --tpl-2-body:   #E1F5EE;
+  --tpl-2-footer: #04342C;
+
+  /* Template 3 — Advocates / Researchers (purple / analytical) */
+  --tpl-3-header: #534AB7;
+  --tpl-3-body:   #EEEDFE;
+  --tpl-3-footer: #26215C;
+
+  /* Template 4 — Developers / Tools (gray / technical) */
+  --tpl-4-header: #5F5E5A;
+  --tpl-4-body:   #F1EFE8;
+  --tpl-4-footer: #2C2C2A;
+
+  /* Template 5 — Donors (coral / warm call-to-action) */
+  --tpl-5-header: #993C1D;
+  --tpl-5-body:   #FAECE7;
+  --tpl-5-footer: #4A1B0C;
+
+  /* ============================================================================
+     ZONE BACKGROUND TIERS — replaces border/shadow separation
+     Derived from the existing dark palette (body gradient #1a1a2e → #16213e).
+     Primary = base page, secondary = adjacent zone, tertiary = nested/emphasized,
+     inverse = high-emphasis dark band (GOVERN-style).
+     ============================================================================ */
+  --zone-bg-primary:   hsl(var(--h-primary) 5% 12%);   /* base page background — main / center content */
+  --zone-bg-secondary: hsl(var(--h-primary) 5% 17%);   /* one step lighter — adjacent zone (sidebars, lists) */
+  --zone-bg-tertiary:  hsl(var(--h-primary) 5% 23%);   /* two steps — nested or emphasized zone (headers, toolbars) */
+  --zone-bg-inverse:   hsl(var(--h-primary) 5% 10%);   /* darkest — high-emphasis sections, viewer area */
+
+  /* Shape cues — replaces border-radius-as-container-edge */
+  --zone-corner-cut: 0;           /* default: flat edge meets flat edge */
+  --zone-corner-soft: 4px;        /* used only where a genuinely soft transition is intentional */
+
+  /* Spacing rhythm — does the separation work borders used to do */
+  --zone-gap-tight: 8px;
+  --zone-gap-standard: 24px;
+  --zone-gap-loose: 48px;
+
+  /* Type-weight as boundary signal */
+  --zone-header-weight: 600;
+  --zone-body-weight: 400;
+
+  /* Zone surface tiers — replaces card borders for content separation */
+  --zone-surface-1: var(--bg-card);
+  --zone-surface-2: var(--color-gray-50);
+  --zone-surface-3: var(--color-gray-100);
+  --zone-surface-inverse: var(--color-gray-900);
+
+  /* Supporting tokens for .main-nav / .unified-footer */
+  --color-header-1: var(--color-primary-dark);
+  --color-header-2: var(--color-primary);
+  --color-warm: var(--color-warning);
+  --surface-0: var(--bg-card);
+  --surface-1: var(--color-gray-100);
+  --border-light: var(--border-color);
+  --primary-50: hsl(var(--h-primary) var(--s-primary) var(--l-primary) / 0.12);
+  --primary-600: var(--color-primary-light);
+  --z-50: 50;
+}
+
+/* ============================================================================
+   2. RESET & BASE STYLES
+   ============================================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* Design Handoff 2026-09-07: radius is deliberate, not prohibited.
+     Components opt into rounded corners via their own border-radius. */
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* ============================================================================
+   TYPE SCALE — Design Handoff 2026-07-01
+   Applied globally so all templates inherit automatically.
+   ============================================================================ */
+
+h1 {
+  font-size: var(--type-h1);
+  font-weight: var(--type-h1-weight);
+  letter-spacing: var(--type-h1-tracking);
+}
+
+h2 {
+  font-size: var(--type-h2);
+  font-weight: var(--type-h2-weight);
+}
+
+h3 {
+  font-size: var(--type-h3);
+  font-weight: var(--type-h3-weight);
+}
+
+body, p {
+  font-size: var(--type-body);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+}
+
+.label, .meta {
+  font-size: var(--type-label);
+  font-weight: var(--type-label-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--type-label-tracking);
+}
+
+/* Monospace for case numbers, dates, doc IDs, code */
+.mono, .doc-id, .case-number, code, pre {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   3. UTILITY CLASSES (Single Source of Truth for common patterns)
+   ============================================================================ */
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: var(--max-width-7xl);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.container-sm { max-width: var(--max-width-3xl); }
+.container-md { max-width: var(--max-width-4xl); }
+.container-lg { max-width: var(--max-width-6xl); }
+
+/* Display */
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.hidden { display: none; }
+
+/* Flexbox */
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* Spacing */
+.m-0 { margin: 0; }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-4 { margin: var(--space-4); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+.m-auto { margin: auto; }
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.ml-1 { margin-left: var(--space-1); }
+.ml-2 { margin-left: var(--space-2); }
+.ml-4 { margin-left: var(--space-4); }
+.ml-auto { margin-left: auto; }
+
+.mr-1 { margin-right: var(--space-1); }
+.mr-2 { margin-right: var(--space-2); }
+.mr-4 { margin-right: var(--space-4); }
+.mr-auto { margin-right: auto; }
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-4 { margin-top: var(--space-4); margin-bottom: var(--space-4); }
+.my-6 { margin-top: var(--space-6); margin-bottom: var(--space-6); }
+
+.p-0 { padding: 0; }
+.p-2 { padding: var(--space-2); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+.px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+.py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+
+/* Typography */
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+
+.font-normal { font-weight: var(--font-normal); }
+.font-medium { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold { font-weight: var(--font-bold); }
+
+.leading-tight { line-height: var(--leading-tight); }
+.leading-normal { line-height: var(--leading-normal); }
+.leading-relaxed { line-height: var(--leading-relaxed); }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-inverse { color: var(--text-inverse); }
+.text-accent { color: var(--color-accent-strong); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Backgrounds */
+.bg-page { background-color: var(--bg-page); }
+.bg-card { background-color: var(--bg-card); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-light { background-color: var(--color-primary-light); }
+.bg-accent { background-color: var(--color-accent); }
+
+/* Borders */
+.border { border: var(--border-width) solid var(--border-color); }
+.border-t { border-top: var(--border-width) solid var(--border-color); }
+.border-b { border-bottom: var(--border-width) solid var(--border-color); }
+
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Shadows */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+/* ============================================================================
+   4. COMPONENT CLASSES (Reusable UI Components)
+   ============================================================================ */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn:focus {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Variants */
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-dark);
+  color: var(--text-inverse);
+  text-decoration: none;
+}
+
+.btn--secondary {
+  background: var(--color-gray-100);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn--secondary:hover {
+  background: var(--color-gray-200);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.btn--accent {
+  background: var(--color-accent);
+  color: var(--color-gray-900);
+}
+
+.btn--accent:hover {
+  background: var(--color-accent-hover);
+  color: var(--color-gray-900);
+  text-decoration: none;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn--ghost:hover {
+  background: var(--color-gray-100);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.btn--danger {
+  background: var(--color-error);
+  color: var(--text-inverse);
+}
+
+.btn--danger:hover {
+  background: #dc2626;
+  color: var(--text-inverse);
+  text-decoration: none;
+}
+
+/* Button Sizes */
+.btn--sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.btn--lg {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+}
+
+/* Cards — tone + shadow separation. No visible border; depth comes from
+   deliberate shadow tiers and a subtle radius. No transform-lift. */
+.card {
+  background: var(--bg-card);
+  border: none;
+  border-radius: var(--radius-block);
+  box-shadow: var(--elevation-1);
+  overflow: hidden;
+  transition: box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--elevation-2);
+}
+
+.card__header {
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-gray-50);
+}
+
+.card__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.card__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+.card__body {
+  padding: var(--space-6);
+}
+
+.card__footer {
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-gray-50);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* Card Variants */
+.card--compact .card__body {
+  padding: var(--space-4);
+}
+
+.card--flat {
+  box-shadow: none;
+}
+
+.card--flat:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+/* ============================================================================
+   6. RESPONSIVE UTILITIES
+   ============================================================================ */
+
+@media (max-width: 640px) {
+  .container {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .hide-mobile { display: none !important; }
+
+  .page-header__title {
+    font-size: var(--text-2xl);
+  }
+
+  .main-content {
+    padding: var(--space-4);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hide-tablet { display: none !important; }
+}
+
+@media (min-width: 1025px) {
+  .hide-desktop { display: none !important; }
+}
+
+/* ============================================================================
+   7. ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Viewport posture — explicit scroll behavior for surfaces that should
+   naturally scroll (public pages, long-form content). Locked and hybrid
+   posture live in gui-panels.css, where .app-posture-locked is aliased to
+   the existing .gui-viewport-locked implementation. */
+.app-posture-scroll {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Ambient motion — hero background gradient shift */
+@keyframes ambient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-ambient {
+  background-size: 200% 200%;
+  animation: ambient-shift 8s var(--ease-in-out) infinite;
+}
+
+/* Focus pulse — primary action attention ring, calm by default */
+@keyframes focus-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--h-primary) var(--s-primary) var(--l-primary) / 0); }
+  50% { box-shadow: 0 0 0 4px hsl(var(--h-primary) var(--s-primary) var(--l-primary) / 0.12); }
+}
+
+.animate-focus-pulse {
+  animation: focus-pulse 3s var(--ease-in-out) infinite;
+}
+
+/* ============================================================================
+   8. ACCESSIBILITY
+   ============================================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus-visible:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   9. UNIFIED FOOTER - Single Source of Truth
+   ============================================================================
+   This footer appears on EVERY page for consistency.
+   Mandates enforced: Not legal advice, No cost always, No ads, Privacy-first
+   ============================================================================ */
+
+.unified-footer {
+  background: linear-gradient(135deg, var(--color-header-1) 0%, var(--color-header-2) 100%);
+  color: rgba(255, 255, 255, 0.9);
+  padding: var(--space-10) var(--space-6) var(--space-6);
+  margin-top: auto;
+}
+
+.unified-footer a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color var(--transition-fast) ease;
+}
+
+.unified-footer a:hover {
+  color: var(--color-warm);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Legal Disclaimer - MOST IMPORTANT */
+.footer-disclaimer {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.footer-disclaimer-icon {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.footer-disclaimer-title {
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--color-warm);
+  margin-bottom: var(--space-2);
+}
+
+.footer-disclaimer-text {
+  font-size: var(--text-base);
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Legal/policy links - Centered */
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+  font-size: var(--text-base);
+}
+
+.footer-legal a {
+  padding: var(--space-1) var(--space-2);
+}
+
+/* Divider */
+.footer-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: var(--space-6) auto;
+  max-width: 600px;
+}
+
+/* Bottom Row - Centered */
+.footer-bottom {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-copyright {
+  margin-bottom: var(--space-2);
+}
+
+.footer-mandates {
+  font-weight: 600;
+  color: var(--color-warm);
+}
+
+.footer-help {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+}
+
+/* Legal Aid Hotline - Prominent */
+.footer-hotline {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+  font-weight: 600;
+  color: var(--color-warm);
+}
+
+/* Footer Responsive */
+@media (max-width: 640px) {
+  .unified-footer {
+    padding: var(--space-8) var(--space-4) var(--space-5);
+  }
+
+  .footer-legal {
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .footer-disclaimer-text {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ============================================================================
+   SECTION 10: MAIN NAVIGATION
+   Mandatory 5-link navigation: Home, Library, Office, Tools, Help
+   ============================================================================ */
+
+.main-nav {
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-50);
+}
+
+.nav-container {
+  max-width: var(--max-width-7xl);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* Brand */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: var(--text-lg);
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+}
+
+.nav-title {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .nav-title {
+    display: block;
+  }
+}
+
+/* Navigation Links - MANDATORY 5-ITEM STRUCTURE */
+.nav-links {
+  display: none;
+  list-style: none;
+  gap: var(--space-1);
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.nav-link.active,
+.nav-link[aria-current="page"] {
+  background: var(--primary-50);
+  color: var(--primary-600);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+.nav-label {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .nav-label {
+    display: inline;
+  }
+}
+
+/* Mobile Toggle */
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .nav-toggle {
+    display: none;
+  }
+}
+
+.toggle-bar {
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Navigation */
+.nav-mobile {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+}
+
+.nav-mobile-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nav-mobile-links a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.nav-mobile-links a:hover,
+.nav-mobile-links a.active {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+/* Nav Actions (Contextual) */
+.nav-actions {
+  display: none;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .nav-actions {
+    display: flex;
+  }
+}
+
+/* Skip link — visible on focus only */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  padding: var(--space-2) var(--space-4);
+  z-index: calc(var(--z-sticky) + 1);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 0;
+  outline: 2px solid var(--text-inverse);
+  outline-offset: 2px;
+}
+
+/* Main-nav appearance on dark template headers and mobile wrapping */
+.main-nav .nav-container {
+  height: auto;
+  min-height: 64px;
+}
+
+.main-nav .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-nav .nav-toggle,
+.main-nav .nav-mobile {
+  display: none;
+}
+
+.main-nav .nav-link,
+.main-nav .nav-mobile-links a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.main-nav .nav-link:hover,
+.main-nav .nav-link:focus,
+.main-nav .nav-mobile-links a:hover,
+.main-nav .nav-mobile-links a:focus {
+  color: var(--text-primary);
+}
+
+.main-nav .nav-link.active,
+.main-nav .nav-link[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Always show brand title */
+.nav-title {
+  display: inline;
+}
+
+/* ============================================================================
+   SITE SHELL v5 — asymmetrical desktop frame (mock-site direction)
+   ----------------------------------------------------------------------------
+   Opt-in: <body class="shell"> via templates/shell_base.html.
+   Layout: main content left (~1.6fr), supporting rail right (~1fr), quiet
+   header and footer spanning the full width. Zones of color separate areas
+   — no card grids. Playfair Display headings, rounded corners, 48px targets.
+   Desktop-first; below 900px it falls back to a single scrollable column
+   until the separate mobile UI lands (task mobile-ui-separate-toolset).
+   ========================================================================== */
+
+/* Liquid whole-page scaling — the root font-size tracks the viewport,
+   so every rem-based element (text, padding, bars, buttons) resizes as
+   one body instead of individual parts. Only applies on shell pages. */
+html:has(> body.shell) {
+  font-size: clamp(12.5px, 0.4vw + 10px, 17px);
+}
+
+body.shell {
+  --shell-radius: 0.75rem;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+  /* Mock-site lightness — warm paper, low saturation. Regions are
+     transparent; separation comes from whitespace and hairlines. */
+  --shell-paper: #f6f4ef;
+  --shell-ink: #1f1d1a;
+  --shell-ink-2: #5d5a55;
+  --shell-ink-3: #6b655d;
+  --shell-line: #e8e6e1;
+  --shell-sage: #6b8e6b;
+
+  /* Role accent — the only saturated color on the page, carried by the
+     header and footer chrome. Default is tenant/public sage; role
+     pages opt in with shell--<role> on <body>. */
+  --role-accent: #6b8e6b;
+  --role-deep: #4c6b4c;
+  --role-tint: #eceae0;
+
+  /* Remap the shared tokens so shell pages sit on the paper palette
+     while interior components (cards, inputs) keep their surfaces. */
+  --bg-page: var(--shell-paper);
+  --text-primary: var(--shell-ink);
+  --text-secondary: var(--shell-ink-2);
+  --text-muted: var(--shell-ink-3);
+  --bg-muted: var(--shell-line);
+  --color-accent: var(--shell-sage);
+  --border-color: var(--shell-line);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(20rem, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "header header"
+    "main side"
+    "footer footer";
+  height: 100vh;
+  height: 100dvh;
+  background: var(--shell-paper);
+  /* Desktop never page-scrolls: the shell is a fixed viewport tool and
+     the work zone / rail scroll internally when their content is long. */
+  overflow: hidden;
+}
+
+/* Role accents — muted companions to sage, light enough for the paper
+   frame. Each sets the accent, a deep variant for small text, and the
+   tint used for the header/footer wash. */
+body.shell--advocate { --role-accent: #7286a0; --role-deep: #4d5f74; --role-tint: #e9ebee; }
+body.shell--legal    { --role-accent: #8379a0; --role-deep: #5c5478; --role-tint: #eae8ef; }
+body.shell--agency   { --role-accent: #a3906f; --role-deep: #75644a; --role-tint: #efe9e0; }
+body.shell--developer{ --role-accent: #7d938c; --role-deep: #57695f; --role-tint: #e9ede9; }
+body.shell--admin    { --role-accent: #9a8078; --role-deep: #6d584f; --role-tint: #eee8e4; }
+
+/* --- Frame pieces ---------------------------------------------------------- */
+
+/* Header — thin bar, washed with the role color, hairline keyline. */
+body.shell .main-nav {
+  grid-area: header;
+  position: static;
+  background: var(--role-tint);
+  border-bottom: 2px solid var(--role-accent);
+}
+
+body.shell .main-nav .nav-container {
+  height: 2.875rem;
+  padding: 0 3vw;
+}
+
+body.shell .main-nav .nav-brand {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--role-deep);
+}
+
+body.shell .main-nav .nav-logo {
+  font-size: 1.05rem;
+  color: var(--role-accent);
+}
+
+body.shell .main-nav .nav-link,
+body.shell .main-nav .nav-title {
+  color: var(--shell-ink);
+}
+
+body.shell .main-nav .nav-link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+}
+
+/* Header nav — always visible at every width, ordered right-to-left per
+   the gui-standards header rule. DOM order is Back → Home → DC → Library →
+   Help & resources; row-reverse renders that order right-to-left. */
+body.shell .main-nav .nav-links {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+/* Crisis/help pill — thin outline in the role color. */
+body.shell .nav-actions .btn,
+body.shell .shell-crisis {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.125rem;
+  padding: 0.25rem 0.875rem;
+  border: 1px solid var(--role-accent);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--role-deep);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+body.shell .nav-actions .btn:hover,
+body.shell .shell-crisis:hover {
+  background: var(--role-accent);
+  color: #ffffff;
+}
+
+body.shell .shell-main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  padding: 4vh 4vw;
+  background: transparent;
+  border-left: 2px solid var(--role-accent);
+  overflow-y: auto;
+}
+
+body.shell .shell-side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  padding: 4vh 3vw;
+  background: transparent;
+  border-left: 1px solid var(--shell-line);
+  overflow-y: auto;
+}
+
+/* Footer — thinner than the header, half-size text, same role wash. */
+body.shell .unified-footer {
+  grid-area: footer;
+  background: var(--role-tint);
+  border-top: 1px solid var(--role-accent);
+  padding: 0;
+}
+
+body.shell .unified-footer .footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  padding: 0.45rem 3vw;
+}
+
+body.shell .unified-footer .footer-disclaimer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+body.shell .unified-footer .footer-disclaimer-icon {
+  display: none;
+}
+
+body.shell .unified-footer .footer-disclaimer-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--role-deep);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* The long disclaimer paragraph collapses on shell pages — the title
+   carries the notice and the nav carries the "get help now" link, so
+   the footer stays a single thin line under the header's height. */
+body.shell .unified-footer .footer-disclaimer-text {
+  display: none;
+}
+
+body.shell .unified-footer .footer-legal {
+  gap: 0.9rem;
+  margin: 0;
+}
+
+body.shell .unified-footer .footer-legal a {
+  font-size: 0.75rem;
+  color: var(--role-deep);
+}
+
+body.shell .unified-footer .footer-divider {
+  display: none;
+}
+
+body.shell .unified-footer .footer-bottom {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+body.shell .unified-footer .footer-copyright { margin: 0; }
+body.shell .unified-footer .footer-help { margin: 0; font-size: 0.75rem; color: var(--shell-ink-3); }
+body.shell .unified-footer .footer-help form { display: inline-flex; align-items: center; gap: 0.3rem; }
+body.shell .unified-footer .footer-help label { font-size: 0.75rem; color: var(--shell-ink-3); }
+
+body.shell .unified-footer .footer-copyright,
+body.shell .unified-footer .footer-mandates {
+  font-size: 0.75rem;
+  color: var(--shell-ink-3);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* The mandates line duplicates the disclaimer notice — hidden so the
+   footer holds a single thin line under the header's height. */
+body.shell .unified-footer .footer-mandates {
+  display: none;
+}
+
+body.shell .unified-footer .footer-help label { display: none; }
+
+body.shell .unified-footer .footer-help select,
+body.shell .unified-footer .footer-help button {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.3rem;
+  background: transparent;
+  border: 1px solid var(--shell-line);
+  border-radius: 0.25rem;
+  color: var(--shell-ink-2);
+}
+
+/* --- Typography ------------------------------------------------------------ */
+
+body.shell h1,
+body.shell h2,
+body.shell h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+body.shell .shell-main h1 {
+  font-size: clamp(2rem, 3vw + 1rem, 3.25rem);
+  margin-bottom: 0.75rem;
+}
+
+body.shell .shell-main h2 {
+  font-size: clamp(1.35rem, 1.5vw + 0.75rem, 1.75rem);
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+body.shell .shell-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+  margin-bottom: 0.5rem;
+}
+
+body.shell .shell-lede {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 42rem;
+  margin-bottom: 1.75rem;
+}
+
+body.shell .shell-side h2 {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+}
+
+body.shell .shell-side p,
+body.shell .shell-side li {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* --- Actions (buttons) ------------------------------------------------------ */
+
+body.shell .shell-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+body.shell .shell-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* px, not rem: the 44px tap-target floor (gui-standards) is physical —
+     liquid root scaling must not shrink it below the floor. */
+  min-height: 44px;
+  min-width: 7rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--shell-line);
+  border-radius: var(--shell-radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+body.shell .shell-btn:hover {
+  transform: translateY(-2px);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--bg-card);
+}
+
+body.shell .shell-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--bg-card);
+}
+
+body.shell .shell-btn--primary:hover {
+  background: var(--color-primary-dark);
+}
+
+body.shell .shell-btn--accent {
+  background: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+  color: var(--bg-card);
+}
+
+body.shell .shell-btn--accent:hover {
+  background: var(--color-accent-strong-hover);
+}
+
+/* Locked state — same muted treatment as the fnav gate: visibly
+   unavailable, not dead. Used by Guided Navigation Panel actions. */
+body.shell .shell-btn:disabled {
+  background: var(--shell-line);
+  border-color: var(--shell-line);
+  color: var(--shell-ink-3);
+  cursor: not-allowed;
+  transform: none;
+}
+body.shell .shell-btn:disabled:hover {
+  background: var(--shell-line);
+  border-color: var(--shell-line);
+  transform: none;
+}
+
+/* --- Compact link list (sidebar "next steps") ------------------------------- */
+
+body.shell .shell-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+body.shell .shell-list a {
+  display: block;
+  padding: 0.55rem 1rem;
+  border-radius: var(--shell-radius);
+  background: transparent;
+  border: 1px solid var(--shell-line);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+body.shell .shell-list a:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--bg-card);
+  transform: translateY(-2px);
+}
+
+/* --- Chronological steps (numbered action rows) ------------------------------ */
+
+body.shell .shell-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+body.shell .shell-steps a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--shell-radius);
+  background: transparent;
+  border: 1px solid var(--shell-line);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+body.shell .shell-steps a:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+body.shell .shell-step-num {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-accent-strong);
+  min-width: 1.5rem;
+}
+
+body.shell .shell-step-title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+body.shell .shell-step-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* --- Fallback: single column under 900px ------------------------------------ */
+
+@media (max-width: 900px) {
+  body.shell {
+    display: block;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+  /* Header stays pinned on mobile scroll (gui-standards: always on top,
+     fully visible). The crisis pill drops to make room — the "Help &
+     resources" nav link reaches the same /help surface. */
+  body.shell .main-nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-50);
+  }
+  body.shell .main-nav .nav-actions {
+    display: none;
+  }
+  body.shell .shell-main {
+    border-left: none;
+    border-top: 2px solid var(--role-accent);
+    overflow: visible;
+  }
+  body.shell .shell-side {
+    border-left: none;
+    border-top: 1px solid var(--shell-line);
+    overflow: visible;
+  }
+  body.shell .shell-actions,
+  body.shell .shell-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.shell .shell-btn,
+  body.shell .shell-list a,
+  body.shell .shell-steps a,
+  body.shell .shell-crisis {
+    transition: none;
+  }
+}
+
+/* ========================================
+   THEME: NORTH STAR
+   For: The Minnesota housing bill public section (/bill/*)
+   Palette drawn from the 2024 Minnesota state flag —
+   deep blue (land/night), sky blue (10,000 lakes), white star.
+   ======================================== */
+
+[data-theme="northstar"] {
+  /* Flag-derived palette */
+  --ns-navy: #002d5c;        /* hoist field — deep MN blue */
+  --ns-navy-soft: #0a4172;
+  --ns-sky: #78d3ff;         /* lakes blue */
+  --ns-sky-pale: #dff3ff;
+  --ns-star: #ffffff;
+  --ns-gold: #c9a227;        /* community gold accent — warm, civic */
+
+  /* Header — deep blue, star-lit */
+  --header-bg-start: var(--ns-navy);
+  --header-bg-end: var(--ns-navy-soft);
+  --header-accent: var(--ns-sky);
+  --header-text: var(--ns-star);
+
+  /* Footer — same deep band */
+  --footer-bg-start: var(--ns-navy);
+  --footer-bg-end: var(--ns-navy-soft);
+  --footer-accent: var(--ns-sky);
+  --footer-text: var(--ns-star);
+
+  /* Body */
+  --body-bg: var(--ns-sky-pale);
+  --body-text: var(--ns-navy);
+
+  /* Cards / zones */
+  --card-bg: var(--ns-star);
+  --card-border: var(--ns-sky);
+  --card-text: var(--ns-navy);
+
+  /* Text */
+  --text-primary: var(--ns-navy);
+  --text-secondary: var(--ns-navy-soft);
+  --text-muted: #4a6d8c;
+
+  /* Accents */
+  --accent-primary: var(--ns-navy);
+  --accent-secondary: var(--ns-gold);
+  --accent-success: var(--color-success);
+  --accent-warning: var(--color-warning);
+  --accent-error: var(--color-error);
+
+  /* Interactive */
+  --hover-bg: var(--ns-sky-pale);
+  --focus-ring: var(--ns-sky);
+}
+
+[data-theme="northstar"] .page-header {
+  background: linear-gradient(135deg, var(--header-bg-start) 0%, var(--header-bg-end) 70%, var(--header-accent) 130%);
+  color: var(--header-text);
+}
+
+[data-theme="northstar"] .page-footer {
+  background: linear-gradient(180deg, var(--footer-bg-start) 0%, var(--footer-bg-end) 50%, var(--footer-accent) 150%);
+  color: var(--footer-text);
+}
+
+[data-theme="northstar"] .page-body {
+  background: var(--body-bg);
+  color: var(--body-text);
+}
+
+/* Bill document — the bill text itself is set as an old printed
+   instrument: parchment ground, period faces, sepia ink. UI chrome and
+   annotations stay in the system stack. */
+[data-theme="northstar"] .bill-text,
+[data-theme="northstar"] .yv-draft {
+  --doc-parchment: #f2e7cb;
+  --doc-ink: #3a2f24;
+  --doc-ink-soft: #6b5a44;
+  --doc-rule: #c9b78d;
+  background-color: var(--doc-parchment);
+  background-image:
+    radial-gradient(ellipse 60% 45% at 15% 8%, rgba(255, 250, 230, 0.55), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 88% 92%, rgba(146, 110, 55, 0.10), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(110, 85, 45, 0.02) 0 2px, transparent 2px 6px);
+  border: 1px solid var(--doc-rule);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 252, 238, 0.6),
+    inset 0 0 34px rgba(146, 110, 55, 0.10),
+    0 1px 3px rgba(0, 45, 92, 0.10);
+  color: var(--doc-ink);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+[data-theme="northstar"] .bill-text,
+[data-theme="northstar"] .bill-text h1,
+[data-theme="northstar"] .bill-text h2,
+[data-theme="northstar"] .bill-text h3,
+[data-theme="northstar"] .bill-text p,
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft,
+[data-theme="northstar"] .yv-draft h3,
+[data-theme="northstar"] .yv-draft p,
+[data-theme="northstar"] .yv-draft li {
+  font-family: "IM Fell English", Georgia, serif;
+}
+
+[data-theme="northstar"] .bill-text p,
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft p,
+[data-theme="northstar"] .yv-draft li {
+  color: var(--doc-ink);
+}
+[data-theme="northstar"] .bill-text li,
+[data-theme="northstar"] .yv-draft li {
+  color: var(--doc-ink-soft);
+}
+
+/* Section heads inside the document get the blackletter face — the
+   "old instrument" signal; the bill body stays in Fell English. */
+[data-theme="northstar"] .bill-text h3,
+[data-theme="northstar"] .yv-draft h3 {
+  font-family: "UnifrakturMaguntia", "IM Fell English", Georgia, serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.25;
+}
+
+/* Draft annotations are modern marginalia — sans, not period face. */
+[data-theme="northstar"] .bill-text .draft-label,
+[data-theme="northstar"] .bill-text .draft-status,
+[data-theme="northstar"] .yv-draft .draft-label,
+[data-theme="northstar"] .yv-draft .draft-status {
+  font-family: var(--font-sans);
+}
+[data-theme="northstar"] .bill-text .draft-status,
+[data-theme="northstar"] .yv-draft .draft-status {
+  border-top-color: var(--doc-rule);
+  color: var(--doc-ink-soft);
+}
+
+/* Explicit-theme pin — northstar is a LIGHT-ONLY palette (white star card,
+   navy ink, sky-pale body). Without this block, the global
+   prefers-color-scheme:dark flip in ssot-design-system.css wins because
+   `html body.shell` outranks `[data-theme]`, turns shell-ink LIGHT while
+   --card-bg stays WHITE = unreadable light-on-light bill text.
+   `html body.shell[data-theme]` (0,2,2) outranks `html body.shell` (0,1,2). */
+@media (prefers-color-scheme: dark) {
+  html body.shell[data-theme="northstar"] {
+    --shell-paper: var(--ns-sky-pale);
+    --shell-ink: var(--ns-navy);
+    --shell-ink-2: var(--ns-navy-soft);
+    --shell-ink-3: #4a6d8c;
+    --shell-line: var(--ns-sky);
+    --shell-sage: var(--ns-navy-soft);
+    --role-accent: var(--ns-navy);
+    --role-deep: var(--ns-navy-soft);
+    --role-tint: var(--ns-sky-pale);
+
+    /* Token remaps that body.shell would otherwise resolve to dark-mode
+       shell values — pinned back to the northstar palette. */
+    --bg-page: var(--ns-sky-pale);
+    --bg-card: var(--ns-star);
+    --text-primary: var(--ns-navy);
+    --text-secondary: var(--ns-navy-soft);
+    --text-muted: #4a6d8c;
+  }
+}
+
+/* ============================================================================
+   NORTHSTAR EXPLICIT TOKEN MAP — the site is light-only BY DESIGN.
+   These assignments apply in BOTH light and dark color schemes, so the
+   palette never flips. Interior pages use ssot token names; this block
+   resolves every one of them to northstar values, deterministically.
+   ============================================================================ */
+body.shell[data-theme="northstar"] {
+  --shell-paper: var(--ns-sky-pale);
+  --shell-ink: var(--ns-navy);
+  --shell-ink-2: var(--ns-navy-soft);
+  --shell-ink-3: #4a6d8c;
+  --shell-line: var(--ns-sky);
+  --shell-sage: var(--ns-navy-soft);
+  --role-accent: var(--ns-navy);
+  --role-deep: var(--ns-navy-soft);
+  --role-tint: var(--ns-sky-pale);
+  --bg-page: var(--ns-sky-pale);
+  --bg-card: var(--ns-star);
+  --bg-surface: #eef8ff;
+  --bg-muted: var(--ns-sky-pale);
+  --color-primary: var(--ns-navy);
+  --color-primary-light: var(--ns-navy-soft);
+  --color-accent: var(--ns-navy);
+  --color-accent-hover: var(--ns-navy-soft);
+  --border-color: var(--ns-sky);
+  --card-bg: var(--ns-star);
+  --card-border: var(--ns-sky);
+  --card-text: var(--ns-navy);
+  --accent-primary: var(--ns-navy);
+  --accent-secondary: var(--ns-gold);
+  --accent-success: var(--color-success);
+  --accent-warning: var(--color-warning);
+  --accent-error: var(--color-error);
+  --text-primary: var(--ns-navy);
+  --text-secondary: var(--ns-navy-soft);
+  --text-muted: #4a6d8c;
+  --text-inverse: var(--ns-star);
+  --body-bg: var(--ns-sky-pale);
+  --body-text: var(--ns-navy);
+}
+
+/* Dark-scheme pin — belt and suspenders: re-assert the same values inside
+   the media query at higher specificity than any ambient stylesheet that
+   might accompany this HTML when pasted elsewhere. Palette never flips. */
+@media (prefers-color-scheme: dark) {
+  html body.shell[data-theme="northstar"],
+  body.shell[data-theme="northstar"] {
+    --shell-paper: var(--ns-sky-pale);
+    --shell-ink: var(--ns-navy);
+    --shell-ink-2: var(--ns-navy-soft);
+    --shell-ink-3: #4a6d8c;
+    --shell-line: var(--ns-sky);
+    --shell-sage: var(--ns-navy-soft);
+    --role-accent: var(--ns-navy);
+    --role-deep: var(--ns-navy-soft);
+    --role-tint: var(--ns-sky-pale);
+    --bg-page: var(--ns-sky-pale);
+    --bg-card: var(--ns-star);
+    --bg-surface: #eef8ff;
+    --bg-muted: var(--ns-sky-pale);
+    --color-primary: var(--ns-navy);
+    --color-primary-light: var(--ns-navy-soft);
+    --color-accent: var(--ns-navy);
+    --color-accent-hover: var(--ns-navy-soft);
+    --border-color: var(--ns-sky);
+    --card-bg: var(--ns-star);
+    --card-border: var(--ns-sky);
+    --card-text: var(--ns-navy);
+    --accent-primary: var(--ns-navy);
+    --accent-secondary: var(--ns-gold);
+    --text-primary: var(--ns-navy);
+    --text-secondary: var(--ns-navy-soft);
+    --text-muted: #4a6d8c;
+    --text-inverse: var(--ns-star);
+    --body-bg: var(--ns-sky-pale);
+    --body-text: var(--ns-navy);
+  }
+}
+
+/* ============================================================================
+   SHARED PUBLIC-PAGE COMPONENTS — was duplicated inline in every page head.
+   Single-sourced here.
+   ============================================================================ */
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .section-description { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-block); padding: 0.5rem 0.85rem; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+    .service-card:hover { box-shadow: var(--elevation-2); transform: translateY(-2px); }
+    .service-card .icon { font-size: 1.1rem; display: inline-block; vertical-align: middle; margin: 0 0.4rem 0 0; }
+    .service-card h3 { font-size: 1rem; color: var(--color-primary); margin-bottom: 0.35rem; font-weight: 600; display: inline; vertical-align: middle; }
+    .service-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.3; margin: 0.4rem 0; flex-grow: 1; }
+    .service-card .cta-button { display: inline-block; background: var(--color-accent); color: var(--text-inverse); padding: 0.4rem 0.9rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); align-self: flex-start; }
+    .service-card .cta-button:hover { background: var(--color-accent-hover); }
+    .service-card .cta-button.secondary { background: var(--text-muted); }
+    .service-card .cta-button.secondary:hover { background: var(--text-secondary); }
+
+    /* Fixed light-island palette for service cards. These are literals on
+       purpose — they must NOT follow the dark-mode token flip, so the card
+       stays light in both themes. Defined once here; referenced below. */
+    .service-card {
+        --pc-bg: #efeeea; --pc-line: #d5d2ca; --pc-ink: #1f1d1a;
+        --pc-title: #2f4438; --pc-body: #4a4742; --pc-cta: #4c6b4c;
+        --pc-cta-hover: #3d583d; --pc-muted: #6b655d; --pc-muted-hover: #4a4742;
+    }
+    @media (prefers-color-scheme: dark) {
+        .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+        body .service-card h3 { color: var(--pc-title); }
+        .service-card p { color: var(--pc-body); }
+        .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+        .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+        .service-card .cta-button.secondary { background: var(--pc-muted); }
+        .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+        /* Primary-fill chips go light in dark mode — pair with dark paper text. */
+        .cta-button-large { color: var(--shell-paper); }
+    }
+    [data-theme="dark"] .service-card { background: var(--pc-bg); border-color: var(--pc-line); color: var(--pc-ink); }
+    [data-theme="dark"] .service-card h3 { color: var(--pc-title); }
+    [data-theme="dark"] .service-card p { color: var(--pc-body); }
+    [data-theme="dark"] .service-card .cta-button { background: var(--pc-cta); color: var(--pc-bg); }
+    [data-theme="dark"] .service-card .cta-button:hover { background: var(--pc-cta-hover); }
+    [data-theme="dark"] .service-card .cta-button.secondary { background: var(--pc-muted); }
+    [data-theme="dark"] .service-card .cta-button.secondary:hover { background: var(--pc-muted-hover); }
+
+    .category-section { margin-bottom: 2.25rem; }
+    .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .category-header .category-icon { font-size: 1.5rem; }
+    .category-header h2 { font-size: 1.3rem; color: var(--color-primary); font-weight: 600; }
+    .category-description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+
+    .info-banner { background: var(--color-warning-50, color-mix(in srgb, var(--color-warning), transparent 88%)); border-left: 4px solid var(--color-warm); border-radius: var(--radius-block); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .info-banner p { color: var(--text-primary); font-style: italic; margin: 0; }
+
+    .cta-section { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-block); margin-top: 2rem; }
+    .cta-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+    .cta-button-large { display: inline-block; background: var(--color-primary); color: var(--text-inverse); padding: 1rem 2.5rem; font-size: 1.05rem; text-decoration: none; font-weight: 500; border-radius: var(--radius-input); }
+    .cta-button-large:hover { background: var(--color-primary-light); }
+
+    /* Liquid desktop layout — public pages fit the viewport without page
+       scroll: tighter sections, denser grid, compact CTA band. */
+    @media (min-width: 1024px) {
+        .section { margin-bottom: 1rem; }
+        .section-title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+        .section-description { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .services-grid { gap: 0.75rem; }
+        .category-section { margin-bottom: 1.25rem; }
+        .category-header { margin-bottom: 0.25rem; }
+        .category-description { margin-bottom: 0.75rem; }
+        .info-banner { margin: 1rem 0; padding: 0.85rem 1.25rem; }
+        .cta-section { padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+        .cta-section h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .cta-button-large { padding: 0.6rem 1.75rem; font-size: 0.95rem; }
+    }
+
+    @media (max-width: 640px) {
+        .services-grid { grid-template-columns: 1fr; }
+        .service-card { padding: 1.25rem; }
+    }
+
+/* Bill nav reads left-to-right in task order: learn -> draft -> numbers ->
+   changes -> speak -> exit. The app shell's right-to-left convention is its
+   own; the bill site owns its layout. */
+body.shell[data-theme="northstar"] .main-nav .nav-links {
+  flex-direction: row;
+}
+
+/* Ledger tables get a horizontal scroll window on narrow screens instead
+   of pushing the whole page wide. */
+@media (max-width: 640px) {
+  .rs-ledger { display: block; overflow-x: auto; max-width: 100%; }
+}
+
+/* ============================================================
+   PARCHMENT LIQUID LAYOUT — bill microsite interior pages
+   True-liquid shell: low-profile Semptify bar in the header,
+   the bill nav as a top rail inside the body, a tools rail left,
+   content center, an options+board rail right. Flat warm
+   parchment backdrop — no fixed scene (desk scene retired to
+   git history, commit 9353a37).
+   ============================================================ */
+
+/* ——— the fixed parchment backdrop ——— */
+.paper-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:#f3ead6;
+    background-image:
+        radial-gradient(ellipse 55% 38% at 22% -4%, rgba(255,252,240,.8), transparent 72%),
+        radial-gradient(ellipse 46% 52% at 104% 104%, rgba(146,110,55,.07), transparent 72%),
+        repeating-linear-gradient(0deg, rgba(110,85,45,.022) 0 2px, transparent 2px 5px)}
+
+/* ——— liquid frame: header | bill-nav rail | tools-main-options | footer ——— */
+body.bill-section{
+    grid-template-columns:minmax(11.5rem,1fr) minmax(0,3.2fr) minmax(13.5rem,1.1fr);
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    grid-template-areas:
+        "header header header"
+        "railtop railtop railtop"
+        "tools main options"
+        "footer footer footer";
+    background:transparent;
+}
+
+/* ——— low-profile Semptify bar, visually part of the header ——— */
+.lp-header{grid-area:header;display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;min-height:2.25rem;padding:0 1.25rem;
+    background:var(--role-tint);border-bottom:1px solid var(--shell-line)}
+.lp-brand{font-weight:700;font-size:.95rem;color:var(--ns-navy);text-decoration:none;letter-spacing:.01em}
+.lp-mark{color:#8b1e2d;margin-right:.2rem}
+.lp-sempnav{display:flex;gap:1.1rem;align-items:center;overflow-x:auto;white-space:nowrap}
+.lp-sempnav a{font-size:.78rem;font-weight:500;color:var(--shell-ink-2);text-decoration:none}
+.lp-sempnav a:hover{color:#8b1e2d}
+.lp-sempnav a:first-child{color:#8b1e2d;font-weight:600}
+
+/* ——— bill nav: the body's top rail ——— */
+.rail-top{grid-area:railtop;display:flex;align-items:center;gap:.25rem;
+    padding:.35rem 1.25rem;background:rgba(243,234,214,.72);
+    border-bottom:1px solid #d9c9a3;overflow-x:auto;scrollbar-width:thin}
+.rail-top__link{flex:0 0 auto;font-size:.85rem;font-weight:600;color:#57452c;
+    text-decoration:none;padding:.45rem .85rem;border-bottom:2px solid transparent;
+    font-family:"IM Fell English",Georgia,serif}
+.rail-top__link:hover{color:#8b1e2d}
+.rail-top__link[aria-current="page"]{color:#0b3d6e;border-bottom-color:#8b1e2d}
+.rail-top__status{margin-left:auto;font-size:.72rem;color:#7d6845;white-space:nowrap;
+    font-style:italic}
+
+/* ——— side rails ——— */
+.rail{overflow-y:auto;padding:1rem .9rem;font-size:.85rem}
+.rail--tools{grid-area:tools;border-right:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail--options{grid-area:options;border-left:1px solid #dccdb0;
+    background:rgba(240,228,200,.45)}
+.rail-title{font-family:"IM Fell English",Georgia,serif;font-weight:400;
+    font-size:.95rem;color:#57452c;margin:1.1rem 0 .4rem;letter-spacing:.02em}
+.rail-title:first-child{margin-top:0}
+.rail-list{list-style:none;margin:0;padding:0}
+.rail-list li{margin:.12rem 0}
+.rail-list a{color:#57452c;text-decoration:none;font-size:.82rem;
+    display:block;padding:.28rem .4rem;border-radius:4px}
+.rail-list a:hover{background:rgba(217,201,163,.5);color:#8b1e2d}
+
+/* ——— the bulletin board in the options rail ——— */
+.bb{font-size:.8rem}
+.bb-empty{color:#7d6845;font-size:.78rem;line-height:1.45}
+.bb-empty a{color:#0b5fa5}
+.bb-live{display:inline-block;font-size:.62rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#346538;background:#edf3ec;
+    border:1px solid #cfdcc9;border-radius:9999px;padding:.05rem .45rem;
+    vertical-align:.12em;margin-left:.35rem}
+.bb-list{list-style:none;margin:0;padding:0}
+.bb-item{border:1px solid #d9c9a3;border-radius:8px;background:rgba(247,237,212,.85);
+    padding:.5rem .6rem;margin:.4rem 0}
+.bb-meta{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.25rem}
+.bb-kind{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:.08rem .45rem;border-radius:9999px;background:#fbf3db;color:#956400}
+.bb-kind--question{background:#e1f3fe;color:#1f6c9f}
+.bb-kind--opinion{background:#edf3ec;color:#346538}
+.bb-date{font-size:.68rem;color:#7d6845}
+.bb-post{margin:.2rem 0;font-size:.8rem;line-height:1.45;color:#2c1f10}
+.bb-response{margin:.3rem 0 0;padding-top:.3rem;border-top:1px dashed #d9c9a3;
+    font-size:.78rem;line-height:1.45;color:#3a2f1e}
+.bb-responder{font-size:.68rem;color:#7d6845;margin:.15rem 0 0}
+.bb-pending{font-size:.72rem;font-style:italic;color:#7d6845;margin:.25rem 0 0}
+.bb-more{font-size:.74rem;margin:.4rem 0 0}
+.bb-more a{color:#0b5fa5}
+
+/* ——— main column resets for the liquid frame ——— */
+body.bill-section .shell-main{border-left:none}
+body.bill-section .shell-main::before{content:none}
+body.bill-section .shell-side{display:none}
+
+/* ——— liquid behavior: rails fold as the window narrows ——— */
+@media (max-width:1100px){
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+        grid-template-rows:auto auto minmax(0,1fr) auto auto;
+        grid-template-areas:
+            "header header"
+            "railtop railtop"
+            "main main"
+            "tools options"
+            "footer footer"}
+    .rail--tools{border-right:1px solid #dccdb0;border-left:none}
+    .rail{max-height:16rem;padding:.8rem}
+}
+@media (max-width:700px){
+    body.bill-section{
+        grid-template-columns:minmax(0,1fr);
+        grid-template-areas:"header" "railtop" "main" "options" "tools" "footer"}
+    .rail--tools,.rail--options{border:none;border-top:1px solid #dccdb0}
+    .rail{max-height:14rem}
+    .lp-sempnav{gap:.7rem}
+    .lp-sempnav a:not(:first-child):not(:last-child){display:none}
+}
+
+/* ——— parchment surfaces on the interior pages ——— */
+body.bill-section{
+    --bg-page:transparent;
+    --bg-card:#f0e4c8;
+    --bg-elevated:#f4ead2;
+    --bg-surface:#f0e4c8;
+    --bg-muted:#e6d7b4;
+    --bg-field:#efe3c6;
+    --bg-sidebar:#eadbb6;
+    --bg-footer:#e2d0a8;
+    --text-primary:#2c1f10;
+    --text-secondary:#57452c;
+    --text-muted:#7d6845;
+    --color-primary:#0b3d6e;
+    --color-primary-light:#1c5a96;
+    --color-accent:#8b1e2d;
+    position:relative;
+    z-index:1;
+}
+body.bill-section main,body.bill-section .shell-main{position:relative;z-index:1}
+body.bill-section .card,
+body.bill-section .section > div,
+body.bill-section .shell-panel{
+    background-color:#f0e4c8;
+    background-image:url("/static/img/doc-page.jpeg");
+    background-size:cover;background-position:center;
+    color:#2c1f10;
+}
+body.bill-section .card:hover{background-color:#f3ead0}
+body.bill-section h1,body.bill-section h2,body.bill-section h3{color:#1d2f47}
+body.bill-section a{color:#0b5fa5}
+body.bill-section a:hover{color:#8b1e2d}
+body.bill-section .card__title,body.bill-section .section h2{font-family:"UnifrakturMaguntia",Georgia,serif;font-weight:400}
+body.bill-section .shell-eyebrow{font-family:"Pinyon Script",cursive;font-size:1.5rem;letter-spacing:0;
+    text-transform:none;color:#8b1e2d}
+body.bill-section .draft-label{font-family:"Pinyon Script",cursive;font-size:1.15rem;
+    letter-spacing:0;text-transform:none;color:#7d6845}
+body.bill-section .draft-status{border-top:1px solid #cbb98d}
+
+/* ——— manuscript type helpers ——— */
+.ll-display{font-family:"UnifrakturMaguntia",Georgia,serif;font-weight:400;letter-spacing:.01em}
+.ll-script{font-family:"Pinyon Script",cursive}
+.ll-fell{font-family:"IM Fell English",Georgia,serif;font-style:italic}
+.ll-rule{color:#8b1e2d}
+
+</style>
+</head>
+
+<body class="shell bill-section" data-theme="northstar">
+
+<!-- Paper scene — the parchment backdrop for the liquid layout.
+     Flat warm parchment, faint grain + a soft light pool top-left.
+     Replaces the desk scene (kept in git history — commit 9353a37 —
+     if it should ever come back). aria-hidden: decorative only. -->
+<div class="paper-scene" aria-hidden="true"></div>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="lp-header">
+    <a class="lp-brand" href="/">
+        <span class="lp-mark" aria-hidden="true">&#9733;</span> Semptify
+    </a>
+    <nav class="lp-sempnav" aria-label="Semptify">
+        <a href="/help">Get help now</a>
+        <a href="/law-library">Rights library</a>
+        <a href="/tools">Tools</a>
+        <a href="/">Semptify.org &rarr;</a>
+    </nav>
+</header>
+
+<nav class="rail-top" aria-label="Bill section">
+    <a class="rail-top__link" href="/bill">The Bill</a>
+    <a class="rail-top__link" href="/bill/live">Live draft</a>
+    <a class="rail-top__link" href="/bill/research">The numbers</a>
+    <a class="rail-top__link" href="/what-the-bill-changes">What it changes</a>
+    <a class="rail-top__link" href="/your-voice">Your Voice</a>
+    <a class="rail-top__link" href="/bill/history">Version history</a>
+    <a class="rail-top__link" href="/bill/providers">For providers</a>
+    <a class="rail-top__link" href="/bill/brief">For lawmakers</a>
+    <a class="rail-top__link" href="/bill/classroom">Classroom kit</a>
+    <a class="rail-top__link" href="/bill/press">Press room</a>
+    <a class="rail-top__link" href="/bill/myths" aria-current="page">Myths &amp; facts</a>
+    <span class="rail-top__status" data-brain-status></span>
+</nav>
+
+<aside class="rail rail--tools" aria-label="Tools">
+    <h2 class="rail-title">Tools</h2>
+    <ul class="rail-list" data-brain-tools>
+        <li><a href="#main-content">Back to top</a></li>
+        <li><a href="javascript:window.print()">Print this page</a></li>
+    </ul>
+    <h2 class="rail-title">The bill</h2>
+    <ul class="rail-list">
+        <li><a href="/bill">Bill home</a></li>
+        <li><a href="/bill/live">Read the live draft</a></li>
+        <li><a href="/bill/research">The numbers &amp; sources</a></li>
+        <li><a href="/what-the-bill-changes">What it would change</a></li>
+        <li><a href="/your-voice">Ask or weigh in</a></li>
+        <li><a href="/bill/history">Version history</a></li>
+        <li><a href="/bill/providers">For housing providers</a></li>
+        <li><a href="/bill/brief">For lawmakers &amp; staff</a></li>
+        <li><a href="/bill/classroom">Classroom kit</a></li>
+        <li><a href="/bill/press">Press room</a></li>
+        <li><a href="/bill/myths">Myths &amp; facts</a></li>
+    </ul>
+</aside>
+
+
+<style>
+.my-item { background:var(--card-bg); padding:1.15rem 1.4rem; margin-bottom:1rem; }
+    .my-item p { margin:0 0 0.55rem; line-height:1.65; }
+    .my-item p:last-child { margin-bottom:0; }
+    .my-claim { font-weight:600; color:var(--accent-primary); font-size:1.02rem; }
+    .my-src { font-size:0.82rem; color:var(--text-muted); }
+    .my-tag { display:inline-block; font-size:0.68rem; letter-spacing:0.1em;
+              text-transform:uppercase; padding:0.08rem 0.5rem; border-radius:9999px;
+              margin-left:0.5rem; vertical-align:0.15em; }
+    .my-tag--fact { background:#edf3ec; color:#346538; border:1px solid #cfdcc9; }
+    .my-tag--model { background:#fbf3db; color:#956400; border:1px solid #e5d3a0; }
+    .my-tag--opinion { background:#e1f3fe; color:#1f6c9f; border:1px solid #bcd9ec; }
+</style>
+
+<main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>Myths &amp; facts</h1>
+
+<p class="shell-lede">Common claims about the bill — each answered, each sourced.</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">Three labels: <strong>fact</strong> = what the draft text or a named source says; <strong>model</strong> = a figure from the working math, still being verified; <strong>opinion</strong> = our read, labeled as such.</p>
+
+
+
+
+<section class="section" id="myths">
+
+    <div class="my-item">
+        <p class="my-claim">"It's rent control."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>No. Nothing in the draft caps, sets, or limits rent. It is an
+        insurance-style pool for what happens when things go wrong — deposits,
+        verified hardship, and claims — not a price rule. Providers keep the
+        right to charge and earn what the market carries.</p>
+        <p class="my-src">Source: <a href="/bill/live">the live draft</a> —
+        eight locked clauses, none touching rent levels.</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"It's a tax on landlords."<span class="my-tag my-tag--model">model</span></p>
+        <p>It is structured as mutual insurance, not a tax: the matched share
+        (modeled ≈ $6/unit/mo) buys real coverage — covered rent during
+        verified hardship, deposit adjudication — and clean-book years earn a
+        no-claim dividend declared from surplus. The honest cost is the
+        deposit float providers no longer hold; the draft says that openly
+        instead of hiding it.</p>
+        <p class="my-src">Source: working model &amp; locked decisions,
+        <a href="/bill/research">the numbers</a> and
+        <a href="/bill/history">version history</a> (10/23 entries).</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"Renters end up paying for it anyway."<span class="my-tag my-tag--model">model</span></p>
+        <p>Partly, and it is disclosed rather than hidden: the renter-side
+        share (modeled ≈ $6/mo) rides the MN Renter's Credit as a monthly
+        advance reconciled on the tax return — the federal APTC mechanism,
+        not a rent intercept. Renters over the credit's income cap pay the
+        share directly. In return they get the claims-free dividend, the
+        deposit back through adjudication instead of a fight, and hardship
+        coverage that no current product gives them without clawback.</p>
+        <p class="my-src">Source: live draft funding section; M1PR figures —
+        MN Dept. of Revenue TY2025.</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"It lets bad tenants skip rent."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>No. Hardship triggers are verified, coverage is capped per lease,
+        claims history prices the renewal, and cooperation with a repayment
+        plan on rent accruing after coverage is a condition of staying
+        covered. Manufactured claims carry a surcharge plus referral. The
+        design rule, locked in writing: tenant-side abuse controls must be as
+        real as the landlord-side penalties.</p>
+        <p class="my-src">Source: <a href="/bill/live">live draft</a>, clause
+        5 and the fairness axiom in the decision log (10/19).</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"The insurer could turn fraud reports into criminal
+        charges against tenants."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>Private parties cannot file charges — only prosecutors can. The
+        draft adds three controls anyway: a penalty for knowingly-false fraud
+        referrals (symmetric to the manufactured-claim penalty), tenant
+        notice and a defense window before any referral transmits, and a
+        defined evidence threshold. Claims data goes on a public registry so
+        abuse is visible.</p>
+        <p class="my-src">Source: live draft, carrier-abuse controls
+        (10/19).</p>
+        <p><span class="my-tag my-tag--opinion">opinion</span> Corruption can't
+        be designed to zero — so the draft designs for it to be visible
+        (registry), expensive (penalties), and appealable (independent
+        review).</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"The deposit disappears into a state fund."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>The principal stays the renter's. Deposits sit in bonded custodial
+        escrow for the tenancy — the same UK model operating since 2007 — and
+        return at move-out through independent adjudication. The statutory 1%
+        interest still accrues to the tenant. Only the float above that 1%
+        funds the pool.</p>
+        <p class="my-src">Source: live draft funding section; Minn. Stat.
+        § 504B.178; UK Tenancy Deposit Protection precedent.</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"Deposit-insurance products already do this."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>Private deposit-replacement products (sold at roughly 3–7% of
+        annual rent) pay the landlord and then recover from the tenant —
+        they are surety products, which creates new debt rather than
+        protection. France's Visale guarantee works the same way: clawback,
+        and no deposit coverage. This bill's no-subrogation clause is the
+        deliberate difference: a paid claim ends the matter.</p>
+        <p class="my-src">Source: verification pass 10/23 — Visale clawback
+        confirmed; SDR pricing from the working model's competitive
+        survey.</p>
+    </div>
+
+    <div class="my-item">
+        <p class="my-claim">"It's basically law already."<span class="my-tag my-tag--fact">fact</span></p>
+        <p>It is a working draft. Not filed, not before any legislature, no
+        sponsor yet — and it may never become law. That is stated on every
+        page because overclaiming status would be the easiest mistake to
+        make and the hardest to take back.</p>
+        <p class="my-src">Source: status line on
+        <a href="/bill/live">the live draft</a> — restated there every time
+        the draft updates.</p>
+    </div>
+
+</section>
+
+<section class="section" id="spot-one">
+    <h2 class="section-title">Heard a claim we haven't answered?</h2>
+    <p class="section-description">Put it on <a href="/your-voice">the public
+    board</a> — claims about the bill get answered in the open, and honest
+    ones get added to this page.</p>
+</section>
+
+
+
+    </main>
+
+<aside class="rail rail--options" aria-label="Options and the board">
+
+<h2 class="rail-title">The board <span class="bb-live" data-brain-live hidden>live</span></h2>
+<div class="bb" id="bbBoard">
+    <p class="bb-empty">The public board loads here — questions and opinions
+    on the bill, answered in the open. <a href="/your-voice">Ask or weigh in</a>.</p>
+</div>
+<p class="bb-more"><a href="/your-voice#yvList">See the whole board &rarr;</a></p>
+
+<h2 class="rail-title">Options</h2>
+<ul class="rail-list">
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/accessibility">Accessibility</a></li>
+    <li><a href="/credits">Credits &amp; sources</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/donate">Support the work</a></li>
+</ul>
+
+</aside>
+
+    <footer class="unified-footer">
+    <div class="footer-container">
+        <div class="footer-disclaimer">
+            <div class="footer-disclaimer-icon" aria-hidden="true">!</div>
+            <p class="footer-disclaimer-title">Semptify is not legal advice</p>
+            <p class="footer-disclaimer-text">
+                Semptify helps tenants organize documents and find verified facts. It is not a law firm.
+                For legal advice, contact a licensed attorney or your local legal aid office.
+                If you need help right now, <a href="/help">get help now</a>.
+            </p>
+        </div>
+        <nav class="footer-legal" aria-label="Legal and site information">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/accessibility">Accessibility</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/feedback">Feedback</a>
+            <a href="/credits">Credits</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 Semptify.org</p>
+            <p class="footer-mandates">No ads &middot; Your data stays yours &middot; Not legal advice &mdash; get qualified help</p>
+            <p class="footer-help">AI-Assisted Content Notice: Semptify uses AI tools to help generate
+                Minnesota housing-law educational material. This site does not provide legal advice.
+                For case-specific guidance, contact a licensed Minnesota attorney.</p>
+            <div class="footer-help"><form method="post" action="/api/i18n/set-locale" class="locale-selector" aria-label="Choose your preferred language">
+    <label for="locale-select" class="locale-selector__label">Language</label>
+    <select id="locale-select" name="locale" class="locale-selector__select" aria-label="Choose your preferred language">
+        
+        <option value="en" selected>
+            English
+        </option>
+        
+        <option value="es" >
+            Spanish *
+        </option>
+        
+        <option value="so" >
+            Somali *
+        </option>
+        
+        <option value="hmn" >
+            Hmong *
+        </option>
+        
+        <option value="ar" >
+            Arabic *
+        </option>
+        
+        <option value="am" >
+            Amharic *
+        </option>
+        
+        <option value="ti" >
+            Tigrinya *
+        </option>
+        
+        <option value="zh" >
+            Mandarin *
+        </option>
+        
+        <option value="fr" >
+            French *
+        </option>
+        
+        <option value="de" >
+            German *
+        </option>
+        
+        <option value="ko" >
+            Korean *
+        </option>
+        
+        <option value="ja" >
+            Japanese *
+        </option>
+        
+        <option value="pt" >
+            Portuguese *
+        </option>
+        
+        <option value="it" >
+            Italian *
+        </option>
+        
+    </select>
+    <button type="submit" class="locale-selector__button">Save</button>
+    <p class="locale-selector__note text-muted">* Machine translation; may contain errors.</p>
+</form></div>
+        </div>
+    </div>
+</footer>
+
+<script src="/static/js/law-linker.js"></script>
+<script src="/static/js/brain.js" defer></script>
+
+</body>
+</html>

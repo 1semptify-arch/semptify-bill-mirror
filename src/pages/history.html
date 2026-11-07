@@ -1,0 +1,104 @@
+<!--
+title: Version History — Minnesota Bill — Semptify
+desc: The public version history of the Minnesota rent assurance bill — every change, dated, generated from the open git record. The change log is the public record.
+nav: history
+chrome: interior
+-->
+
+<style>
+.vh-table { width:100%; border-collapse:collapse; background:var(--card-bg); }
+    .vh-table td, .vh-table th { padding:0.6rem 0.85rem; text-align:left; vertical-align:top;
+                                 border-bottom:1px solid var(--card-border); font-size:0.9rem; }
+    .vh-table th { color:var(--accent-primary); font-weight:600; }
+    .vh-date { white-space:nowrap; font-family:"IBM Plex Mono",monospace; font-size:0.82rem; }
+    .vh-repo { white-space:nowrap; font-size:0.78rem; color:var(--text-muted); }
+    .vh-hash { font-family:"IBM Plex Mono",monospace; font-size:0.82rem; white-space:nowrap; }
+.vh-block { background:var(--card-bg); padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
+    .vh-block p { margin:0 0 0.7rem; line-height:1.65; }
+    .vh-block p:last-child { margin-bottom:0; }
+    .vh-block ul { margin:0.2rem 0 0.7rem 1.3rem; line-height:1.6; }
+    .vh-block li { margin-bottom:0.5rem; }
+    .vh-block code { font-family:"IBM Plex Mono",monospace; font-size:0.85rem;
+                     background:rgba(120,90,40,.12); padding:0.05rem 0.35rem; border-radius:3px; }
+.vh-cmd { font-family:"IBM Plex Mono",monospace; font-size:0.85rem; display:block;
+          padding:0.5rem 0.7rem; margin:0.3rem 0; background:rgba(60,40,15,.08);
+          border-radius:4px; overflow-x:auto; }
+</style>
+
+<main id="main-content" class="shell-main shell-main--top" tabindex="-1">
+
+
+<p class="shell-eyebrow">Semptify</p>
+<h1>Version history</h1>
+
+<p class="shell-lede">Every change, dated. The change log is the public record.</p>
+
+
+<p class="shell-note" style="margin-bottom:1.25rem;">This table is generated from <code>git log</code> at build time — nothing is hand-written here. The same command, run on the public repos, shows the same record.</p>
+
+
+
+
+<section class="section" id="the-record">
+    <h2 class="section-title">The record</h2>
+    <p class="section-description">Newest first. Two open repositories:
+    <strong>bill draft &amp; canon</strong> — the working text, decisions,
+    and audits in the <a href="https://github.com/1semptify-arch/Semptify">Semptify
+    repository</a>; <strong>bill site</strong> — the public pages themselves in the
+    <a href="https://github.com/1semptify-arch/semptify-bill-mirror">bill-site
+    repository</a>.</p>
+    <table class="vh-table">
+        <tr><th>Date</th><th>Where</th><th>Change</th><th>Commit</th></tr>
+        {{BILL_HISTORY}}
+    </table>
+</section>
+
+<section class="section" id="before-the-record">
+    <h2 class="section-title">Before the public record — the decision log</h2>
+    <p class="section-description">The draft predates its public repo. The
+    design calls that shaped it are kept, dated, in the canon folder's
+    <a href="https://github.com/1semptify-arch/Semptify/blob/feat/bill-public-section/app/static/turnbuchalla/builder/DECISIONS.md">decision
+    log</a> — the short version:</p>
+    <div class="vh-block">
+        <ul>
+            <li><strong>Oct 14</strong> — The eight locked clauses: no
+            subrogation; independent adjudication + tenant counter-claim
+            lane; tenant/consumer board seats; manufactured-claim penalties;
+            public claims registry; sunset + year-3 report; landlord-paid
+            premium (later amended); experience rating.</li>
+            <li><strong>Oct 16</strong> — Named: the Minnesota Rent Assurance
+            &amp; Deposit Protection Act, presented by Semptify.</li>
+            <li><strong>Oct 18</strong> — Funding model resolved: deposits to
+            program escrow at signing; renter's credit carries the ongoing
+            share. Third coverage leg added: renter's belongings.</li>
+            <li><strong>Oct 19</strong> — The three-source braid merged:
+            deposit float + M1PR advance + an explicit landlord matched
+            share. The fairness axiom locked: tenant-side controls as real
+            as landlord-side ones.</li>
+            <li><strong>Oct 23</strong> — Deposit shape amended to custodial
+            escrow for the tenancy (UK model) with a claims-free dividend;
+            rating resolved to community base + bounded experience
+            surcharge; a real math defect found in audit and corrected in
+            the open.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="check-it">
+    <h2 class="section-title">Check it yourself</h2>
+    <div class="vh-block">
+        <p>The record doesn't live here — it lives in the repos, and this
+        page just reads it back. Clone either one and ask for the same
+        log:</p>
+        <span class="vh-cmd">git clone https://github.com/1semptify-arch/Semptify
+        git log --all --follow -- app/static/turnbuchalla/</span>
+        <span class="vh-cmd">git clone https://github.com/1semptify-arch/semptify-bill-mirror
+        git log --all -- src/</span>
+        <p>Every row above links to the commit it came from — the commit
+        page shows the exact diff of what changed, word for word.</p>
+    </div>
+</section>
+
+
+
+    </main>
