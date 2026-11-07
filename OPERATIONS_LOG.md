@@ -5,6 +5,32 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-07
 
+- **"Page at first light" background pass + scene-layering fix** (swe-2,
+  task plan-20261106-bill-pages-new-background-design-pass-wh-e453):
+  root cause of the "flat empty page" — `.paper-scene` was
+  `position:fixed;inset:0;z-index:0`, which paints ABOVE all
+  non-positioned content, so the whole liquid frame (header, bill nav,
+  tools + options rails) rendered under the parchment and only `main`
+  (z-index:1) was visible. pointer-events:none hid it from hit-testing,
+  which is why DOM/computed checks looked fine. Scene now sits at
+  z-index:-1 — the frame has never visibly rendered until now.
+  New interior backdrop: real laid-paper texture (doc-page.jpeg,
+  regenerated — the vendored file was an ice-fisherman photo, used as
+  card texture on every interior page AND offered on /bill/press as
+  "the paper texture") + dawn band rising at the top edge + lamp pool
+  + cool water shade + loon woodcut watermark (multiply blend,
+  bottom-right) + deckle edge vignette + 80s lamp-glow breathe (off
+  under prefers-reduced-motion). Cover /bill: dropped the winter-snow
+  cherry photo (season clash, covered the kicker), loon now blends via
+  multiply (was a floating white box), flag stays, scene gets the same
+  deckle edge vignette. Verified: all 11 routes + 4 scene assets 200,
+  IronBee shots at 1440px + 375px, console clean, reduced-motion gate
+  confirmed live. NOT pushed — awaiting Brad's visual check.
+  Flagged: cherry.jpg now unreferenced (31KB dead asset — delete or
+  keep for reuse); at ≤1100px body drops to display:block so rails
+  stack in DOM order (tools before main) — pre-existing shell
+  behavior, not touched.
+
 - **Verification re-run post-4dbf38d/d7d4f70** (swe-2, same task —
   dispatcher re-spawn): fresh pass on current HEAD. py_compile PASS
   (3.11.9): build.py, sync_assets.py, preview_server.py; brain.js

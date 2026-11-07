@@ -2079,18 +2079,52 @@ body.shell[data-theme="northstar"] .main-nav .nav-links {
    PARCHMENT LIQUID LAYOUT — bill microsite interior pages
    True-liquid shell: low-profile Semptify bar in the header,
    the bill nav as a top rail inside the body, a tools rail left,
-   content center, an options+board rail right. Flat warm
-   parchment backdrop — no fixed scene (desk scene retired to
-   git history, commit 9353a37).
+   content center, an options+board rail right. Backdrop = "the
+   page at first light" paper scene (desk scene retired to git
+   history, commit 9353a37).
    ============================================================ */
 
-/* ——— the fixed parchment backdrop ——— */
-.paper-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
-    background:#f3ead6;
-    background-image:
-        radial-gradient(ellipse 55% 38% at 22% -4%, rgba(255,252,240,.8), transparent 72%),
-        radial-gradient(ellipse 46% 52% at 104% 104%, rgba(146,110,55,.07), transparent 72%),
-        repeating-linear-gradient(0deg, rgba(110,85,45,.022) 0 2px, transparent 2px 5px)}
+/* ——— the fixed parchment backdrop: the page at first light ———
+   The interior echo of the cover's lake-dawn scene: a real laid-paper
+   sheet (doc-page.jpeg — the same texture the cards use) under first
+   light. Layers, top to bottom of the image stack: a dawn band rising
+   at the top edge (deep water blue -> rose -> gold -> gone), a warm
+   lamplight pool upper-left, a cool water shade lower-right, then the
+   paper itself. z-index:-1 keeps the scene UNDER the liquid frame —
+   at z-index:0 it painted over every non-positioned element (header,
+   rails, nav), which is why the frame looked missing.
+   pointer-events:none so it never catches a click. */
+.paper-scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+    background:
+        linear-gradient(180deg, rgba(33,50,76,.58) 0%, rgba(120,80,62,.36) 8%,
+            rgba(190,138,86,.20) 17%, rgba(238,219,180,0) 38%),
+        radial-gradient(ellipse 60% 42% at 22% -4%, rgba(255,250,230,.8), transparent 70%),
+        radial-gradient(ellipse 55% 48% at 108% 112%, rgba(58,84,116,.18), transparent 70%),
+        url("/static/img/doc-page.jpeg") center / cover no-repeat #ede0c0}
+
+/* the loon watermark — woodcut loon, multiply so its white ground
+   melts into the paper; low on the right margin where it reads
+   through the options rail, faint enough to stay a watermark. */
+.paper-scene::before{content:"";position:absolute;bottom:14%;right:3%;
+    width:min(22vw,260px);aspect-ratio:8/5;
+    background:url("/static/img/loon.png") center/contain no-repeat;
+    mix-blend-mode:multiply;opacity:.09}
+
+/* the deckle — aged darkening at the sheet's edges */
+.paper-scene::after{content:"";position:absolute;inset:0;
+    background:
+        linear-gradient(90deg, rgba(96,72,40,.20), transparent 9%, transparent 91%, rgba(96,72,40,.20)),
+        linear-gradient(180deg, rgba(70,50,26,.16), transparent 8%, transparent 86%, rgba(74,54,28,.25))}
+
+/* the lamp glow — a slow, quiet breathe of warm light. Off entirely
+   under prefers-reduced-motion. */
+.paper-scene__glow{position:absolute;top:-18%;left:-8%;width:70%;height:58%;
+    background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,238,196,.5), transparent 70%);
+    animation:paperlight 80s ease-in-out infinite alternate}
+@keyframes paperlight{
+    from{opacity:.45;transform:translateX(0)}
+    to{opacity:.85;transform:translateX(6%)}}
+@media (prefers-reduced-motion:reduce){.paper-scene__glow{animation:none}}
 
 /* ——— liquid frame: header | bill-nav rail | tools-main-options | footer ——— */
 body.bill-section{
