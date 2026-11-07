@@ -5,6 +5,13 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-07
 
+- **Static-asset sync automated** (swe-2): new `sync_assets.py` syncs all
+  app-sourced copies (root css/js/img + the vendored ssot sections inside
+  `src/bill.css`) from `../modules/app-semptify-fastapi`, with `--check`
+  mode reporting drift. `build.py` runs the check before every build —
+  stale assets now fail loudly instead of shipping silently (root cause
+  of the northstar dark-pin / ssot fill-fix drift). Synced `ssot.css`
+  (was missing the dark-mode paper-text-on-primary-fill rules).
 - **Six new bill-wing spaces built** (swe-2, architecture draft §5):
   history (public version history — build.py now merges `git log` from
   this repo + the app repo's bill canon into a dated table with GitHub

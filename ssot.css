@@ -389,6 +389,15 @@
        in dark mode = dark-on-dark invisible. Pin to shell ink. */
     --color-primary: var(--shell-ink);
   }
+
+  /* --color-primary pinned to ink means fills using it become light
+     chips; --text-inverse never flips (bg-dial derived) so pair those
+     fills with shell-paper text. On light-only themed pages (northstar)
+     --shell-paper stays light against the dark fill. */
+  html body.shell .btn--primary,
+  html body.shell .badge--primary,
+  html body.shell .skip-link,
+  html body.shell .cta-button-large { color: var(--shell-paper); }
 }
 
 [data-theme="dark"] {
@@ -423,6 +432,13 @@
   /* Same dark-on-dark heading fix as the media-query block above. */
   --color-primary: var(--shell-ink);
 }
+
+/* Same primary-fill fix as the media-query block: light chips need
+   paper text, not --text-inverse. */
+[data-theme="dark"] body.shell .btn--primary,
+[data-theme="dark"] body.shell .badge--primary,
+[data-theme="dark"] body.shell .skip-link,
+[data-theme="dark"] body.shell .cta-button-large { color: var(--shell-paper); }
 
 /* ============================================================================
    TEMPLATE CLASS RULES — Design Handoff 2026-07-01

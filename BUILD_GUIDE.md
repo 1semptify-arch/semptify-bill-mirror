@@ -15,6 +15,27 @@ Assembles `src/pages/*.html` + `src/partials/*` + `src/bill.css` into the
 **root `*.html` files**. Commit the root files after building — they are
 what actually ships.
 
+## App-sourced assets stay in sync — enforced
+
+Several root files are verbatim copies of the Semptify app's canonical
+assets (`ssot.css`, `northstar.css`, `law-linker.js`, `fetch-helpers.js`,
+`narration-strip.js`, `websocket-client.js`, `htmx.min.js`, flags,
+lake/bill-scene images), and `src/bill.css` vendors whole sections of
+`static/css/ssot-design-system.css`. They used to drift silently.
+
+`build.py` now runs `sync_assets.py --check` first and **fails the build
+when any copy is stale**. Refresh with:
+
+```bash
+python sync_assets.py          # copy fresh files + splice vendored sections
+python sync_assets.py --check  # report drift only, exit 1 if any
+python build.py --allow-drift  # bypass the gate (escape hatch)
+```
+
+If the checker reports "NEEDS HAND MERGE" on the northstar block, that
+part of `src/bill.css` has bill-specific overrides — re-merge that block
+by hand from `static/css/themes/northstar.css`.
+
 ## How it deploys
 
 - A **Cloudflare Worker** serves the site. It pulls the root `*.html`

@@ -17,6 +17,11 @@ Assembles `src/pages/*.html` + partials + `src/bill.css` into the root
 commit them after building (the worker pulls root files from the GitHub repo
 and caches them ~5 minutes).
 
+The build first runs `sync_assets.py --check`: every file copied or
+vendored from the app repo (`ssot.css`, `northstar.css`, shared JS,
+images, and `src/bill.css`'s vendored ssot sections) must match its
+source or the build fails. Run `python sync_assets.py` to refresh.
+
 ## Layout
 
 ```

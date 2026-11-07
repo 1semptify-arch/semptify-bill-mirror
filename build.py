@@ -7,6 +7,12 @@ at the repo root (NOT dist/). Run after editing anything under src/:
 
     python build.py
 
+Before assembling pages, the build verifies app-sourced static assets
+(root css/js/img copies + the vendored sections inside src/bill.css) are
+in sync with ../modules/app-semptify-fastapi via sync_assets.py --check.
+Stale assets fail the build — run `python sync_assets.py` to refresh, or
+`python build.py --allow-drift` to bypass.
+
 Source layout:
     src/bill.css            single vendored stylesheet, inlined into interior pages
     src/partials/head.html  doctype + head (TITLE/DESC/BILL_CSS slots)
@@ -185,6 +191,14 @@ def build_page(path: pathlib.Path, bill_css: str) -> str:
 
 
 def main() -> int:
+    # Drift gate — app-sourced assets (root css/js/img copies + vendored
+    # bill.css sections) must match the app repo or the build fails loudly.
+    # Bypass with --allow-drift; refresh copies with sync_assets.py.
+    if "--allow-drift" not in sys.argv:
+        import sync_assets
+        rc = sync_assets.check(sync_assets.APP_ROOT)
+        if rc:
+            return rc
     bill_css = read(SRC / "bill.css")
     pages = sorted(PAGES.glob("*.html"))
     if not pages:
