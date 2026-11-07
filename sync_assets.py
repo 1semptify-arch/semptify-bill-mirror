@@ -51,6 +51,7 @@ VERBATIM_FILES = [
     ("static/img/bill-scene-alt2.jpg",     "bill-scene-alt2.jpg"),
     ("static/img/bill-scene-aurora.jpg",   "bill-scene-aurora.jpg"),
     ("static/img/bill-scene-day.jpg",      "bill-scene-day.jpg"),
+    ("static/img/semptify-live-001-cover.jpg", "semptify-live-001-cover.jpg"),
 ]
 
 # Sections of static/css/ssot-design-system.css vendored verbatim into

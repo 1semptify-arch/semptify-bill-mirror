@@ -5,6 +5,22 @@ Dated record of site-affecting operations. Newest first. Format:
 
 ## 2026-11-07
 
+- **Verification resubmit pass** (swe-2, same task — desk bounce asked
+  for populated verification fields): re-ran everything independently.
+  py_compile PASS (3.11.9): build.py, sync_assets.py, preview_server.py.
+  build.py clean — drift gate + 11 pages, zero diff vs committed root.
+  pytest tests/test_ssot_architecture.py 8/8 PASS (45.32s, venv311).
+  guardrail_engine 9/9 PASS (34.34s). Manual: preview_server :8791 —
+  16 route/asset probes all 200; IronBee runtime trace on /bill +
+  /your-voice: 130 requests all 200, every request repo-local /static/*
+  or Google Fonts except the /api/voice-posts data seam (200 via proxy);
+  console clean both pages. **Found + fixed:** home.html (tracked legacy
+  Semptify Live cover, still served at /home.html) referenced
+  /static/img/semptify-live-001-cover.jpg which was never vendored —
+  404. Added to sync_assets VERBATIM_FILES and synced; now 200.
+  home.html itself is a legacy non-bill page — retire decision logged
+  to the queue for Brad.
+
 - **Microsite self-containment audit + worker-map doc fix** (swe-2,
   task plan-20261105-make-bill-section-a-self-contained-micro-06d7):
   verified the site is fully self-contained — `python build.py` clean
