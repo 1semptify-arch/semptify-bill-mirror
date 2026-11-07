@@ -182,6 +182,7 @@ def sync(app_root: pathlib.Path) -> int:
             print(f"  synced {dst_rel} <- {src_rel}")
 
     bill = _read(BILL_CSS)
+    orig_bill = bill
     ssot = _read(app_root / "static/css/ssot-design-system.css")
     app_chunks = _chunks(ssot)
 
@@ -207,7 +208,8 @@ def sync(app_root: pathlib.Path) -> int:
             if bill_part is not None and bill_part != app_part:
                 bill = bill.replace(bill_part, app_part, 1)
                 print(f"  spliced src/bill.css section '{key}'")
-    BILL_CSS.write_text(bill, encoding="utf-8")
+    if bill != orig_bill:
+        BILL_CSS.write_text(bill, encoding="utf-8")
 
     for src_rel, marker, desc in REQUIRED_BLOCKS:
         app_text = _read(app_root / src_rel)
