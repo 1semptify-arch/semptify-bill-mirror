@@ -74,17 +74,13 @@
             if (posts.length) {
                 boardEl.innerHTML =
                     '<ul class="bb-list">' +
-                    posts.slice(-4).reverse().map(renderPost).join("") +
+                    posts.slice(0, 4).map(renderPost).join("") +
                     "</ul>";
             }
             if (liveEl) liveEl.hidden = false;
         }
         if (listEl && posts.length) {
-            listEl.innerHTML = posts
-                .slice()
-                .reverse()
-                .map(renderPost)
-                .join("");
+            listEl.innerHTML = posts.map(renderPost).join("");
         }
         if (statusEl) {
             statusEl.textContent =
