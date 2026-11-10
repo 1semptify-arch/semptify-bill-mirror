@@ -3,45 +3,46 @@
 What's live, what's pending. Updated when state changes — not a changelog
 (see OPERATIONS_LOG.md for that).
 
-## Live now
+## Live now (verified 2026-11-10)
 
-- `semptify.org/bill` microsite — self-contained, Cloudflare Worker,
-  ~5min cache. Pages: home, bill, live, research,
-  what-the-bill-changes, your-voice.
+- `semptify.org/bill` microsite — self-contained, Cloudflare Worker
+  (`bill-mirror`), ~5min page cache. **All 11 routes live:** home, bill,
+  live, research, what-the-bill-changes, your-voice, history, providers,
+  brief, classroom, press, myths.
+- Worker URL map complete: 6 `/bill/*` routes + `brain.js` added
+  2026-11-10 (worker.js now versioned in this repo — see README).
+- Previously-404 assets fixed same pass: `doc-page.jpeg` (paper texture —
+  was broken on every interior page), `loon.png`, `mn-flag.png`,
+  `semptify-live-001-cover.jpg`.
+- `brain.js` live — tools-rail anchors, rail board widget, live badge,
+  30s polling all active in prod.
+- Board pipeline verified end-to-end: POST `/api/voice-post` → Neon →
+  `awaiting_review` increments; GET `/api/voice-posts` public.
+  Moderation lane: `/admin/public-voice` (app admin).
 - App-origin redirects: `semptify-jsam.onrender.com/bill*` → 301 to
-  `semptify.org/bill*` (shipped PR #330, verified live).
-- Dark mode, public anonymous APIs, voice-post lane — all verified
-  2026-11-05 audit.
-
-## Built, awaiting push (not live yet)
-
-- **3-way audience entry below cover hero** (swe-2, 2026-11-07): For renters →
-  `/what-the-bill-changes`, For property owners → `/bill/providers`,
-  For lawmakers → `/bill/brief`. Doors strip between hero and deck on the
-  cover; renter door is live-safe today, provider/lawmaker doors go live with
-  the six new routes below.
-- **Six new bill-wing spaces** (architecture draft §5, swe-2, 2026-11-07):
-  `/bill/history` (version history generated from git at build time),
-  `/bill/providers`, `/bill/brief`, `/bill/classroom`, `/bill/press`,
-  `/bill/myths`. New links in top rail + tools rail + cover panels.
-  **`/bill/history` build now runs `git log` over both repos — the app
-  repo must sit at `../modules/app-semptify-fastapi` for canon rows.**
-- **Deploy prerequisite:** the six `/bill/*` routes need entries in the
-  Cloudflare Worker's URL map (dashboard-only source) or they 404 in prod.
-  Same for `/static/js/brain.js` — the rail/board logic layer (c041599);
-  without a map entry it 404s and the tools/options rails go dead.
+  `semptify.org/bill*` (verified 2026-11-10).
+- Dark mode, anonymous APIs — verified 2026-11-05 audit; markup confirmed
+  unchanged since.
 
 ## Pending / known gaps
 
-- **Retire the 5 app bill templates** (`your_voice.html`, `bill_draft.html`,
-  etc. under `app/templates/`) — unreachable since the 301s, but still in
-  the repo. Blocked on another session's copy pass landing first.
-- **Voice post test residue** — one unpublished test post may remain in
-  the review queue; delete when convenient.
-- **Neon/DB**: pool retune shipped (#332) — compute now suspends after
+- **Voice review queue** — 4 posts awaiting moderation at
+  `/admin/public-voice`, including one `probe-do-not-post` test row
+  (decline it). Public board shows "Nothing posted yet" until first
+  publish — decide whether to seed.
+- **Retire the 5 app bill templates** (`your_voice.html`,
+  `bill_draft.html`, etc. under `app/templates/`) — unreachable since the
+  301s, but still in the repo. Blocked on another session's copy pass.
+- **Retire legacy `home.html`** — still served at `/`; decision logged.
+- **`cherry.jpg`** — 31KB unreferenced asset at root; delete or keep.
+- **Neon/DB**: pool retune shipped (#332) — compute suspends after
   ~5 idle min. Watch first-week CU-hours vs the ~20/mo burn.
+- **Parallel-session commits** — ssot sync + ops-log commits from a
+  concurrent agent session were unpushed at time of worker deploy;
+  pushed together with this state update.
 
 ## Last verified
 
-- 2026-11-05 — redirects 301 on origin, microsite serving, dark mode OK,
-  anonymous GETs 200, POST-only routes 405 correctly.
+- 2026-11-10 — all 11 routes 200, brain.js + previously-404 images 200,
+  content-types correct, AI binding preserved, POST→DB write path proven
+  (awaiting_review 3→4 on probe).

@@ -43,6 +43,22 @@ Dated record of site-affecting operations. Newest first. Format:
   dashboard-only source. Needs Brad: dashboard edit, an API
   token, or MCP re-auth.
 
+- **Worker URL-map gap FIXED — all 11 routes + brain.js + 4 images
+  live** (devin interactive session, Brad-authorized wrangler OAuth):
+  unblocked the headless agent's blocker — `npx wrangler login` → OAuth
+  token → `PUT /workers/scripts/bill-mirror/content`. Added the 6
+  `PAGES` routes, 5 `ASSETS` entries (`brain.js`, `doc-page.jpeg`,
+  `loon.png`, `mn-flag.png`, `semptify-live-001-cover.jpg`), `jpeg`
+  content-type. Verified: 11/11 routes 200, assets 200, AI binding
+  preserved. **Silent breakage also fixed:** `doc-page.jpeg` paper
+  texture, `loon.png`, `mn-flag.png` were 404ing in prod — interior
+  pages had no paper texture until this deploy. POST
+  `/api/voice-post` → Neon write path proven live (awaiting_review
+  3→4); disclosure — probe left a `probe-do-not-post` row in the
+  review queue, decline at `/admin/public-voice`. `worker.js` now
+  committed to repo (was dashboard-only — the fragility that caused
+  this). Docs updated: README + BUILD_GUIDE + BUILD_STATE.
+
 ## 2026-11-07
 
 - **"Page at first light" background pass + scene-layering fix** (swe-2,
