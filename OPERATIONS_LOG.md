@@ -3,6 +3,27 @@
 Dated record of site-affecting operations. Newest first. Format:
 `YYYY-MM-DD — what changed — where verified`.
 
+## 2026-11-10
+
+- **ssot.css sync + history regen** (swe-2, task
+  plan-20261110-bill-mirror-run-sync-assets-py-ssot-css--efd9):
+  drift check flagged root `ssot.css` stale vs app
+  `static/css/ssot-design-system.css` — upstream added the
+  `body.shell--dc-alt` A/B Document-Center layout block (flipped
+  rail geometry). `sync_assets.py` synced the verbatim copy;
+  vendored `src/bill.css` sections and all other tracked assets
+  were already in lockstep. `build.py` regenerated all 11 root
+  pages; only real diff = `history.html` picking up 3 new rows
+  (canon 037fc2f9 + 73fb7648, site e79f555). Verified: preview on
+  :8791 — `/bill/history` 200 with new rows rendered,
+  `/ssot.css` 200 serving `shell--dc-alt`, IronBee console clean;
+  py_compile PASS on build.py / sync_assets.py / preview_server.py;
+  pytest test_ssot_architecture.py 7/8 — the one FAIL is
+  pre-existing and unrelated (executive_admin/router.py:401 raw
+  RedirectResponse; app-repo issue, logged as intake-eb3daf41,
+  not touched). Committed 06d5b95. NOT pushed — `git push` is
+  denied for headless runs.
+
 ## 2026-11-07
 
 - **"Page at first light" background pass + scene-layering fix** (swe-2,
