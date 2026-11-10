@@ -2213,6 +2213,22 @@ body.bill-section{
 .bb-pending{font-size:.72rem;font-style:italic;color:#7d6845;margin:.25rem 0 0}
 .bb-more{font-size:.74rem;margin:.4rem 0 0}
 .bb-more a{color:#0b5fa5}
+.bb-flag{margin-top:.35rem}
+.bb-flag summary{font-size:.7rem;color:#7d6845;cursor:pointer;list-style:none;
+    display:inline-block;border-bottom:1px dotted #d9c9a3}
+.bb-flag summary::-webkit-details-marker{display:none}
+.bb-flag summary:hover{color:#0b5fa5}
+.bb-flag-body{margin-top:.45rem}
+.bb-flag-why{font-size:.74rem;color:#7d6845;margin:0 0 .35rem}
+.bb-flag-body label{display:block;font-size:.76rem;color:#5a4a30;
+    padding:.12rem 0;cursor:pointer;line-height:1.35}
+.bb-flag-body input{margin-right:.4rem;accent-color:#0b5fa5}
+.bb-flag-send{margin-top:.45rem;font-size:.74rem;font-weight:600;color:#2c1f10;
+    background:rgba(247,237,212,.9);border:1px solid #d9c9a3;border-radius:6px;
+    padding:.3rem .8rem;cursor:pointer;font-family:inherit}
+.bb-flag-send:hover{border-color:#0b5fa5}
+.bb-flag-send:disabled{opacity:.6;cursor:default}
+.bb-flag-done{font-size:.74rem;color:#346538;margin:.3rem 0 0}
 
 /* ——— main column resets for the liquid frame ——— */
 body.bill-section .shell-main{border-left:none}
@@ -2395,6 +2411,8 @@ body.bill-section .draft-status{border-top:1px solid #cbb98d}
     repository</a>.</p>
     <table class="vh-table">
         <tr><th>Date</th><th>Where</th><th>Change</th><th>Commit</th></tr>
+        <tr><td class="vh-date">2026-11-10</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">admin: bill_draft publish stamp 2026-11-10</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/7e8bd0f9">7e8bd0f9</a></td></tr>
+        <tr><td class="vh-date">2026-11-10</td><td class="vh-repo">bill site</td><td class="vh-msg">Fix voice-post form honesty + single-source the board renderer</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/semptify-bill-mirror/commit/4f9db7a">4f9db7a</a></td></tr>
         <tr><td class="vh-date">2026-11-10</td><td class="vh-repo">bill site</td><td class="vh-msg">Publish voice-board review standard on /your-voice</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/semptify-bill-mirror/commit/a96c5f7">a96c5f7</a></td></tr>
         <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">user: fix PR #334 CI — contract coverage for public /api docs routes + tokenize merged palettes to themes/ (style guard clean)</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/037fc2f9">037fc2f9</a></td></tr>
         <tr><td class="vh-date">2026-11-07</td><td class="vh-repo">bill draft &amp; canon</td><td class="vh-msg">admin: BUILD_STATE entries, bill_draft publish stamp, module contracts index (desk-drain 2026-11-07)</td><td class="vh-hash"><a href="https://github.com/1semptify-arch/Semptify/commit/73fb7648">73fb7648</a></td></tr>

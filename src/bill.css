@@ -2200,6 +2200,22 @@ body.bill-section{
 .bb-pending{font-size:.72rem;font-style:italic;color:#7d6845;margin:.25rem 0 0}
 .bb-more{font-size:.74rem;margin:.4rem 0 0}
 .bb-more a{color:#0b5fa5}
+.bb-flag{margin-top:.35rem}
+.bb-flag summary{font-size:.7rem;color:#7d6845;cursor:pointer;list-style:none;
+    display:inline-block;border-bottom:1px dotted #d9c9a3}
+.bb-flag summary::-webkit-details-marker{display:none}
+.bb-flag summary:hover{color:#0b5fa5}
+.bb-flag-body{margin-top:.45rem}
+.bb-flag-why{font-size:.74rem;color:#7d6845;margin:0 0 .35rem}
+.bb-flag-body label{display:block;font-size:.76rem;color:#5a4a30;
+    padding:.12rem 0;cursor:pointer;line-height:1.35}
+.bb-flag-body input{margin-right:.4rem;accent-color:#0b5fa5}
+.bb-flag-send{margin-top:.45rem;font-size:.74rem;font-weight:600;color:#2c1f10;
+    background:rgba(247,237,212,.9);border:1px solid #d9c9a3;border-radius:6px;
+    padding:.3rem .8rem;cursor:pointer;font-family:inherit}
+.bb-flag-send:hover{border-color:#0b5fa5}
+.bb-flag-send:disabled{opacity:.6;cursor:default}
+.bb-flag-done{font-size:.74rem;color:#346538;margin:.3rem 0 0}
 
 /* ——— main column resets for the liquid frame ——— */
 body.bill-section .shell-main{border-left:none}

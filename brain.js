@@ -47,6 +47,63 @@
     }
 
     /* ---- the board -------------------------------------------------------- */
+    var FLAG_REASONS = [
+        ["personal_details", "Personal details — a name, address, or case info"],
+        ["threat", "A threat, harassment, or someone's info posted to hurt them"],
+        ["hate", "Hate or bigotry aimed at a group"],
+        ["spam", "Spam, advertising, or junk"],
+        ["illegal", "Something illegal"],
+        ["impersonation", "Pretending to be a real person or group"],
+        ["other", "Something else"]
+    ];
+
+    function flagMarkup(id) {
+        var radios = FLAG_REASONS.map(function (r, i) {
+            return '<label><input type="radio" name="flag-' + esc(id) + '" value="' +
+                r[0] + '"' + (i === FLAG_REASONS.length - 1 ? " checked" : "") +
+                "> " + esc(r[1]) + "</label>";
+        }).join("");
+        return (
+            '<details class="bb-flag"><summary>Report a problem</summary>' +
+            '<div class="bb-flag-body">' +
+            '<p class="bb-flag-why">Why does it break the review standard?</p>' +
+            radios +
+            '<button class="bb-flag-send" data-post-id="' + esc(id) + '">Send report</button>' +
+            "</div></details>"
+        );
+    }
+
+    function flagPost(btn, id) {
+        var box = btn.closest(".bb-flag-body");
+        var sel = box ? box.querySelector("input[type=radio]:checked") : null;
+        if (!sel) return;
+        btn.disabled = true;
+        fetch("/api/voice-posts/" + encodeURIComponent(id) + "/flag", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reason: sel.value })
+        })
+        .then(function (r) {
+            if (r.ok) {
+                btn.closest(".bb-flag").outerHTML =
+                    '<p class="bb-flag-done">Reported — a person will take another look. Thank you.</p>';
+            } else {
+                btn.disabled = false;
+                btn.textContent = "Send report — try again";
+            }
+        })
+        .catch(function () {
+            btn.disabled = false;
+            btn.textContent = "Send report — try again";
+        });
+    }
+
+    document.addEventListener("click", function (e) {
+        var t = e.target;
+        var btn = t && t.closest ? t.closest(".bb-flag-send") : null;
+        if (btn) flagPost(btn, btn.getAttribute("data-post-id"));
+    });
+
     function renderPost(p) {
         return (
             '<li class="bb-item">' +
@@ -60,6 +117,7 @@
                       ? '<p class="bb-responder">— ' + esc(p.responder) + "</p>"
                       : "")
                 : '<p class="bb-pending">Awaiting an answer.</p>') +
+            (p.id ? flagMarkup(p.id) : "") +
             "</li>"
         );
     }
