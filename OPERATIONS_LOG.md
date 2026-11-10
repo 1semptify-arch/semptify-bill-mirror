@@ -24,6 +24,25 @@ Dated record of site-affecting operations. Newest first. Format:
   not touched). Committed 06d5b95. NOT pushed — `git push` is
   denied for headless runs.
 
+- **Worker URL-map gap verified in prod — 6 routes serving wrong
+  content** (swe-2, task
+  plan-20261110-add-6-bill-routes-static-js-brain-js-to--e6ea):
+  live probe of all 13 contract paths. The 5 original routes +
+  `/static/js/law-linker.js` are worker-served and correct
+  (`/bill` body = GitHub master `bill.html` + CF beacon injection
+  — worker pulls current master, files need no push). The six new
+  `/bill/*` routes are NOT in the map — they fall through to the
+  Render origin and return **HTTP 200 with the app's "Setting Up
+  Your Storage" onboarding page** (worse than a 404 — silent
+  wrong content). `/static/js/brain.js` 404s via the origin and
+  is edge-cached up to 4h. Fix = add the 7 map entries in the
+  dashboard worker; exact entries + verification protocol in
+  `master-repo/handoffs/2026-11-10-bill-worker-url-map.md`.
+  BLOCKED: no headless path to edit the worker — cloudflare MCP
+  OAuth grant lacks workers scopes, no API token on this machine,
+  dashboard-only source. Needs Brad: dashboard edit, an API
+  token, or MCP re-auth.
+
 ## 2026-11-07
 
 - **"Page at first light" background pass + scene-layering fix** (swe-2,
