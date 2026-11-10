@@ -111,11 +111,27 @@ flag footer.
 `/static/img/*` → root images, `/static/js/*` → root JS files
 (`law-linker.js`, `brain.js`), `/api/*` → app origin. Root filenames are
 the contract — do not rename pages without updating the Worker map.
-**The six new `/bill/*` routes and `/static/js/brain.js` (the rail/board
-logic layer) must be added to the Worker's URL map in the Cloudflare
-dashboard before they will resolve in production** — the Worker source
-lives only in the dashboard, not in any repo. Local
-preview (`preview_server.py`, port 8791) already mirrors them.
+
+## The Worker lives here too
+
+`worker.js` (repo root) is the Cloudflare Worker source — previously
+dashboard-only, now versioned here. Its `PAGES` and `ASSETS` maps are the
+URL contract: **adding a page or a `/static/*` asset means adding a map
+entry here AND redeploying the worker**, or it 404s/redirects wrong in
+prod. Deploy:
+
+```bash
+# after editing worker.js — multipart upload, preserves bindings
+curl -X PUT -H "Authorization: Bearer $CF_TOKEN" \
+  "https://api.cloudflare.com/client/v4/accounts/<account>/workers/scripts/bill-mirror/content" \
+  -F 'metadata={"main_module":"worker.js"};type=application/json' \
+  -F 'worker.js=@worker.js;type=application/javascript+module'
+```
+
+(or `wrangler deploy` with a minimal `wrangler.toml` — name `bill-mirror`,
+main `worker.js`, AI binding `AI`). Verify with curl probes on
+semptify.org — code deploys instantly; only the GitHub-fetched page
+content carries the ~5 min cache.
 
 ## If you move it
 

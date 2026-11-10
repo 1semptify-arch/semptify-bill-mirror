@@ -38,10 +38,15 @@ by hand from `static/css/themes/northstar.css`.
 
 ## How it deploys
 
-- A **Cloudflare Worker** serves the site. It pulls the root `*.html`
-  files from this GitHub repo and caches them **~5 minutes**.
+- A **Cloudflare Worker** (`bill-mirror`) serves the site. It pulls the
+  root `*.html` files from this GitHub repo and caches them **~5 minutes**.
 - No build step on Cloudflare's side — the repo IS the artifact.
 - Push to the repo's main branch = live within ~5 minutes.
+- **Worker source is versioned here:** `worker.js` at repo root holds the
+  `PAGES`/`ASSETS` URL maps. New page or new `/static/*` asset = add the
+  map entry in `worker.js` AND redeploy the worker (see README "The Worker
+  lives here too"). Forgetting the map entry is what 404'd the six
+  `/bill/*` routes and `brain.js` in prod on 2026-11-10.
 - System-wide map (all repos → GitHub → Cloudflare/Render):
   `manuals/semptify-infra-manual.md` in `master-repo`.
 

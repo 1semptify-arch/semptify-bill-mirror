@@ -1,0 +1,12 @@
+const BASE='https://raw.githubusercontent.com/1semptify-arch/semptify-bill-mirror/master/';
+const V='?v=6';
+const PAGES={'/bill':'bill.html','/bill/live':'live.html','/bill/research':'research.html','/bill/history':'history.html','/bill/providers':'providers.html','/bill/brief':'brief.html','/bill/classroom':'classroom.html','/bill/press':'press.html','/bill/myths':'myths.html','/your-voice':'your-voice.html','/what-the-bill-changes':'what-the-bill-changes.html'};
+const ASSETS={'/static/css/ssot-design-system.css':'ssot.css','/static/css/themes/northstar.css':'northstar.css','/static/img/flag-mn.svg':'flag-mn.svg','/static/img/flag-us.svg':'flag-us.svg','/static/img/mn-lake-sunrise.jpg':'mn-lake-sunrise.jpg','/static/img/bill-scene-ai.jpg':'bill-scene-ai.jpg','/static/img/bill-scene-day.jpg':'bill-scene-day.jpg','/static/img/bill-scene-aurora.jpg':'bill-scene-aurora.jpg','/static/img/bill-scene-alt1.jpg':'bill-scene-alt1.jpg','/static/img/bill-scene-alt2.jpg':'bill-scene-alt2.jpg','/static/js/htmx.min.js':'htmx.min.js','/static/js/fetch-helpers.js':'fetch-helpers.js','/static/js/law-linker.js':'law-linker.js','/static/js/narration-strip.js':'narration-strip.js','/static/js/core/websocket-client.js':'websocket-client.js','/static/js/brain.js':'brain.js','/static/img/doc-page.jpeg':'doc-page.jpeg','/static/img/loon.png':'loon.png','/static/img/mn-flag.png':'mn-flag.png','/static/img/semptify-live-001-cover.jpg':'semptify-live-001-cover.jpg'};
+const CT={html:'text/html;charset=utf-8',css:'text/css',svg:'image/svg+xml',js:'application/javascript',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png'};
+async function mirror(file,ct,cache){const r=await fetch(BASE+file+V,{cf:{cacheTtl:300,cacheEverything:true}});if(!r.ok)return new Response('mirror fetch failed: '+file,{status:502});return new Response(r.body,{headers:{'content-type':ct,'cache-control':cache}})}
+export default{async fetch(request,env){const u=new URL(request.url);let p=u.pathname.length>1?u.pathname.replace(/\/+$/,''):u.pathname;
+const a=ASSETS[p];if(a){const ext=a.split('.').pop();return mirror(a,CT[ext]||'application/octet-stream','public,max-age=3600')}
+const pg=PAGES[p];if(pg)return mirror(pg,CT.html,'public,max-age=300');
+if(p==='/'){const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error('origin-timeout')),8000));
+try{const r=await Promise.race([fetch(request),timeout]);if(r.status<500)return r}catch(e){}return mirror('home.html',CT.html,'public,max-age=60')}
+return fetch(request)}}

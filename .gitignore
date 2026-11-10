@@ -3,3 +3,4 @@ __pycache__/
 nul
 nul.*
 _shots/
+.wrangler/
