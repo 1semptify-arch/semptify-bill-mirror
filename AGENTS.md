@@ -30,7 +30,7 @@ static microsite, deliberately independent of the Semptify app.
   every page: no advertising, no promoting third-party services, no
   business-model language, no user PII.
 
-## Simplicity-first — the 5-step algorithm (Brad, 2026-11-11)
+## The Happiness Factor — simplicity-first, the 5-step algorithm (Brad, 2026-11-11)
 
 Run on every page, section, and change, in order:
 
