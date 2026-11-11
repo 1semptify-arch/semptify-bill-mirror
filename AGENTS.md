@@ -30,7 +30,7 @@ static microsite, deliberately independent of the Semptify app.
   every page: no advertising, no promoting third-party services, no
   business-model language, no user PII.
 
-## The Happiness Factor — simplicity-first, the 5-step algorithm (Brad, 2026-11-11)
+## Zen Algorithms — the 5-step algorithm (Brad, 2026-11-11)
 
 Run on every page, section, and change, in order:
 
@@ -45,4 +45,4 @@ Run on every page, section, and change, in order:
 
 This is a public site for readers in a hurry. Every section, nav item,
 and line of copy is a "part." Canonical twin:
-`modules/app-semptify-fastapi/.devin/rules/11-simplicity-first.md`.
+`modules/app-semptify-fastapi/.devin/rules/11-zen-algorithms.md`.
